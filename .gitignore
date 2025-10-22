@@ -1,0 +1,22 @@
+# Ignore NetBeans private configuration
+nbproject/private/
+
+# Ignore build results
+build/
+dist/
+
+# Ignore IDE-specific files
+*.bak
+*.swp
+*.log
+
+# Ignore compiled classes
+*.class
+
+# Ignore temporary files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE cache files
+.nb-gradle/
+
