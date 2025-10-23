@@ -1,0 +1,36 @@
+.header {
+    padding: 40px 0;
+    background: var(--yellow-light);
+}
+.header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-nav {
+
+    & a {
+        padding: 4px 22px;
+        color: var(--dark);
+        font-size: var(--p2-font-size);
+
+    }
+}
+.header-action {
+
+    & .header-action__btn , .header-action__link {
+        --height: 44px;
+        min-width: 110px;
+        font-size: var(--p2-font-size);
+    }
+    & .header-action__btn{
+        color: var(--white);
+    }
+    & .header-action__link{
+        background: transparent;
+        color: var(--dark);
+    }
+
+
+}
