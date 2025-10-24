@@ -83,7 +83,7 @@ footer {
         line-height: var( --h5-line-height);
         color: var(--grey);
     }
-    
+
     & span:nth-child(2){
         margin-left: 30px;
     }
