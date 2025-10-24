@@ -4,6 +4,9 @@
 @import "./sections/header.css";
 @import "./sections/footer.css";
 
+@import "./pagesCss/auth.css";
+
+
 * {
     box-sizing: border-box;
 }
@@ -85,6 +88,7 @@ a {
 }
 
 .btn:hover {
+    cursor: pointer;
     opacity: 0.9;
 }
 
