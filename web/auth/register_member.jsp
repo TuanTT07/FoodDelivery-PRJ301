@@ -52,7 +52,7 @@
                             <p>Hoặc</p>
                         </div>
                         <div>
-                            <a class="auth-gg" href="#">
+                            <a class="auth-gg" href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/Food_Delivery/login&response_type=code&client_id=1086538568061-d81so0t394v7vmgcr1aqqo9bo2r570gk.apps.googleusercontent.com&approval_prompt=force">
                                 <img src="${pageContext.request.contextPath}/assets/img/gg_icon.svg" alt="Google icon"/>
                                 <span> Đăng kí với Google</span>
                             </a>
