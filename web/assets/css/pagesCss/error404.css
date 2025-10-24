@@ -1,0 +1,20 @@
+.error-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 38px;
+    padding-top: 100px;
+
+    &.error__btn {
+         min-width: 172px;
+    }
+}
+
+.error__text {
+    max-width: 570px;
+    color: var(--grey);
+    font-size: var(--p-font-size);
+    line-height: var(--p-font-size);
+    text-align: center;
+}

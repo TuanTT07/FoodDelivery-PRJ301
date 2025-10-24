@@ -4,7 +4,9 @@
 @import "./sections/header.css";
 @import "./sections/footer.css";
 
+@import "./pagesCss/home.css";
 @import "./pagesCss/auth.css";
+@import "./pagesCss/error404.css";
 
 
 * {
@@ -49,22 +51,22 @@
     /* 20px */
     --h5-font-size: 2rem;
     --h5-line-height: 1.5;
-    
+
     /* 18px */
     --p-font-size: 1.8rem;
     --p-line-height: 1.6;
     /* 16px */
     --p2-font-size: 1.6rem;
-    --p2-font-height: 1.75;
+    --p2-line-height: 1.75;
     /* 14px */
     --p3-font-size: 1.4rem;
-    --p3-font-height: 1.71;
+    --p3-line-height: 1.71;
 }
 html {
     font-size: 62.5%;
 }
 body {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-family: var(--font-family_primary);
 }
 a {
@@ -78,6 +80,7 @@ a {
     min-width: 135px;
     height: var(--height);
     border-radius: 6px;
+    border: transparent;
     text-align: center;
     font-size: 1.8rem;
     font-weight: 600;
@@ -97,4 +100,20 @@ a {
     margin: 0 auto;
     width: 1170px;
     max-width: calc(100% - 48px);
+}
+.section__title {
+    max-width: 470px;
+    text-align: center;
+    font-family: var( --font-family_second);
+    font-size: var( --h2-font-size);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--h2-line-height);
+    margin-bottom: 18px;
+}
+.section__desc {
+    max-width: 470px;
+    text-align: center;
+    color: var(--grey);
+    line-height: var(--p-line-height);
 }
