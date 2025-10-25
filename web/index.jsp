@@ -19,6 +19,21 @@
         <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap" rel="stylesheet">
     </head>
     <body>
+
+        <!-- Template popup sự kiện -->
+        <template id="popzy-2">
+            <div>
+                <div class="event-popup__img">
+                    <img src="${pageContext.request.contextPath}/assets/img/event_img.svg" alt="hình ảnh minh hoạ"/>
+                </div>
+
+                <div>
+                    <p class="event-title">Giảm giá 5%</p>
+                    <p class="event-date">Từ ngày 25/10/2025 - 10/11/2025</p>
+                </div>
+
+            </div>
+        </template>
         <jsp:include page="/includes/header.jsp"/>
 
         <main>
@@ -171,5 +186,11 @@
         </main>
 
         <jsp:include page="/includes/footer.jsp"/>
+
+        <!-- Gắn sau footer.jsp -->
+        <script src="${pageContext.request.contextPath}/assets/js/event.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/home.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/app.js"></script>
+
     </body>
 </html>
