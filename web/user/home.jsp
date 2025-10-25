@@ -153,7 +153,5 @@
             const contextPath = '${pageContext.request.contextPath}';
         </script>
         <script type="module" src="${pageContext.request.contextPath}/assets/js/app.js"></script>
-
-
     </body>
 </html>
