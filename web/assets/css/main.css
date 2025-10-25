@@ -18,7 +18,11 @@
 ===========*/
 @import "./pagesCss/eventModel.css";
 
-
+/*========= 
+    Admin
+===========*/
+@import "./pagesCss/dashboardAdmin.css";
+@import "./sections/slidebar.css";
 * {
     box-sizing: border-box;
 }

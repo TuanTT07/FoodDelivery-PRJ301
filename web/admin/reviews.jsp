@@ -45,27 +45,8 @@
 
                 <!-- Content Section -->
                 <div class="admin-wrap">
-                    <h2>Dashboard Overview</h2>
-                    <p>Welcome back, Admin!</p>
-
-                    <div class="dashboard-cards">
-                        <div class="card">
-                            <h3>75</h3>
-                            <p>Total Orders</p>
-                        </div>
-                        <div class="card">
-                            <h3>357</h3>
-                            <p>Total Delivered</p>
-                        </div>
-                        <div class="card">
-                            <h3>65</h3>
-                            <p>Total Canceled</p>
-                        </div>
-                        <div class="card">
-                            <h3>$128</h3>
-                            <p>Total Revenue</p>
-                        </div>
-                    </div>
+                    <h2>Reviews</h2>
+                    
                 </div>
             </div>
         </div>

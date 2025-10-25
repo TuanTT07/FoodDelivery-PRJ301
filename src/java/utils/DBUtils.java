@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author tungi
  */
 public class DBUtils {
-    private static final String DB_NAME = "PRJ301_PROJECT1";
+    private static final String DB_NAME = "FoodDelivery";
     private static final String DB_USER_NAME = "SA";
     private static final String DB_PASSWORD = "12345";
 
