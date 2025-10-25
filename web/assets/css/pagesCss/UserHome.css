@@ -1,0 +1,155 @@
+.cate__label {
+    font-size: var(--h3-font-size);
+    font-weight: 700;
+    line-height: var(--h3-line-height);
+    margin-bottom: 30px;
+}
+
+#categoryList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    & a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        & p {
+            margin-top: 6px;
+            color: var(--dark);
+            font-weight: 600;
+            transition: all .5s ease;
+
+        }
+    }
+
+    & a:hover{
+
+        & .cate__bg {
+            box-shadow: 0 8px 24px rgba(27, 12, 84, 0.07);
+
+        }
+
+        & p {
+            color: var(--purple-primary);
+        }
+
+    }
+}
+.cate__bg {
+    background: var(--yellow-light);
+    width: 64px;
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 777px;
+
+    transition: all .5s ease;
+
+}
+
+
+.cate__img {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    & .info__address {
+        color: var(--dark);
+
+        font-size: var(--h5-font-size);
+        font-weight: 700;
+        line-height: var(--h5-line-height)
+    }
+}
+
+.info__sort {
+    display: flex;
+    align-items: center;
+    & p {
+        color: var(--grey);
+        margin-right: 5px;
+    }
+
+    #sortStore {
+        padding: 15px;
+        border-radius: 6px;
+        font-weight: 600;
+
+        & option {
+            border-radius: 6px;
+            color: var(--Dark);
+            font-weight: 600;
+        }
+    }
+}
+
+.store-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.store-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.store-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.store-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.store-name {
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.delivery-fee {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.store-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #444;
+}
+
+.store-rating {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #444;
+}
+
+.star {
+  color: #f7b500;
+}
