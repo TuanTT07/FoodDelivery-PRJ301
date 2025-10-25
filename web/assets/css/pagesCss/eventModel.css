@@ -1,0 +1,47 @@
+.popzy-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 9999;
+}
+
+.popzy-backdrop.show {
+    opacity: 1;
+}
+
+.popzy-container.event-modal {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: scale(0.8);
+    transition: transform 0.3s;
+}
+
+.popzy-backdrop.show .popzy-container {
+    transform: scale(1);
+}
+
+.event-popup__img img {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.event-title {
+    font-size: var(--h5-font-size);
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.event-date {
+    font-size: 14px;
+   color: var(--grey);
+}
