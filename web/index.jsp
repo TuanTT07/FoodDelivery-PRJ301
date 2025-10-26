@@ -4,12 +4,14 @@
     Author     : ACER
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html">
+        <meta charset="UTF-8">
+
         <title>Home</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/reponsive.css"/>
@@ -53,15 +55,32 @@
                             <p class="hero-left__desc">You want it. We get it. Food, drinks, groceries, and more available for delivery and pickup.</p>
 
                             <div>
+                                <!-- ===================
+                                Form tìm kiếm Location
+                                ======================-->
                                 <form action="MainController" method="POST" class="hero__form">
-                                    <input hidden type="text" value="searchCity" name="location">
+                                    <input hidden type="text" value="searchStoreByLocation" name="action">
                                     <div class="form-content">
                                         <div class="input__location">
                                             <img class="input__location--img" src="${pageContext.request.contextPath}/assets/img/location_icon.svg" alt="location icon"/>
-                                            <input class="input__location--input" type="text" name="location" placeholder="Thành phố" value="">
+                                            <select class="input__location--input" name="location">
+
+                                                <option value="">Chọn tỉnh/thành phố</option>
+                                                <option value="1">TP. Hồ Chí Minh</option>
+                                                <option value="2">Hà Nội</option>
+                                                <option value="3">Đà Nẵng</option>
+                                                <option value="4">Cần Thơ</option>
+                                            </select>
+
                                         </div>
                                         <button class="btn hero__form--btn">Tìm kiếm</button>
                                     </div>
+                                    <c:if test="${not empty messErrorLocation}">
+                                        <div class="hero__form--error">
+                                            <p class="hero__form--error-msg">${messErrorLocation}</p>
+                                        </div>
+                                    </c:if>
+
                                 </form>
                             </div>
                         </div>

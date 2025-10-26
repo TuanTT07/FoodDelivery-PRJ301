@@ -72,6 +72,14 @@ Hero banner
     object-fit: cover;
 }
 
+
+.hero__form--error {
+    margin-top: 12px;
+    
+    &  .hero__form--error-msg {
+        color: red;
+    }
+}
 /*======
 Services 
 ========*/

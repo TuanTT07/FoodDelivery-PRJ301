@@ -111,7 +111,10 @@ const popzy2 = new Popzy({
     onClose: () => console.log("Popzy 2 closed"),
 });
 
-// Tự động mở khi vào trang
+// Chỉ hiển thị lần đầu trong phiên
 window.addEventListener("DOMContentLoaded", () => {
-    popzy2.open();
+    if (!sessionStorage.getItem("popzy2_shown")) {
+        popzy2.open();
+        sessionStorage.setItem("popzy2_shown", "true");
+    }
 });

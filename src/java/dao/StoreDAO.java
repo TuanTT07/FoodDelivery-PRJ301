@@ -14,13 +14,13 @@ public class StoreDAO {
 
     public StoreDAO() {
     }
-    
+
     //Create
-    public boolean insertStore(Store store){
+    public boolean insertStore(Store store) {
         try {
             Connection conn = DBUtils.getConnection();
-            String sql = "INSERT INTO tblStore (StoreID , StoreName, StoreAddress, StoreRating, OpenTime, CloseTime, OwnerUserID)" +
-                         "VALUES(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tblStore (StoreID , StoreName, StoreAddress, StoreRating, OpenTime, CloseTime, OwnerUserID)"
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, store.getStoreID());
             pst.setString(2, store.getStoreName());
@@ -37,25 +37,25 @@ public class StoreDAO {
         }
         return false;
     }
-    
+
     //Read
-    public ArrayList<Store> getAllStore(){
+    public ArrayList<Store> getAllStore() {
         ArrayList<Store> listStore = new ArrayList<>();
         try {
             Connection conn = DBUtils.getConnection();
             String sql = "SELECT * FROM tblStore";
             PreparedStatement pst = conn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 Store store = new Store();
                 store.setStoreID(rs.getString("StoreID"));
                 store.setStoreName(rs.getString("StoreName"));
                 store.setStoreAddress(rs.getString("StoreAddress"));
-                store.setStoreRating(rs.getDouble("StoreRating"));               
+                store.setStoreRating(rs.getDouble("StoreRating"));
                 /*
                 opentime, closetime(SQL) variables type is Time
                 opentime, closetime(model) variables type is LocalTime
-                */
+                 */
                 //convert from java.sql.Time to java.time.LocalTime
                 if (rs.getTime("OpenTime") != null) {
                     store.setOpenTime(rs.getTime("OpenTime").toLocalTime());
@@ -70,7 +70,7 @@ public class StoreDAO {
         }
         return listStore;
     }
-    
+
     public ArrayList<Store> getStoreByUserOwner(String userOwnerID) {
         ArrayList<Store> listStore = new ArrayList<>();
         try {
@@ -84,11 +84,11 @@ public class StoreDAO {
                 store.setStoreID(rs.getString("StoreID"));
                 store.setStoreName(rs.getString("StoreName"));
                 store.setStoreAddress(rs.getString("StoreAddress"));
-                store.setStoreRating(rs.getDouble("StoreRating"));               
+                store.setStoreRating(rs.getDouble("StoreRating"));
                 /*
                 opentime, closetime(SQL) variables type is Time
                 opentime, closetime(model) variables type is LocalTime
-                */
+                 */
                 //convert from java.sql.Time to java.time.LocalTime
                 if (rs.getTime("OpenTime") != null) {
                     store.setOpenTime(rs.getTime("OpenTime").toLocalTime());
@@ -104,19 +104,20 @@ public class StoreDAO {
         }
         return listStore;
     }
+
     //Update
-    public boolean updateStoreInfo(Store store){
+    public boolean updateStoreInfo(Store store) {
         try {
             Connection conn = DBUtils.getConnection();
-            String sql =    "UPDATE tblStore"+
-                            "SET StoreID = ?" +
-                            " ,StoreName = ?" +
-                            " ,StoreAddress = ?" +
-                            " ,StoreRating = ?" +
-                            " ,OpenTime = ?" +
-                            " ,CloseTime = ?" +
-                            " ,OwnerUserID = ?" +
-                            " WHERE StoreID = ?";
+            String sql = "UPDATE tblStore"
+                    + "SET StoreID = ?"
+                    + " ,StoreName = ?"
+                    + " ,StoreAddress = ?"
+                    + " ,StoreRating = ?"
+                    + " ,OpenTime = ?"
+                    + " ,CloseTime = ?"
+                    + " ,OwnerUserID = ?"
+                    + " WHERE StoreID = ?";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, store.getStoreID());
             pst.setString(2, store.getStoreName());
@@ -132,9 +133,6 @@ public class StoreDAO {
         }
         return false;
     }
-    
-    //Delete
-    
 
     public Store getStoreByID(String storeID) {
         try {
@@ -153,11 +151,11 @@ public class StoreDAO {
                 store.setStoreID(rs.getString("StoreID"));
                 store.setStoreName(rs.getString("StoreName"));
                 store.setStoreAddress(rs.getString("StoreAddress"));
-                store.setStoreRating(rs.getDouble("StoreRating"));               
+                store.setStoreRating(rs.getDouble("StoreRating"));
                 /*
                 opentime, closetime(SQL) variables type is Time
                 opentime, closetime(model) variables type is LocalTime
-                */
+                 */
                 //convert from java.sql.Time to java.time.LocalTime
                 if (rs.getTime("OpenTime") != null) {
                     store.setOpenTime(rs.getTime("OpenTime").toLocalTime());
@@ -172,6 +170,40 @@ public class StoreDAO {
         }
         return null;
     }
-    
-    
+
+    public ArrayList<Store> selectStoreByLocation(String location) {
+        ArrayList<Store> ketQua = new ArrayList<>();
+        try {
+            Connection conn = DBUtils.getConnection();
+            String sql = "SELECT * FROM tblStore WHERE StoreAddress LIKE ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "%" + location.trim() + "%");
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Store store = new Store();
+                store.setStoreID(rs.getString("StoreID"));
+                store.setStoreName(rs.getString("StoreName"));
+                store.setStoreAddress(rs.getString("StoreAddress"));
+                store.setStoreRating(rs.getDouble("StoreRating"));
+                /*
+                opentime, closetime(SQL) variables type is Time
+                opentime, closetime(model) variables type is LocalTime
+                 */
+                //convert from java.sql.Time to java.time.LocalTime
+                if (rs.getTime("OpenTime") != null) {
+                    store.setOpenTime(rs.getTime("OpenTime").toLocalTime());
+                }
+                if (rs.getTime("CloseTime") != null) {
+                    store.setCloseTime(rs.getTime("CloseTime").toLocalTime());
+                }
+                store.setOwnerUserID(new User(rs.getString("OwnerUserID")));
+                ketQua.add(store);
+
+            }
+        } catch (Exception e) {
+        }
+        return ketQua;
+    }
+
 }
