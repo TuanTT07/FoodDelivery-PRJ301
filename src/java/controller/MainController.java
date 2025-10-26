@@ -6,17 +6,23 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ *
+ * @author ACER
+ */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -26,18 +32,69 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MainController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MainController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        //request user action
+        String action = request.getParameter("action");
+        //create a default URL that can change depending on the user’s action
+        String url = "index.jsp";
+
+        //Group actions for each controller
+        String[] roleActions = {};
+        String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser"};
+        String[] storeActions = {"registerStore", "viewStore", "updateStore"};
+        String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProductList"};
+        String[] productDetailActions = {"viewProductDetail"};
+        String[] productOptionActions = {"addProductOption"};
+        String[] toppingActions = {"addTopping", "updateTopping"};
+        String[] productToppingActions = {};
+        String[] cartActions = {"viewCart", "clearCart"};
+        String[] cartItemActions = {"addToCart", "updateCartItem", "deleteCartItem"};
+        String[] categoryActions = {"addCategory", "updateCategory", "viewCategories"};
+        String[] orderActions = {"placeOrder", "viewOrderHistory", "cancelOrder", "confirmDelivery"};//confirmDelivery for shiper
+        String[] orderDetailActions = {"viewOrderDetail"};
+        String[] paymentActions = {"processPayment", "paymentSuccess", "paymentFail"};
+        String[] paymentGatewayActions = {};
+        String[] reviewActions = {"submitReview", "viewReviews"};
+        String[] eventActions = {"createEvent", "applyEvent"};
+        String[] voucherActions = {"applyVoucher", "createVoucher"}; //applyVoucher for user, createVoucher for admin or store owner
+
+        if (Arrays.asList(userActions).contains(action)) {
+            url = "UserController";
+        } else if (Arrays.asList(roleActions).contains(action)) {
+            url = "RoleController";
+        } else if (Arrays.asList(storeActions).contains(action)) {
+            url = "StoreController";
+        } else if (Arrays.asList(productActions).contains(action)) {
+            url = "ProductController";
+        } else if (Arrays.asList(productDetailActions).contains(action)) {
+            url = "ProductDetailController";
+        } else if (Arrays.asList(productOptionActions).contains(action)) {
+            url = "ProductOptionController";
+        } else if (Arrays.asList(toppingActions).contains(action)) {
+            url = "ToppingController";
+        } else if (Arrays.asList(productToppingActions).contains(action)) {
+            url = "ProductToppingController";
+        } else if (Arrays.asList(cartActions).contains(action)) {
+            url = "CartController";
+        } else if (Arrays.asList(cartItemActions).contains(action)) {
+            url = "CartItemController";
+        } else if (Arrays.asList(categoryActions).contains(action)) {
+            url = "CategoryController";
+        } else if (Arrays.asList(orderActions).contains(action)) {
+            url = "OrderController";
+        } else if (Arrays.asList(orderDetailActions).contains(action)) {
+            url = "OrderDetailController";
+        } else if (Arrays.asList(paymentActions).contains(action)) {
+            url = "PaymentController";
+        } else if (Arrays.asList(paymentGatewayActions).contains(action)) {
+            url = "PaymentGatewayController";
+        } else if (Arrays.asList(reviewActions).contains(action)) {
+            url = "ReviewController";
+        } else if (Arrays.asList(eventActions).contains(action)) {
+            url = "EventController";
+        } else if (Arrays.asList(voucherActions).contains(action)) {
+            url = "VoucherController";
         }
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
