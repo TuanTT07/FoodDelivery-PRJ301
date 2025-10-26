@@ -2,7 +2,7 @@
 
 <nav class="admin-nav">
     <!-- Logo -->
-    <a href="${pageContext.request.contextPath}/admin/dashboard.jsp">
+    <a href="${pageContext.request.contextPath}/index.jsp">
         <img src="${pageContext.request.contextPath}/assets/img/Logo.svg" alt="Logo" class="nav-logo"/>
     </a>
 
