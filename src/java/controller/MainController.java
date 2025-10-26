@@ -36,8 +36,6 @@ public class MainController extends HttpServlet {
         String action = request.getParameter("action");
         //create a default URL that can change depending on the user’s action
         String url = "index.jsp";
-        System.out.println(action);
-
         //Group actions for each controller
         String[] roleActions = {};
         String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "searchStoreByLocation"};
