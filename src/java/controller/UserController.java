@@ -4,13 +4,17 @@
  */
 package controller;
 
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
@@ -19,28 +23,81 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UserController", urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final String ROLE_ADMIN = "S001";
+    private static final String ROLE_STORE_OWNER = "S002";
+    private static final String ROLE_DRIVER = "S003";
+    private static final String ROLE_MEMBER = "S004";
+    private static final String EMAIL_REGEX
+            = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+
+    private void processLogin(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        
+        String username = request.getParameter("userName");
+        String password = request.getParameter("password");
+
+        boolean isEmail = Pattern.matches(EMAIL_REGEX, username);
+
+        UserDAO userDAO = new UserDAO();
+        User user = isEmail ? userDAO.loginByEmail(username, password)
+                            : userDAO.loginByUsername(username, password);
+        
+
+        if (user == null) {
+        request.setAttribute("msg", "Invalid username or password!");
+        
+        if (isEmail) {
+            request.setAttribute("email", username);
+        } else {
+            request.setAttribute("username", username);
+        }
+        
+
+        request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
+        return;
+    }
+
+        
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+
+        
+        String role = user.getRoleID() != null ? user.getRoleID().getRoleID() : "";
+
+        if (ROLE_ADMIN.equalsIgnoreCase(role)) {
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
+        }else if (ROLE_STORE_OWNER.equalsIgnoreCase(role)) {
+            response.sendRedirect(request.getContextPath() + "/store/dashboard.jsp");
+        }else if (ROLE_DRIVER.equalsIgnoreCase(role)) {
+            response.sendRedirect(request.getContextPath() + "/delivery/dashboard.jsp");
+        } else if (ROLE_MEMBER.equalsIgnoreCase(role)) {
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+        } else {
+            request.setAttribute("msg", "Invalid account!");
+            request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
+        }
+    }
+
+    private void processLogout(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.invalidate(); // Huy tat ca nhung cai dang co trong session
+        response.sendRedirect("login.jsp");
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UserController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "loginUser";
+        }
+
+        if (action.equals("loginUser")) {
+            processLogin(request, response);
+        }else if(action.equals("logout")){
+            processLogout(request, response);
         }
     }
 
