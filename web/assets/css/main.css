@@ -23,6 +23,8 @@
 ===========*/
 @import "./pagesCss/dashboardAdmin.css";
 @import "./sections/slidebar.css";
+
+@import "./pagesCss/storeDetail.css";
 * {
     box-sizing: border-box;
 }
@@ -138,7 +140,6 @@ select {
 .line {
     margin-top: 30px;
     margin-bottom: 30px;
-
     border-radius: 2px;
     background: var(--dark);
     height: 1px;
