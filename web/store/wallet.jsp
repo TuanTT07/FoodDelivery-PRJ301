@@ -1,4 +1,3 @@
-Dashboard
 <%-- 
     Document   : dashboardStore
     Created on : Oct 22, 2025
@@ -43,27 +42,18 @@ Dashboard
                     </div>
                 </div>
 
-                <!-- Dashboard Content -->
-                <div class="store__dashboard">
-                    <h2 class="store__dashboard-title">Dashboard Overview</h2>
-                    <p class="store__dashboard-subtitle">Welcome back, Store's owner</p>
-
-                    <div class="store__stats">
-                        <div class="store__card">
-                            <h3 class="store__card-number">12</h3>
-                            <p class="store__card-label">Order</p>
+                <!-- Wallet Content -->
+                <div class="wallet">
+                    <h2 class="wallet__title">Revenue</h2>
+                    <div class="wallet__stat">
+                        <div class="wallet__card">
+                            <h3 class="wallet__card-text">Revenue</h3>
+                            <p class="wallet__card-number">$300.00</p>
                         </div>
-                        <div class="store__card">
-                            <h3 class="store__card-number">8</h3>
-                            <p class="store__card-label">Completed</p>
-                        </div>
-                        <div class="store__card">
-                            <h3 class="store__card-number">2</h3>
-                            <p class="store__card-label">Delivering</p>
-                        </div>
-                        <div class="store__card">
-                            <h3 class="store__card-number">5</h3>
-                            <p class="store__card-label">Favourite</p>
+                      
+                        <div class="wallet__card">
+                            <h3 class="wallet__card-text">Profit</h3>
+                            <p class="wallet__card-number">$123.00</p>
                         </div>
                     </div>
                 </div>
