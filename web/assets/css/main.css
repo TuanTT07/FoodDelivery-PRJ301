@@ -23,8 +23,15 @@
 ===========*/
 @import "./pagesCss/dashboardAdmin.css";
 @import "./sections/slidebar.css";
-
+/*========= 
+    Store
+===========*/
 @import "./pagesCss/storeDetail.css";
+
+/*========= 
+    Product
+===========*/
+@import "./pagesCss/productDetail.css";
 * {
     box-sizing: border-box;
 }
@@ -90,6 +97,11 @@ a {
 }
 select {
    appearance: none;
+}
+button {
+    outline: none;
+    border: none;
+    background: transparent;
 }
 .btn {
     --height: 60px;
