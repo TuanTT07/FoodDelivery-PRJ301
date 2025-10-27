@@ -1,28 +1,34 @@
 @import "theme.css";
 @import "reset.css";
 
-@import "./sections/header.css";
-@import "./sections/footer.css";
+@import "sections/header.css";
+@import "sections/footer.css";
 
-@import "./pagesCss/home.css";
-@import "./pagesCss/auth.css";
-@import "./pagesCss/error404.css";
+@import "pagesCss/home.css";
+@import "pagesCss/auth.css";
+@import "pagesCss/error404.css";
 
 /*========= 
     User
 ===========*/
-@import "./pagesCss/UserHome.css";
+@import "pagesCss/UserHome.css";
 
 /*========= 
     Event
 ===========*/
-@import "./pagesCss/eventModel.css";
+@import "pagesCss/eventModel.css";
 
 /*========= 
     Admin
 ===========*/
-@import "./pagesCss/dashboardAdmin.css";
-@import "./sections/slidebar.css";
+@import "pagesCss/dashboardAdmin.css";
+@import "sections/slidebar.css";
+
+/*========= 
+    Store
+===========*/
+@import "pagesCss/dashboardStore.css";
+
 * {
     box-sizing: border-box;
 }
