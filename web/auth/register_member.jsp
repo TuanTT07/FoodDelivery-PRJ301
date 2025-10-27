@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,21 +27,46 @@
                 <div class="container auth-container">
                     <div class="auth-wrapp">
                         <h2 class="auth-title">Đăng kí</h2>
-                        <form action="MainController" method="POST">
-                            <input type="text" hidden name="action" value="signUpUser">
+                        <form action="${pageContext.request.contextPath}/MainController" method="POST" accept-charset="UTF-8">
+                            <input type="hidden" name="action" value="signUpUser">
                             <div class="login-content">
                                 <div>
-                                    <input class="inputUserName" type="text" name="userName" placeholder="Tên đăng nhập hoặc email">
+                                    <input class="inputUserName" type="text" name="userName" placeholder="Tên đăng nhập" value="${u.userName}" >
+                                    <span style="color:red">${error_username}</span>
                                 </div>
                                 <div>
-                                    <input class="inputPassword" type="password" name="password" placeholder="mật khẩu">
+                                    <input class="inputPassword" type="password" name="password" placeholder="mật khẩu" >
+                                    <span style="color:red">${error_password}</span>
                                 </div>
+                                <div>
+                                    <input class="inputFullname" type="text" name="Fullname" placeholder="Họ và tên" value="${u.userFullName}" >
+                                    <span style="color:red">${error_fullName}</span>
+                                </div>
+                                <div>
+                                    <input class="inputEmail" type="text" name="email" placeholder="Email" value="${u.userEmail}" >
+                                    <span style="color:red">${error_email}</span>
+                                </div>
+                                <div>
+                                    <input class="inputPhone" type="text" name="Phone" placeholder="Số điện thoại" value="${u.userPhone}" >
+                                    <span style="color:red">${error_phone}</span>
+                                </div>
+                                <div>
+                                    <label>Địa chỉ</label>
+                                    <div class="Form_Address">
+                                        <input class="inputStreet" type="text" name="street" placeholder="Số/ đường" value="${street != null ? street : param.street}" >
+                                        <input class="inputWard" type="text" name="ward" placeholder="Phường/Xã" value="${ward != null ? ward : param.ward}" >
 
-                                <div>
-                                    <input class="inputFullname" type="text" name="Fullname" placeholder="Họ và tên">
-                                </div>
-                                <div>
-                                    <input class="inputAddress" type="text" name="Address" placeholder="Địa chỉ...">
+                                        <select class="inputCity" name="city">
+                                            <option value="">Chọn tỉnh/thành phố</option>
+                                            <option value="1" ${city == '1' ? 'selected' : ''}>TP. Hồ Chí Minh</option>
+                                            <option value="2" ${city == '2' ? 'selected' : ''}>Hà Nội</option>
+                                            <option value="3" ${city == '3' ? 'selected' : ''}>Đà Nẵng</option>
+                                            <option value="4" ${city == '4' ? 'selected' : ''}>Cần Thơ</option>
+                                        </select>                                      
+                                    </div>
+                                    <c:if test="${not empty error_address}">
+                                        <span style="color: red">${error_address}</span>
+                                    </c:if>
                                 </div>
                                 <div>
                                     <button class="btn btn-login">Đăng kí</button>
