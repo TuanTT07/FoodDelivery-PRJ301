@@ -22,19 +22,16 @@
     Admin
 ===========*/
 @import "pagesCss/dashboardAdmin.css";
-@import "sections/slidebar.css"
+@import "sections/slidebar.css";
 /*========= 
     Store
+========= */
 @import "pagesCss/dashboardStore.css";
-
-@import "./pagesCss/dashboardAdmin.css";
-@import "./sections/slidebar.css";
-/*========= 
-    Store
 @import "./pagesCss/storeDetail.css";
 
 /*========= 
     Product
+========= */
 @import "./pagesCss/productDetail.css";
 * {
     box-sizing: border-box;
@@ -100,7 +97,7 @@ a {
     text-decoration: none;
 }
 select {
-   appearance: none;
+    appearance: none;
 }
 button {
     outline: none;
