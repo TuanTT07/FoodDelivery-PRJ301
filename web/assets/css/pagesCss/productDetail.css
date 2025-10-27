@@ -1,7 +1,7 @@
-.food-detail {
+.product-detail {
     margin: 50px 0;
 }
-.food-detail__back {
+.product-detail__back {
     color: var(--Dark);
 
     & img {
@@ -9,14 +9,14 @@
     }
 }
 
-.food-detail__content {
+.product-detail__content {
     display: flex;
     gap: 130px;
     margin-top: 30px;
 
 }
 
-.food-detail__image{
+.product-detail__image{
     display: block;
     border-radius: 12px;
     width: 570px;
@@ -24,19 +24,19 @@
     object-fit: cover;
 }
 
-.food-detail__title {
+.product-detail__title {
     color: var(--Dark);
 
     font-size: var(--h3-font-size);
     font-weight: 700;
     line-height: var(--h3-line-height);
 }
-.food-detail__desc {
+.product-detail__desc {
     margin-top: 18px;
 
     color: var(--Grey, #575363);
 }
-.food-detail__price {
+.product-detail__price {
     margin-top: 18px;
 
     color: var(--Orange, #F05E36);
@@ -47,7 +47,7 @@
     line-height: var(--h5-line-height);
 }
 
-.food-detail__subheading {
+.product-detail__subheading {
     margin-top: 18px;
     color: var(--Dark, #191720);
 
@@ -56,15 +56,15 @@
     line-height: var(--p2-line-height);
 
 }
-.food-detail__topping-list {
+.product-detail__topping-list {
     margin-top: 10px;
 
 }
-.food-detail__toppings {
+.product-detail__toppings {
     margin-top: 16px;
 }
 
-.food-detail__subheading {
+.product-detail__subheading {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 10px;
@@ -72,7 +72,7 @@
 }
 
 /* Danh sách topping */
-.food-detail__topping-list {
+.product-detail__topping-list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -81,7 +81,7 @@
     gap: 10px;
 }
 
-.food-detail__topping-item {
+.product-detail__topping-item {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -89,43 +89,43 @@
     transition: all 0.2s ease;
 }
 
-.food-detail__topping-item:hover {
+.product-detail__topping-item:hover {
     background-color: #fff7ec;
     border-color: #ffa94d;
 }
 
-.food-detail__topping-label {
+.product-detail__topping-label {
     display: flex;
     align-items: center;
     gap: 6px;
     cursor: pointer;
 }
 
-.food-detail__topping-checkbox {
+.product-detail__topping-checkbox {
     width: 18px;
     height: 18px;
     accent-color: var(--orange,#ff9500);
     cursor: pointer;
 }
 
-.food-detail__topping-name {
+.product-detail__topping-name {
     font-size: 15px;
     color: #333;
 }
 
-.food-detail__topping-price {
+.product-detail__topping-price {
     font-size: 14px;
     color: #666;
 }
 
 /* Khi checkbox được chọn */
-.food-detail__topping-checkbox:checked + .food-detail__topping-name {
+.product-detail__topping-checkbox:checked + .product-detail__topping-name {
     color: var(--orange);
     font-weight: 600;
 }
 
 
-.food-detail__note {
+.product-detail__note {
     padding: 10px;
     margin-top: 18px;
     resize: none;
@@ -136,7 +136,7 @@
     border-radius: 12px;
     border: 2px solid var(--Purple-Light, #E8E6ED);
 }
-.food-detail__actions {
+.product-detail__actions {
     margin-top: 30px;
     display: flex;
     gap: 18px;
@@ -148,7 +148,7 @@
         min-width: 280px;
     }
 }
-.food-detail__quantity {
+.product-detail__quantity {
     --height: 60px;
 
     display: flex;
