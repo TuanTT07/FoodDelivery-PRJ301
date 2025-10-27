@@ -14,7 +14,7 @@
         <!-- CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css"/>
-        
+
         <!-- FONT -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,27 +42,48 @@
                     </div>
                 </div>
 
-                <!-- Dashboard Content -->
-                <div class="store__dashboard">
-                    <h2 class="store__dashboard-title">Dashboard Overview</h2>
-                    <p class="store__dashboard-subtitle">Welcome back, Store's owner</p>
+                <!-- Review Content -->
+                <div class="review__list">
+                    <h2 class="review__title">Store Review</h2>
+                    <div class="review__item">
+                        <div class="review__top">
+                            <div class="review__user">
+                                <div>
+                                    <p class="review__name">Nguyen Van A</p>
+                                    <p class="review__date">October 25, 2025</p>
+                                </div>
+                            </div>
+                            <div class="review__rating">
+                                
+                            </div>
+                        </div>
+                        <p class="review__text">
+                            Dịch vụ tốt, nhân viên thân thiện và sản phẩm chất lượng. Tôi rất hài lòng!
+                        </p>
+                        <div class="review__actions">
+                            <button>Response</button>
+                            <button>Delete</button>
+                        </div>
+                    </div>
 
-                    <div class="store__stats">
-                        <div class="store__card">
-                            <h3 class="store__card-number">12</h3>
-                            <p class="store__card-label">Order</p>
+                    <div class="review__item">
+                        <div class="review__top">
+                            <div class="review__user">
+                                <div>
+                                    <p class="review__name">Tran Thi B</p>
+                                    <p class="review__date">October 24, 2025</p>
+                                </div>
+                            </div>
+                            <div class="review__rating">
+                                
+                            </div>
                         </div>
-                        <div class="store__card">
-                            <h3 class="store__card-number">8</h3>
-                            <p class="store__card-label">Completed</p>
-                        </div>
-                        <div class="store__card">
-                            <h3 class="store__card-number">2</h3>
-                            <p class="store__card-label">Delivering</p>
-                        </div>
-                        <div class="store__card">
-                            <h3 class="store__card-number">5</h3>
-                            <p class="store__card-label">Favourite</p>
+                        <p class="review__text">
+                            Hàng giao hơi chậm nhưng chất lượng ổn. Cửa hàng nên cải thiện khâu vận chuyển.
+                        </p>  
+                        <div class="review__actions">
+                            <button>Response</button>
+                            <button>Delete</button>
                         </div>
                     </div>
                 </div>

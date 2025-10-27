@@ -23,6 +23,11 @@
 ===========*/
 @import "./pagesCss/dashboardAdmin.css";
 @import "./sections/slidebar.css";
+
+/*========= 
+    Store
+===========*/
+@import "./pagesCss/dashboardStore.css";
 * {
     box-sizing: border-box;
 }
