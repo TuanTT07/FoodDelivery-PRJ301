@@ -36,6 +36,16 @@ Hero banner
     & .input__location {
         position: relative;
         display: flex;
+        &:after {
+            position: absolute;
+            content: '';
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 12px solid var(--grey);
+            bottom: 50%;
+            right: 20px;
+            transform: translateY(50%);
+        }
 
         & .input__location--img {
             content: "";
@@ -53,6 +63,7 @@ Hero banner
             display: inline-block;
             width: 319px;
             height: 60px;
+
         }
         & .input__location--input:placeholder {
             font-size: var(--p2-font-size);
@@ -60,10 +71,6 @@ Hero banner
         }
     }
 
-
-    & .hero__form--btn {
-
-    }
 }
 .hero-right__img {
     display: block;
@@ -72,6 +79,14 @@ Hero banner
     object-fit: cover;
 }
 
+
+.hero__form--error {
+    margin-top: 12px;
+
+    &  .hero__form--error-msg {
+        color: red;
+    }
+}
 /*======
 Services 
 ========*/

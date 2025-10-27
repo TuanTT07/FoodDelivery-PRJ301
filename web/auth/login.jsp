@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,16 +28,20 @@
                 <div class="container auth-container">
                     <div class="auth-wrapp">
                         <h2 class="auth-title">Đăng nhập</h2>
-                        <form action="MainController" method="POST">
-                            <input type="text" hidden name="action" value="loginUser">
+                        <c:set var="username" value="${not empty username ? username : ''}" />
+                        <c:set var="email" value="${not empty email ? email : ''}" />
+                        <form action="${pageContext.request.contextPath}/MainController" method="POST">
+                            <input type="hidden" name="action" value="loginUser">
                             <div class="login-conttent">
                                 <div>
-                                    <input class="inputUserName" type="text" name="userName" placeholder="Tên đăng nhập hoặc email">
+                                    <input class="inputUserName" type="text" name="userName" value="<c:out value='${not empty email ? email : username}'/>" placeholder="Tên đăng nhập hoặc email" required>
                                 </div>
                                 <div>
-                                    <input class="inputPassword" type="password" name="password" placeholder="Mật khẩu">
+                                    <input class="inputPassword" type="password" name="password" placeholder="Mật khẩu" required>
                                 </div>
-
+                                <c:if test="${not empty msg}">
+                                    ${msg}
+                                </c:if>
                                 <div class="login-float">
                                     <div class="float-left">
                                         <input type="checkbox" id="RememberMe" checked="">
@@ -49,6 +54,7 @@
                                 <div>
                                     <button class="btn btn-login">Đăng nhập</button>
                                 </div>
+
                             </div>
                         </form>
                         <div class="login-res">

@@ -38,7 +38,7 @@
                     </form>
 
                     <div class="admin-info">
-                        <p>Hello, <span>Admin</span></p>
+                        <p>Hello, <span> ${user.userFullName}</span></p>
                         <img src="${pageContext.request.contextPath}/assets/img/avatar.svg" alt="Avatar" class="admin-avatar"/>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 <!-- Content Section -->
                 <div class="admin-wrap">
                     <h2>Dashboard Overview</h2>
-                    <p>Welcome back, Admin!</p>
+                    <p>Welcome back, ${user.userFullName}!</p>
 
                     <div class="dashboard-cards">
                         <div class="card">

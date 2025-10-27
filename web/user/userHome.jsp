@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -128,7 +129,7 @@
 
 
                     <div class="info">
-                        <p class="info__address">Địa chỉ: </p>
+                        <p class="info__address">Địa chỉ: ${location} </p>
                         <div class="info__sort">
                             <p>Lọc theo: </p>
                             <select id="sortStore" >
@@ -140,7 +141,19 @@
                     </div>
 
                     <div id="storeList" class="store-container">
-                        
+                        <c:if test="${not empty listOfStore}">
+                            <c:forEach var="store" items="${listOfStore}">
+                                <div class="store-card">
+                                    <h3>${store.storeName}</h3>
+                                    <p>${store.storeAddress}</p>
+                                    <p>Rating: ${store.storeRating}</p>
+                                </div>
+                            </c:forEach>
+                        </c:if>
+                        <c:if test="${empty listOfStore}">
+                            <p>Không có cửa hàng nào.</p>
+                        </c:if>
+
                     </div>
 
                 </div>
@@ -149,9 +162,6 @@
 
 
         <jsp:include page="/includes/footer.jsp"/>
-        <script>
-            const contextPath = '${pageContext.request.contextPath}';
-        </script>
-        <script type="module" src="${pageContext.request.contextPath}/assets/js/app.js"></script>
+        
     </body>
 </html>

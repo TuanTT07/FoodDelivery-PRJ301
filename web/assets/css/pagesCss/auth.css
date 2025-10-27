@@ -25,7 +25,7 @@
     font-weight: 600;
 }
 
-.inputUserName, .inputPassword,.inputFullname,.inputAddress {
+.inputUserName, .inputPassword,.inputFullname,.inputEmail, .inputPhone, .inputStreet, .inputWard, .inputCity {
     margin-bottom: 20px;
 
     display: inline-block;
@@ -92,4 +92,9 @@
         color: var(--grey);
 
     }
+}
+
+.Form_Address{
+    display: flex;
+    justify-content: center;
 }

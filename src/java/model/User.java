@@ -21,6 +21,20 @@ public class User {
     public User() {
     }
 
+    public User(String userID) {
+        this.userID = userID;
+    }
+
+    public User(String userName, String userFullName, String userEmail, String userPassword, String userPhone, String userAddress) {
+        this.userName = userName;
+        this.userFullName = userFullName;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.userPhone = userPhone;
+        this.userAddress = userAddress;
+    }
+    
+    
     public User(String userID, String userName, String userFullName, String userEmail, String userPassword, String userPhone, String userAddress, Role roleID, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.userID = userID;
         this.userName = userName;
