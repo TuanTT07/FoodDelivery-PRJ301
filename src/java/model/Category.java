@@ -9,13 +9,17 @@ package model;
 public class Category {
     private String categoryID;
     private String categoryName;
+    private Store storeId;
+    private boolean isActive;
 
     public Category() {
     }
 
-    public Category(String categoryID, String categoryName) {
+    public Category(String categoryID, String categoryName, Store storeId, boolean isActive) {
         this.categoryID = categoryID;
         this.categoryName = categoryName;
+        this.storeId = storeId;
+        this.isActive = isActive;
     }
 
     public String getCategoryID() {
@@ -33,6 +37,24 @@ public class Category {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
+    public Store getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Store storeId) {
+        this.storeId = storeId;
+    }
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    
     
     
 }
