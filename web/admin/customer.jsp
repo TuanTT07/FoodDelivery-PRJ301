@@ -45,8 +45,7 @@
 
                 <!-- Content Section -->
                 <div class="admin-wrap">
-                    <h2>Customer</h2>
-                    
+                    <h2>Customer</h2>  
                 </div>
             </div>
         </div>

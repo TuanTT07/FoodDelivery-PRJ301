@@ -52,7 +52,7 @@ public class UserDAO {
                 } else {
                     user.setUpdatedAt(null);
                 }
-
+                user.setStatus(rs.getBoolean("Status"));
                 return user;
             }
         } catch (Exception e) {
@@ -92,7 +92,7 @@ public class UserDAO {
                 } else {
                     user.setUpdatedAt(null);
                 }
-
+                user.setStatus(rs.getBoolean("Status"));
                 return user;
             }
         } catch (Exception e) {
@@ -131,7 +131,7 @@ public class UserDAO {
                 } else {
                     user.setUpdatedAt(null);
                 }
-
+                user.setStatus(rs.getBoolean("Status"));
                 return user;
             }
         } catch (Exception e) {
@@ -202,8 +202,8 @@ public class UserDAO {
             user.setRoleID(new Role("S004", "Member"));
         }
         String sql = "INSERT INTO tblUser (UserID, UserName, FullName, UserEmail, "
-                + "UserPassword, UserPhone, UserAddress, RoleID, CreatedAt, UpdatedAt) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), NULL)";
+                + "UserPassword, UserPhone, UserAddress, RoleID, CreatedAt, UpdatedAt, Status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), NULL, ?)";
         try {
             Connection conn = DBUtils.getConnection();
             PreparedStatement pst = conn.prepareStatement(sql);
@@ -215,6 +215,7 @@ public class UserDAO {
             pst.setString(6, user.getUserPhone());
             pst.setString(7, user.getUserAddress());
             pst.setString(8, user.getRoleID().getRoleID());
+            pst.setBoolean(9, true); // Status = 1
             return pst.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -223,4 +224,30 @@ public class UserDAO {
     }
 
     //Read
+    //function for search
+    public ArrayList<UserDAO> getAllUser(){
+        ArrayList<UserDAO> listUser = new ArrayList<>();
+        try {
+            Connection conn = DBUtils.getConnection();
+            String sql = "SELECT * FROM tblUser";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setUserID(rs.getString("UserID"));
+                user.setUserName(rs.getString("UserName"));
+                user.setUserFullName(rs.getString("FullName"));
+                user.setUserEmail(rs.getString("UserEmail"));
+                user.setUserPhone(rs.getString("UserPhone"));
+                user.setUserAddress(rs.getString("UserAddress"));
+                //Role role = user.setRoleID(rs.getString("RoleID"));
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listUser;
+    }
+    
+    
 }
