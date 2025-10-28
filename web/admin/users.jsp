@@ -12,6 +12,11 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form action="MainController" method="post">
+            <input type="hidden" name="action" value="searchUser"/>
+            <input type="text"  name="name" value="${name}"/>
+            <button type="submit">Search</button>
+        </form>
+            
     </body>
 </html>

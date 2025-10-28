@@ -17,6 +17,7 @@ public class User {
     private Role roleID;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private boolean status;
 
     public User() {
     }
@@ -33,9 +34,8 @@ public class User {
         this.userPhone = userPhone;
         this.userAddress = userAddress;
     }
-    
-    
-    public User(String userID, String userName, String userFullName, String userEmail, String userPassword, String userPhone, String userAddress, Role roleID, LocalDateTime createdAt, LocalDateTime updatedAt) {
+
+    public User(String userID, String userName, String userFullName, String userEmail, String userPassword, String userPhone, String userAddress, Role roleID, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status) {
         this.userID = userID;
         this.userName = userName;
         this.userFullName = userFullName;
@@ -46,7 +46,11 @@ public class User {
         this.roleID = roleID;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.status = status;
     }
+    
+    
+    
 
     public String getUserID() {
         return userID;
@@ -126,6 +130,14 @@ public class User {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
 }

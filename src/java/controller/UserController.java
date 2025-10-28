@@ -49,6 +49,18 @@ public class UserController extends HttpServlet {
             request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
             return;
         }
+        //kiem tra status, neu status la 0
+        if (user.isStatus() == false) {
+            request.setAttribute("msg", "Tài khoản của bạn đang bị khóa. Vui lòng liên hệ quản trị viên!");
+            if (isEmail) {
+                request.setAttribute("email", username);
+            } else {
+                request.setAttribute("username", username);
+            }
+            request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
+            return;
+        }
+        //neu status la 1
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
 
@@ -187,7 +199,7 @@ public class UserController extends HttpServlet {
             request.getRequestDispatcher("/auth/register_member.jsp").forward(request, response);
             return;
         }
-        
+
         boolean done = userDAO.insert(user);
         if (!done) {
             request.setAttribute("u", user);

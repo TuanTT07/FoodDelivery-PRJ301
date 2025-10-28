@@ -69,7 +69,7 @@
                                     </c:if>
                                 </div>
                                 <div>
-                                    <button class="btn btn-login">Đăng kí</button>
+                                    <button type="submit" class="btn btn-login">Đăng kí</button>
                                 </div>
                             </div>
                         </form>
