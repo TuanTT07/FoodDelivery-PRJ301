@@ -20,7 +20,7 @@
         <!-- Order List -->
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/orderList.jsp') ? 'sidebar__item--active' : ''}">
             <a href="${pageContext.request.contextPath}/store/orderList.jsp" class="sidebar__link">
-                <img src="${pageContext.request.contextPath}/assets/img/orderList.svg" alt="Review" class="sidebar__icon">
+                <img src="${pageContext.request.contextPath}/assets/img/orderList-icon.svg" alt="Review" class="sidebar__icon">
                 <span class="sidebar__text">Order List</span>
             </a>
         </li>
