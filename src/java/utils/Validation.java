@@ -16,4 +16,7 @@ public interface Validation {
     public static final String ROLE_MEMBER = "S004";
     public static final String EMAIL_REGEX
             = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+    public static final String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$";
+    public static final String FULLNAME_REGEX = "^[A-Za-zÀ-Ỹà-ỹ]+(\\s+[A-Za-zÀ-Ỹà-ỹ]+)+$";
+    public static final String PHONE_REGEX = "^(\\+84|0)(3[2-9]|5[25689]|7[06-9]|8[1-689]|9[0-46-9])\\d{7}$";
 }

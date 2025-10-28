@@ -63,7 +63,7 @@ public class StoreDAO {
                 if (rs.getTime("CloseTime") != null) {
                     store.setCloseTime(rs.getTime("CloseTime").toLocalTime());
                 }
-                store.setOwnerUserID(new User(rs.getString("OwnerUserID")));
+//                store.setOwnerUserID(new User(rs.getString("OwnerUserID")));
                 listStore.add(store);
             }
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class StoreDAO {
                 if (rs.getTime("CloseTime") != null) {
                     store.setCloseTime(rs.getTime("CloseTime").toLocalTime());
                 }
-                store.setOwnerUserID(new User(rs.getString("OwnerUserID")));
+//                store.setOwnerUserID(new User(rs.getString("OwnerUserID")));
                 listStore.add(store);
             }
         } catch (Exception e) {
@@ -197,7 +197,7 @@ public class StoreDAO {
                 if (rs.getTime("CloseTime") != null) {
                     store.setCloseTime(rs.getTime("CloseTime").toLocalTime());
                 }
-                store.setOwnerUserID(new User(rs.getString("OwnerUserID")));
+//                store.setOwnerUserID(new User(rs.getString("OwnerUserID")));
                 ketQua.add(store);
 
             }

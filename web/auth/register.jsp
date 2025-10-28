@@ -26,9 +26,12 @@
             <div class="auth">
                 <div class="container auth-container">
                     <div class="auth-wrapp">
-                        <h2 class="auth-title">Đăng kí</h2>
-                        <form action="${pageContext.request.contextPath}/MainController" method="POST" accept-charset="UTF-8">
-                            <input type="hidden" name="action" value="signUpUser">
+                        <h2 class="auth-title">Đăng Kí 
+                            <c:if test="${param.action eq 'signUpDelivery'}">tái xế</c:if> 
+                            <c:if test="${param.action eq 'signUpUser'}">Khách Hàng</c:if>
+                            </h2>
+                            <form action="${pageContext.request.contextPath}/MainController" method="POST" accept-charset="UTF-8">
+                            <input type="hidden" name="action" value="${param.action}">
                             <div class="login-content">
                                 <div>
                                     <input class="inputUserName" type="text" name="userName" placeholder="Tên đăng nhập" value="${u.userName}" >
@@ -50,24 +53,37 @@
                                     <input class="inputPhone" type="text" name="Phone" placeholder="Số điện thoại" value="${u.userPhone}" >
                                     <span style="color:red">${error_phone}</span>
                                 </div>
-                                <div>
-                                    <label>Địa chỉ</label>
-                                    <div class="Form_Address">
-                                        <input class="inputStreet" type="text" name="street" placeholder="Số/ đường" value="${street != null ? street : param.street}" >
-                                        <input class="inputWard" type="text" name="ward" placeholder="Phường/Xã" value="${ward != null ? ward : param.ward}" >
+                                <c:if test="${param.action eq 'signUpDelivery'}">
+                                    <select class="inputCity" name="city">
+                                        <option value="">Tỉnh/thành phố</option>
+                                        <option value="1" ${city == '1' ? 'selected' : ''}>TP. Hồ Chí Minh</option>
+                                        <option value="2" ${city == '2' ? 'selected' : ''}>Hà Nội</option>
+                                        <option value="3" ${city == '3' ? 'selected' : ''}>Đà Nẵng</option>
+                                        <option value="4" ${city == '4' ? 'selected' : ''}>Cần Thơ</option>
+                                    </select>     
+                                    <span style="color: red">${error_address}</span>
+                                </c:if>
+                                <c:if test="${param.action eq 'signUpUser'}">
+                                    <div>
+                                        <label>Địa chỉ</label>
+                                        <div class="Form_Address">
+                                            <input class="inputStreet" type="text" name="street" placeholder="Số/ đường" value="${street != null ? street : param.street}" >
+                                            <input class="inputWard" type="text" name="ward" placeholder="Phường/Xã" value="${ward != null ? ward : param.ward}" >
 
-                                        <select class="inputCity" name="city">
-                                            <option value="">Chọn tỉnh/thành phố</option>
-                                            <option value="1" ${city == '1' ? 'selected' : ''}>TP. Hồ Chí Minh</option>
-                                            <option value="2" ${city == '2' ? 'selected' : ''}>Hà Nội</option>
-                                            <option value="3" ${city == '3' ? 'selected' : ''}>Đà Nẵng</option>
-                                            <option value="4" ${city == '4' ? 'selected' : ''}>Cần Thơ</option>
-                                        </select>                                      
+                                            <select class="inputCity" name="city">
+                                                <option value="">Chọn tỉnh/thành phố</option>
+                                                <option value="1" ${city == '1' ? 'selected' : ''}>TP. Hồ Chí Minh</option>
+                                                <option value="2" ${city == '2' ? 'selected' : ''}>Hà Nội</option>
+                                                <option value="3" ${city == '3' ? 'selected' : ''}>Đà Nẵng</option>
+                                                <option value="4" ${city == '4' ? 'selected' : ''}>Cần Thơ</option>
+                                            </select>                                      
+                                        </div>
+                                        <c:if test="${not empty error_address}">
+                                            <span style="color: red">${error_address}</span>
+                                        </c:if>
                                     </div>
-                                    <c:if test="${not empty error_address}">
-                                        <span style="color: red">${error_address}</span>
-                                    </c:if>
-                                </div>
+                                </c:if>
+
                                 <div>
                                     <button type="submit" class="btn btn-login">Đăng kí</button>
                                 </div>

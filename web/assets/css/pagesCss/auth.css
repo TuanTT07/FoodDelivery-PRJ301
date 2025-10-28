@@ -27,7 +27,6 @@
 
 .inputUserName, .inputPassword,.inputFullname,.inputEmail, .inputPhone, .inputStreet, .inputWard, .inputCity {
     margin-bottom: 20px;
-
     display: inline-block;
     padding: 15px 0 15px 10px;
     border-radius: 12px;
@@ -35,9 +34,13 @@
     height: 60px;
     font-size: var(--p-font-size);
     line-height: var(--p-line-height);
-
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
 }
 
+.inputCity option{
+    font-size: inherit;
+    line-height: var(--p-line-height);
+}
 .login-float {
     display: flex;
     justify-content: space-between;
@@ -71,7 +74,7 @@
         line-height: var(--p2-line-height);
         text-align: center;
         color: var(--grey);
-        
+
     }
 }
 .auth-gg {

@@ -24,11 +24,12 @@ public class MainController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         //request user action
         String action = request.getParameter("action");
+        System.out.println(action);
         //create a default URL that can change depending on the user’s action
         String url = "index.jsp";
         //Group actions for each controller
         String[] roleActions = {};
-        String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "searchStoreByLocation"};
+        String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "searchStoreByLocation", "signUpDelivery"};
         String[] storeActions = {"registerStore", "viewStore", "updateStore"};
         String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProductList"};
         String[] productDetailActions = {"viewProductDetail"};

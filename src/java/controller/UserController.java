@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.RoleDAO;
 import dao.StoreDAO;
 import dao.UserDAO;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Role;
 import model.Store;
 import model.User;
 import utils.Validation;
@@ -80,13 +82,18 @@ public class UserController extends HttpServlet {
         }
     }
 
-    private void processAddUser(HttpServletRequest request, HttpServletResponse response)
+    private void processAddUser(HttpServletRequest request, HttpServletResponse response, boolean isDelivery)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
         String username = request.getParameter("userName");
         String password = request.getParameter("password");
         String fullName = request.getParameter("Fullname");
         String email = request.getParameter("email");
         String phone = request.getParameter("Phone");
+
+        //set role
+        RoleDAO rDAO = new RoleDAO();
+        Role role = rDAO.setRole(action);
 
         // Địa chỉ tách 3 phần
         String street = request.getParameter("street"); // số/đường
@@ -117,7 +124,7 @@ public class UserController extends HttpServlet {
         }
         String address = addr.toString();
 
-        User user = new User(username, fullName, email, password, phone, address);
+        User user = new User(username, fullName, email, password, phone, address, role);
         UserDAO userDAO = new UserDAO();
 
         String error_username = "";
@@ -126,11 +133,6 @@ public class UserController extends HttpServlet {
         String error_email = "";
         String error_phone = "";
         String error_address = "";
-
-        String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$";
-        String FULLNAME_REGEX = "^[A-Za-zÀ-Ỹà-ỹ]+(\\s+[A-Za-zÀ-Ỹà-ỹ]+)+$";
-        String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-        String PHONE_REGEX = "^(\\+84|0)(3[2-9]|5[25689]|7[06-9]|8[1-689]|9[0-46-9])\\d{7}$";
 
         boolean hasError = false;
         // Validate 
@@ -145,7 +147,7 @@ public class UserController extends HttpServlet {
         if (password == null || password.trim().isEmpty()) {
             error_password = "Password cannot be empty!";
             hasError = true;
-        } else if (!password.matches(PASSWORD_REGEX)) {
+        } else if (!password.matches(Validation.PASSWORD_REGEX)) {
             error_password = "mật khẩu có ít nhất 1 chữ in hoa, 1 chữ số, 1 ký tự đặc biệt, tối thiểu 8 ký tự";
             hasError = true;
         }
@@ -153,7 +155,7 @@ public class UserController extends HttpServlet {
         if (fullName == null || fullName.trim().isEmpty()) {
             error_fullName = "Full name is required!";
             hasError = true;
-        } else if (!fullName.matches(FULLNAME_REGEX)) {
+        } else if (!fullName.matches(Validation.FULLNAME_REGEX)) {
             error_fullName = "bắt buộc có ít nhất 2 từ (ví dụ \"Nguyen Van\")";
             hasError = true;
         }
@@ -161,7 +163,7 @@ public class UserController extends HttpServlet {
         if (email == null || email.trim().isEmpty()) {
             error_email = "Email is required!";
             hasError = true;
-        } else if (!email.matches(EMAIL_REGEX)) {
+        } else if (!email.matches(Validation.EMAIL_REGEX)) {
             error_email = "email sai";
             hasError = true;
         } else if (userDAO.existsByEmail(email)) {
@@ -172,7 +174,7 @@ public class UserController extends HttpServlet {
         if (phone == null || phone.trim().isEmpty()) {
             error_phone = "Phone is required!";
             hasError = true;
-        } else if (!phone.matches(PHONE_REGEX)) {
+        } else if (!phone.matches(Validation.PHONE_REGEX)) {
             error_phone = "đầu số của các nhà mạng hợp pháp (03, 05, 07, 08, 09)";
             hasError = true;
         } else if (userDAO.existsByPhone(phone)) {
@@ -180,9 +182,11 @@ public class UserController extends HttpServlet {
             hasError = true;
         }
 
-        if (street == null || street.trim().isEmpty() || ward == null || ward.trim().isEmpty() || cityName == null || cityName.trim().isEmpty()) {
-            error_address = "Vui lòng điền đầy đủ địa chỉ!";
-            hasError = true;
+        if (!isDelivery) {
+            if (street == null || street.trim().isEmpty() || ward == null || ward.trim().isEmpty() || cityName == null || cityName.trim().isEmpty()) {
+                error_address = "Vui lòng điền đầy đủ địa chỉ!";
+                hasError = true;
+            }
         }
 
         if (hasError) {
@@ -196,15 +200,21 @@ public class UserController extends HttpServlet {
             request.setAttribute("street", street);
             request.setAttribute("ward", ward);
             request.setAttribute("city", cityCode);
-            request.getRequestDispatcher("/auth/register_member.jsp").forward(request, response);
+            request.getRequestDispatcher("/auth/register.jsp").forward(request, response);
             return;
         }
 
         boolean done = userDAO.insert(user);
         if (!done) {
             request.setAttribute("u", user);
-            request.setAttribute("msg", "Thêm user bị lỗi. Vui lòng thử lại!");
-            request.getRequestDispatcher("/auth/register_member.jsp").forward(request, response);
+            if (!isDelivery) {
+                request.setAttribute("msg", "Thêm khách hàng bị lỗi. Vui lòng thử lại!");
+
+            } else {
+                request.setAttribute("msg", "Đăng kí tài xế bị lỗi. Vui lòng thử lại!");
+
+            }
+            request.getRequestDispatcher("/auth/register.jsp").forward(request, response);
             return;
         }
 
@@ -212,7 +222,13 @@ public class UserController extends HttpServlet {
         User userF = userDAO.getUserByUsername(username);
         HttpSession session = request.getSession();
         session.setAttribute("user", userF);
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        if (isDelivery) {
+            request.getRequestDispatcher("/delivery/dashboard.jsp").forward(request, response);
+
+        } else {
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+
+        }
     }
 
     private void processSearchStoreByLoaction(HttpServletRequest request, HttpServletResponse response)
@@ -250,7 +266,7 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.invalidate(); // Huy tat ca nhung cai dang co trong session
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("index.jsp");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -269,7 +285,9 @@ public class UserController extends HttpServlet {
         } else if (action.equals("searchStoreByLocation")) {
             processSearchStoreByLoaction(request, response);
         } else if (action.equals("signUpUser")) {
-            processAddUser(request, response);
+            processAddUser(request, response, false);
+        } else if (action.equals("signUpDelivery")) {
+            processAddUser(request, response, true);
         }
     }
 
