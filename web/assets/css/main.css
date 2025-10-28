@@ -35,6 +35,11 @@
   Product
 ========= */
 @import "./pagesCss/productDetail.css";
+
+/*========= 
+  Delivery
+========= */
+@import "./pagesCss/dashboardDelivery.css";
 * {
     box-sizing: border-box;
 }
