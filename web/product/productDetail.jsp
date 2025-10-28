@@ -5,9 +5,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Food Detail Page</title>
-
+        <!-- CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/reponsive.css"/>
         <!-- FONT -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +56,7 @@
                                         </ul>
                                     </div>
                                 </c:if>
-                                
+
                                 <textarea class="product-detail__note" name="note" rows="4" cols="50" placeholder="Yêu cầu riêng..."></textarea>
 
                                 <div class="product-detail__actions">

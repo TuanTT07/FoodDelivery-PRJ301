@@ -1,6 +1,8 @@
 @import "theme.css";
 @import "reset.css";
-
+/*========= 
+    Includes
+===========*/
 @import "./sections/header.css";
 @import "./sections/footer.css";
 
@@ -30,7 +32,7 @@
 @import "./pagesCss/storeDetail.css";
 
 /*========= 
-    Product
+  Product
 ========= */
 @import "./pagesCss/productDetail.css";
 * {
