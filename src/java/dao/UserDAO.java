@@ -197,10 +197,7 @@ public class UserDAO {
         if (user.getUserID() == null || user.getUserID().trim().isEmpty()) {
             user.setUserID(generateNextUserID());
         }
-        // Set role
-        if (user.getRoleID() == null || user.getRoleID().getRoleID() == null) {
-            user.setRoleID(new Role("S004", "Member"));
-        }
+
         String sql = "INSERT INTO tblUser (UserID, UserName, FullName, UserEmail, "
                 + "UserPassword, UserPhone, UserAddress, RoleID, CreatedAt, UpdatedAt, Status) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), NULL, ?)";
