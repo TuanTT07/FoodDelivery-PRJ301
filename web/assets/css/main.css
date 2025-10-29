@@ -40,6 +40,11 @@
   Delivery
 ========= */
 @import "./pagesCss/dashboardDelivery.css";
+
+/*========= 
+  Cart
+========= */
+@import "./pagesCss/cart.css";
 * {
     box-sizing: border-box;
 }
