@@ -46,7 +46,7 @@ public class authenticationUser implements Filter {
         HttpSession session = httpRequest.getSession();
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         
-        if(session.getAttribute("user") == null){
+        if(session.getAttribute("u") == null){
             httpResponse.sendRedirect(httpRequest.getContextPath() +"/index.jsp");
             return;
         }

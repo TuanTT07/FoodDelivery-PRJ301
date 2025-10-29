@@ -6,16 +6,16 @@
 package model;
 
 
-public class Category {
+public class CategoryStore {
     private String categoryID;
     private String categoryName;
     private Store storeId;
     private boolean isActive;
 
-    public Category() {
+    public CategoryStore() {
     }
 
-    public Category(String categoryID, String categoryName, Store storeId, boolean isActive) {
+    public CategoryStore(String categoryID, String categoryName, Store storeId, boolean isActive) {
         this.categoryID = categoryID;
         this.categoryName = categoryName;
         this.storeId = storeId;

@@ -64,7 +64,7 @@ public class UserController extends HttpServlet {
         }
         //neu status la 1
         HttpSession session = request.getSession();
-        session.setAttribute("user", user);
+        session.setAttribute("u", user);
 
         String role = user.getRoleID() != null ? user.getRoleID().getRoleID() : "";
 
@@ -221,7 +221,7 @@ public class UserController extends HttpServlet {
         // sau khi tạo thành công thì tự động lấy thông tin đăng nhập
         User userF = userDAO.getUserByUsername(username);
         HttpSession session = request.getSession();
-        session.setAttribute("user", userF);
+        session.setAttribute("u", userF);
         if (isDelivery) {
             request.getRequestDispatcher("/delivery/dashboard.jsp").forward(request, response);
 
