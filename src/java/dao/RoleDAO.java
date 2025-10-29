@@ -23,6 +23,9 @@ public class RoleDAO {
         } else if (action.equals("signUpDelivery")) {
             role.setRoleID("S003");
             role.setRoleName("delivery");
+        } else if (action.equals("signUpStore")) {
+            role.setRoleID("S002");
+            role.setRoleName("store_owner");
         }
         return role;
     }

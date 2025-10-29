@@ -25,7 +25,7 @@
     font-weight: 600;
 }
 
-.inputUserName, .inputPassword,.inputFullname,.inputEmail, .inputPhone, .inputStreet, .inputWard, .inputCity {
+.inputUserName, .inputPassword,.inputFullname,.inputEmail, .inputPhone, .inputStreet, .inputWard, .inputCity, .inputTimeOpen, .inputTimeClose , .inputStoreName{
     margin-bottom: 20px;
     display: inline-block;
     padding: 15px 0 15px 10px;
@@ -36,6 +36,7 @@
     line-height: var(--p-line-height);
     box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
 }
+
 
 .inputCity option{
     font-size: inherit;
@@ -98,6 +99,20 @@
 }
 
 .Form_Address{
-    display: flex;
-    justify-content: center;
+}
+.label_address, .label_cate, .label_banner , .label_logo, .label_info__bank {
+    display: inline-block;
+    margin-bottom:  16px ;
+
+}
+
+.store__desc {
+    font-family: var(--font-family_primary);
+    padding: 10px;
+    resize: none;
+    font-size:  var(--p2-font-size);
+    font-weight: 600;
+    line-height:  var(--line-height);
+    border-radius: 12px;
+    border: 2px solid var(--Purple-Light, #E8E6ED);
 }

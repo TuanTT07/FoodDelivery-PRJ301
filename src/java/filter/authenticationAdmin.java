@@ -47,7 +47,7 @@ public class authenticationAdmin implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpSession session = httpRequest.getSession();
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        User u = (User) session.getAttribute("user");
+        User u = (User) session.getAttribute("u");
         if (u == null) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/index.jsp");
             return;

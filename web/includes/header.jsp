@@ -3,12 +3,12 @@
 <header class="header">
     <div class="container header__container">
 
-        <c:if test="${user.roleID eq 'S001'}">
+        <c:if test="${u.roleID.roleID eq 'S001'}">
             <a href="${pageContext.request.contextPath}/admin/dashboard.jsp">
                 <img class="header__img" src="${pageContext.request.contextPath}/assets/img/Logo.svg" alt="Logo">
             </a>
         </c:if>
-        <c:if test="${user.roleID ne 'S001'}">
+        <c:if test="${u.roleID.roleID ne 'S001'}">
             <a href="${pageContext.request.contextPath}/index.jsp">
                 <img class="header__img" src="${pageContext.request.contextPath}/assets/img/Logo.svg" alt="Logo">
             </a>
@@ -16,6 +16,11 @@
 
 
         <nav class="header-nav">
+            <c:if test="${u.roleID.roleID eq 'S004'}">
+                <a href="${pageContext.request.contextPath}/auth/register.jsp?action=signUpStore">Đăng kí cửa hàng</a>
+
+            </c:if>
+
             <a href="${pageContext.request.contextPath}/auth/register.jsp?action=signUpDelivery">Đăng kí tài xế</a>
             <a href="#">About</a> 
             <a href="#">Page</a> 
@@ -32,15 +37,32 @@
         --%>
 
         <c:if test="${not empty sessionScope.user}">
-            <div class="header__user">
-                <a href="${pageContext.request.contextPath}/cart.jsp" class="header__cart">
+           
+               
+        <c:if test="${not empty sessionScope.u}">
+            <div class="user-info">
+               <div class="header__user">
+                  <a href="${pageContext.request.contextPath}/cart.jsp" class="header__cart">
                     <img src="${pageContext.request.contextPath}/assets/img/cart-icon.png" alt="Giỏ hàng" class="header__cart-icon">
-                </a>
-                <h3 class="header__name">${sessionScope.user.userFullName}</h3>
+                  </a>
+                </div>
+                <h3 class="header__name">${sessionScope.u.userFullName}</h3>
+                <ul class="user-dropDown">
+                    <li>
+                        <a href="">Thông tin tài khoản </a>
+                    </li>
+                    <li>
+                        <a href="url">Đổi mật khẩu</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/MainController?action=logout">Đăng xuất</a>
+                    </li>
+
+                </ul>
             </div>
         </c:if>
 
-        <c:if test="${empty user}">
+        <c:if test="${empty u}">
             <div class="header-action">
                 <a class="btn header-action__link" href="${pageContext.request.contextPath}/auth/register.jsp?action=signUpUser">Đăng kí</a>
                 <a class="btn header-action__btn" href="${pageContext.request.contextPath}/auth/login.jsp">Đăng nhập</a>

@@ -184,10 +184,12 @@ public class UserDAO {
         }
         return null;
     }
-    
+
     private String generateNextUserID() {
         String last = getLastUserId(); // ví dụ U004
-        if (last == null || last.isEmpty()) return "U001";
+        if (last == null || last.isEmpty()) {
+            return "U001";
+        }
         int n = Integer.parseInt(last.substring(1)) + 1;
         return String.format("U%03d", n);
     }
@@ -222,7 +224,7 @@ public class UserDAO {
 
     //Read
     //function for search
-    public ArrayList<UserDAO> getAllUser(){
+    public ArrayList<UserDAO> getAllUser() {
         ArrayList<UserDAO> listUser = new ArrayList<>();
         try {
             Connection conn = DBUtils.getConnection();
@@ -238,13 +240,33 @@ public class UserDAO {
                 user.setUserPhone(rs.getString("UserPhone"));
                 user.setUserAddress(rs.getString("UserAddress"));
                 //Role role = user.setRoleID(rs.getString("RoleID"));
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return listUser;
     }
-    
-    
+
+    public User getUserByID(String id) {
+        User res = new User();
+        try {
+            Connection conn = DBUtils.getConnection();
+            String sql = "SELECT * FROM tblUser WHERE UserID= ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                res.setUserID(rs.getString("UserID"));
+                res.setUserName(rs.getString("UserName"));
+                res.setUserFullName(rs.getString("FullName"));
+                res.setUserEmail(rs.getString("UserEmail"));
+                res.setUserPhone(rs.getString("UserPhone"));
+                res.setUserAddress(rs.getString("UserAddress"));
+                return res;
+            }
+        } catch (Exception e) {
+        }
+        return res;
+    }
+
 }

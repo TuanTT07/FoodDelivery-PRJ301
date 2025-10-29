@@ -30,7 +30,7 @@ public class MainController extends HttpServlet {
         //Group actions for each controller
         String[] roleActions = {};
         String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "searchStoreByLocation", "signUpDelivery"};
-        String[] storeActions = {"registerStore", "viewStore", "updateStore"};
+        String[] storeActions = {"signUpStore", "viewStore", "updateStore"};
         String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProductList"};
         String[] productDetailActions = {"viewProductDetail"};
         String[] productOptionActions = {"addProductOption"};
