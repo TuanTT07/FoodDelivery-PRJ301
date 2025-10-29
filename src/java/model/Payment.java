@@ -6,11 +6,11 @@
 package model;
 
 import java.time.LocalDateTime;
-
+import model.enums.PaymentStatus;
 
 public class Payment {
     private String paymentID;
-    private String paymentStatus;
+    private PaymentStatus paymentStatus;
     private String transactionID;
     private LocalDateTime paymentDate;
     private double amount;
@@ -19,7 +19,7 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(String paymentID, String paymentStatus, String transactionID, LocalDateTime paymentDate, double amount, PaymentMethod paymentMethodID) {
+    public Payment(String paymentID, PaymentStatus paymentStatus, String transactionID, LocalDateTime paymentDate, double amount, PaymentMethod paymentMethodID) {
         this.paymentID = paymentID;
         this.paymentStatus = paymentStatus;
         this.transactionID = transactionID;
@@ -36,11 +36,11 @@ public class Payment {
         this.paymentID = paymentID;
     }
 
-    public String getPaymentStatus() {
+    public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
@@ -75,6 +75,8 @@ public class Payment {
     public void setPaymentMethodID(PaymentMethod paymentMethodID) {
         this.paymentMethodID = paymentMethodID;
     }
+
+    
     
     
 }

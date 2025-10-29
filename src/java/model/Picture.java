@@ -2,58 +2,59 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package model;
 
+import java.time.LocalDateTime;
 
 public class Picture {
-    private String pictureID;
-    private String url;
-    private String type; // user / store / product
-    private String ownerID;
+
+    private String pictureId;
+    private Product productId;
+    private String pictureURL;
+    private LocalDateTime uploadDate;
     private boolean isMain;
 
     public Picture() {
     }
 
-    public Picture(String pictureID, String url, String type, String ownerID, boolean isMain) {
-        this.pictureID = pictureID;
-        this.url = url;
-        this.type = type;
-        this.ownerID = ownerID;
+    public Picture(String pictureId, Product productId, String pictureURL, LocalDateTime uploadDate, boolean isMain) {
+        this.pictureId = pictureId;
+        this.productId = productId;
+        this.pictureURL = pictureURL;
+        this.uploadDate = uploadDate;
         this.isMain = isMain;
     }
 
-    public String getPictureID() {
-        return pictureID;
+    public String getPictureId() {
+        return pictureId;
     }
 
-    public void setPictureID(String pictureID) {
-        this.pictureID = pictureID;
+    public void setPictureId(String pictureId) {
+        this.pictureId = pictureId;
     }
 
-    public String getUrl() {
-        return url;
+    public Product getProductId() {
+        return productId;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setProductId(Product productId) {
+        this.productId = productId;
     }
 
-    public String getType() {
-        return type;
+    public String getPictureURL() {
+        return pictureURL;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
     }
 
-    public String getOwnerID() {
-        return ownerID;
+    public LocalDateTime getUploadDate() {
+        return uploadDate;
     }
 
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
+    public void setUploadDate(LocalDateTime uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public boolean isIsMain() {
@@ -63,6 +64,6 @@ public class Picture {
     public void setIsMain(boolean isMain) {
         this.isMain = isMain;
     }
-    
+
     
 }

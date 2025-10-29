@@ -6,12 +6,12 @@
 package model;
 
 import java.time.LocalDateTime;
-
+import model.enums.OrderStatus;
 
 public class Order {
     private String orderID;    
     private double totalPrice;
-    private String status;
+    private OrderStatus status;
     private LocalDateTime orderDate;
     private String deliveryAddress;
     private User userID;
@@ -21,7 +21,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String orderID, double totalPrice, String status, LocalDateTime orderDate, String deliveryAddress, User userID, Voucher voucherID, Payment paymentID) {
+    public Order(String orderID, double totalPrice, OrderStatus status, LocalDateTime orderDate, String deliveryAddress, User userID, Voucher voucherID, Payment paymentID) {
         this.orderID = orderID;
         this.totalPrice = totalPrice;
         this.status = status;
@@ -48,11 +48,11 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -95,6 +95,7 @@ public class Order {
     public void setPaymentID(Payment paymentID) {
         this.paymentID = paymentID;
     }
+
     
     
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public class Event {
     private String eventID;
-    private String eventName;
+    private String eventTitle;
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -21,9 +21,9 @@ public class Event {
     public Event() {
     }
 
-    public Event(String eventID, String eventName, String description, LocalDateTime startDate, LocalDateTime endDate, String bannerURL, boolean isActive, Voucher voucherID) {
+    public Event(String eventID, String eventTitle, String description, LocalDateTime startDate, LocalDateTime endDate, String bannerURL, boolean isActive, Voucher voucherID) {
         this.eventID = eventID;
-        this.eventName = eventName;
+        this.eventTitle = eventTitle;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -40,12 +40,12 @@ public class Event {
         this.eventID = eventID;
     }
 
-    public String getEventName() {
-        return eventName;
+    public String getEventTitle() {
+        return eventTitle;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
     }
 
     public String getDescription() {
@@ -95,6 +95,8 @@ public class Event {
     public void setVoucherID(Voucher voucherID) {
         this.voucherID = voucherID;
     }
+
+    
     
     
 }
