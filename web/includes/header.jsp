@@ -32,7 +32,12 @@
         --%>
 
         <c:if test="${not empty sessionScope.user}">
-            <h3 class="header__name">${sessionScope.user.userFullName}</h3>
+            <div class="header__user">
+                <a href="${pageContext.request.contextPath}/cart.jsp" class="header__cart">
+                    <img src="${pageContext.request.contextPath}/assets/img/cart-icon.png" alt="Giỏ hàng" class="header__cart-icon">
+                </a>
+                <h3 class="header__name">${sessionScope.user.userFullName}</h3>
+            </div>
         </c:if>
 
         <c:if test="${empty user}">
