@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDateTime;
+
 public class Store {
 
     private String storeID;
@@ -7,19 +9,25 @@ public class Store {
     private String storeAddress;   
     private String city;
     private String district;
-    private String description;
-    private double storeRating;    
+    private double storeRating;
     private String openTime;       
     private String closeTime;
-    private boolean is24Hours;     
+    private User ownerUserID;    
+    private CategoryStore storeCategoryId;
+    private String storePhone;
+    private String storeEmail;
+    private String description;
+    private boolean status;        
     private String bankAccountName;
     private String bankAccountNumber;
     private String bankName;
     private String logoURL;
-    private String coverURL;
-    private boolean status;       
-    private User ownerUserID;      
-
+    private String bannerURL;
+    private boolean is24Hours;
+    private LocalDateTime createdAt;
+          
+    
+    
     public Store() {
         this.storeRating = 0;
         this.status = true;
@@ -27,47 +35,32 @@ public class Store {
     }
 
     // Constructor đầy đủ
-    public Store(String storeID, String storeName, String storeAddress, String city, String district,
-            String description, double storeRating, String openTime, String closeTime, boolean is24Hours,
-            String bankAccountName, String bankAccountNumber, String bankName,
-            String logoURL, String coverURL, boolean status, User ownerUserID) {
+
+    public Store(String storeID, String storeName, String storeAddress, String city, String district, double storeRating, String openTime, String closeTime, User ownerUserID, CategoryStore storeCategoryId, String storePhone, String storeEmail, String description, boolean status, String bankAccountName, String bankAccountNumber, String bankName, String logoURL, String bannerURL, boolean is24Hours, LocalDateTime createdAt) {
         this.storeID = storeID;
         this.storeName = storeName;
         this.storeAddress = storeAddress;
         this.city = city;
         this.district = district;
-        this.description = description;
         this.storeRating = storeRating;
         this.openTime = openTime;
         this.closeTime = closeTime;
-        this.is24Hours = is24Hours;
+        this.ownerUserID = ownerUserID;
+        this.storeCategoryId = storeCategoryId;
+        this.storePhone = storePhone;
+        this.storeEmail = storeEmail;
+        this.description = description;
+        this.status = status;
         this.bankAccountName = bankAccountName;
         this.bankAccountNumber = bankAccountNumber;
         this.bankName = bankName;
         this.logoURL = logoURL;
-        this.coverURL = coverURL;
-        this.status = status;
-        this.ownerUserID = ownerUserID;
+        this.bannerURL = bannerURL;
+        this.is24Hours = is24Hours;
+        this.createdAt = createdAt;
     }
 
-    public Store(String storeName, String storeAddress, String city, String district, String description, double storeRating, String openTime, String closeTime, boolean is24Hours, String bankAccountName, String bankAccountNumber, String bankName, String logoURL, String coverURL, boolean status, User ownerUserID) {
-        this.storeName = storeName;
-        this.storeAddress = storeAddress;
-        this.city = city;
-        this.district = district;
-        this.description = description;
-        this.storeRating = storeRating;
-        this.openTime = openTime;
-        this.closeTime = closeTime;
-        this.is24Hours = is24Hours;
-        this.bankAccountName = bankAccountName;
-        this.bankAccountNumber = bankAccountNumber;
-        this.bankName = bankName;
-        this.logoURL = logoURL;
-        this.coverURL = coverURL;
-        this.status = status;
-        this.ownerUserID = ownerUserID;
-    }
+    
     
     
     // ===== Getter & Setter =====
@@ -112,14 +105,6 @@ public class Store {
         this.district = district;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public double getStoreRating() {
         return storeRating;
     }
@@ -144,12 +129,52 @@ public class Store {
         this.closeTime = closeTime;
     }
 
-    public boolean isIs24Hours() {
-        return is24Hours;
+    public User getOwnerUserID() {
+        return ownerUserID;
     }
 
-    public void setIs24Hours(boolean is24Hours) {
-        this.is24Hours = is24Hours;
+    public void setOwnerUserID(User ownerUserID) {
+        this.ownerUserID = ownerUserID;
+    }
+
+    public CategoryStore getStoreCategoryId() {
+        return storeCategoryId;
+    }
+
+    public void setStoreCategoryId(CategoryStore storeCategoryId) {
+        this.storeCategoryId = storeCategoryId;
+    }
+
+    public String getStorePhone() {
+        return storePhone;
+    }
+
+    public void setStorePhone(String storePhone) {
+        this.storePhone = storePhone;
+    }
+
+    public String getStoreEmail() {
+        return storeEmail;
+    }
+
+    public void setStoreEmail(String storeEmail) {
+        this.storeEmail = storeEmail;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getBankAccountName() {
@@ -184,28 +209,31 @@ public class Store {
         this.logoURL = logoURL;
     }
 
-    public String getCoverURL() {
-        return coverURL;
+    public String getBannerURL() {
+        return bannerURL;
     }
 
-    public void setCoverURL(String coverURL) {
-        this.coverURL = coverURL;
+    public void setBannerURL(String bannerURL) {
+        this.bannerURL = bannerURL;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isIs24Hours() {
+        return is24Hours;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setIs24Hours(boolean is24Hours) {
+        this.is24Hours = is24Hours;
     }
 
-    public User getOwnerUserID() {
-        return ownerUserID;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setOwnerUserID(User ownerUserID) {
-        this.ownerUserID = ownerUserID;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
+    
+        
+   
 }

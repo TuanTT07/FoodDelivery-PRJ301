@@ -14,6 +14,7 @@ public class User {
     private String userPassword;
     private String userPhone;
     private String userAddress;
+    private String avatarURL;
     private Role roleID;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -33,7 +34,7 @@ public class User {
         this.roleID = role;
     }
 
-    public User(String userID, String userName, String userFullName, String userEmail, String userPassword, String userPhone, String userAddress, Role roleID, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status) {
+    public User(String userID, String userName, String userFullName, String userEmail, String userPassword, String userPhone, String userAddress, String avatarURL, Role roleID, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status) {
         this.userID = userID;
         this.userName = userName;
         this.userFullName = userFullName;
@@ -41,14 +42,12 @@ public class User {
         this.userPassword = userPassword;
         this.userPhone = userPhone;
         this.userAddress = userAddress;
+        this.avatarURL = avatarURL;
         this.roleID = roleID;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
     }
-    
-    
-    
 
     public String getUserID() {
         return userID;
@@ -104,6 +103,14 @@ public class User {
 
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public String getAvatarURL() {
+        return avatarURL;
+    }
+
+    public void setAvatarURL(String avatarURL) {
+        this.avatarURL = avatarURL;
     }
 
     public Role getRoleID() {

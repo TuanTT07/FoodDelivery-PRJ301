@@ -12,12 +12,12 @@ public class BankAccount {
     private String bankAccountName;
     private String bankNumber;
     private String bankName;
-    private String OwnerId;
+    private User OwnerId;
 
     public BankAccount() {
     }
 
-    public BankAccount(String bankAccountName, String bankNumber, String bankName, String OwnerId) {
+    public BankAccount(String bankAccountName, String bankNumber, String bankName, User OwnerId) {
         this.bankAccountName = bankAccountName;
         this.bankNumber = bankNumber;
         this.bankName = bankName;
@@ -48,13 +48,14 @@ public class BankAccount {
         this.bankName = bankName;
     }
 
-    public String getOwnerId() {
+    public User getOwnerId() {
         return OwnerId;
     }
 
-    public void setOwnerId(String OwnerId) {
+    public void setOwnerId(User OwnerId) {
         this.OwnerId = OwnerId;
     }
+
     
     
     
