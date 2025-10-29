@@ -233,7 +233,7 @@ public class StoreDAO {
         ArrayList<Store> ketQua = new ArrayList<>();
         try {
             Connection conn = DBUtils.getConnection();
-            String sql = "SELECT * FROM tblStore WHERE StoreAddress LIKE ?";
+            String sql = "SELECT * FROM tblStore WHERE City LIKE ?";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, "%" + location.trim() + "%");
 
@@ -244,18 +244,6 @@ public class StoreDAO {
                 store.setStoreName(rs.getString("StoreName"));
                 store.setStoreAddress(rs.getString("StoreAddress"));
                 store.setStoreRating(rs.getDouble("StoreRating"));
-                /*
-                opentime, closetime(SQL) variables type is Time
-                opentime, closetime(model) variables type is LocalTime
-                 */
-                //convert from java.sql.Time to java.time.LocalTime
-                if (rs.getTime("OpenTime") != null) {
-//                    store.setOpenTime(rs.getTime("OpenTime").toLocalTime());
-                }
-                if (rs.getTime("CloseTime") != null) {
-//                    store.setCloseTime(rs.getTime("CloseTime").toLocalTime());
-                }
-//                store.setOwnerUserID(new User(rs.getString("OwnerUserID")));
                 ketQua.add(store);
 
             }

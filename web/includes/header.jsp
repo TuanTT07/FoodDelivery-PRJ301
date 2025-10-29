@@ -35,7 +35,7 @@
             }
         %>
         --%>
-
+                
         <c:if test="${not empty sessionScope.u}">
             <div class="user-info">
                 <h3 class="header__name">${sessionScope.u.userFullName}</h3>

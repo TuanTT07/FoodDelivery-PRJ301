@@ -250,11 +250,12 @@ public class UserController extends HttpServlet {
         StoreDAO sDAO = new StoreDAO();
         if (location == null || location.trim().length() == 0) {
             url = "index.jsp";
-            messErrorLocation = "Vui lòng điền thành phố mà bạn đang sinh sống!";
+            messErrorLocation = "Vui lòng chọn thành phố mà bạn đang sinh sống!";
             request.setAttribute("messErrorLocation", messErrorLocation);
         } else {
             ArrayList<Store> listOfStore = new ArrayList<>();
             listOfStore = sDAO.selectStoreByLocation(location);
+            System.out.println(listOfStore.size());
             request.setAttribute("location", location);
             request.setAttribute("listOfStore", listOfStore);
             url = "/user/userHome.jsp";
