@@ -35,29 +35,28 @@
             }
         %>
         --%>
-                
+
         <c:if test="${not empty sessionScope.u}">
             <div class="user-info">
-               <div class="header__user">
-                  <a href="${pageContext.request.contextPath}/cart.jsp" class="header__cart">
-                    <img src="${pageContext.request.contextPath}/assets/img/cart-icon.png" alt="Giỏ hàng" class="header__cart-icon">
-                  </a>
-                </div>
-                <h3 class="header__name">${sessionScope.u.userFullName}</h3>
-                <ul class="user-dropDown">
-                    <li>
-                        <a href="">Thông tin tài khoản </a>
-                    </li>
-                    <li>
-                        <a href="url">Đổi mật khẩu</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/MainController?action=logout">Đăng xuất</a>
-                    </li>
+                <!-- Giỏ hàng riêng -->
+                <a href="${pageContext.request.contextPath}/cart.jsp" class="header__cart">
+                    <img src="${pageContext.request.contextPath}/assets/img/cart-shopping-solid-full.svg"
+                         alt="Giỏ hàng" class="header__cart-icon">
+                </a>
 
-                </ul>
+                <!-- Khu vực người dùng -->
+                <div class="header__user">
+                    <h3 class="header__name">${sessionScope.u.userFullName}</h3>
+                    <ul class="user-dropDown">
+                        <li><a href="">Thông tin tài khoản</a></li>
+                        <li><a href="url">Đổi mật khẩu</a></li>
+                        <li><a href="${pageContext.request.contextPath}/MainController?action=logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
             </div>
         </c:if>
+
+
 
         <c:if test="${empty u}">
             <div class="header-action">
