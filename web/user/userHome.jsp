@@ -129,7 +129,7 @@
 
 
                     <div class="info">
-                        <p class="info__address">Địa chỉ: ${location} </p>
+                        <p class="info__address">Địa chỉ:${location}</p>
                         <div class="info__sort">
                             <p>Lọc theo: </p>
                             <select id="sortStore" >
@@ -144,9 +144,13 @@
                         <c:if test="${not empty listOfStore}">
                             <c:forEach var="store" items="${listOfStore}">
                                 <div class="store-card">
-                                    <h3>${store.storeName}</h3>
-                                    <p>${store.storeAddress}</p>
-                                    <p>Rating: ${store.storeRating}</p>
+                                    <img class="store-img" src="assets/img/bannerStore.png" alt="alt"/>
+                                    <h3 class="store-name">${store.storeName}</h3>
+                                    <p class="store-address">${store.storeAddress}</p>
+                                    <p class="store-time__text">Thời gian hoạt động: <span>${store.openTime} - ${store.closeTime}</span></p>
+                                    <p class="store-cate">Thể loại thức ăn: <span>Cate</span></p>
+
+                                    <p class="store-rating">${store.storeRating}<img class="star" src="${pageContext.request.contextPath}/assets/img/star_icon.svg" alt="alt"/></p>
                                 </div>
                             </c:forEach>
                         </c:if>
@@ -162,6 +166,6 @@
 
 
         <jsp:include page="/includes/footer.jsp"/>
-        
+
     </body>
 </html>

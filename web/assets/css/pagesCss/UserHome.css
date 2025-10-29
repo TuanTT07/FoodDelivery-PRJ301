@@ -97,59 +97,114 @@
 }
 
 .store-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+    margin: 24px 0;
 }
 
 .store-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  padding: 16px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
 }
 
 .store-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
 }
 
 .store-img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 12px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
 .store-name {
-  margin-top: 12px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
+    margin-top: 12px;
+    color: var(--Dark, #191720);
+
+    /* H5 */
+    font-size: var(--h5-font-size);
+    font-style: normal;
+    font-weight: 700;
+    line-height: var(--h5-line-height); /* 150% */
+}
+.store-address {
+    margin-top: 8px;
+
+    color: var(--Grey, #575363);
+
+    /* P2 */
+    font-size: var(--p2-font-size);
+    line-height: var(--p2-line-height);
+
+}
+
+.store-time__text {
+    margin-top: 8px;
+
+    color: var(--Grey, #575363);
+
+    /* P3 */
+    font-size: var(--p3-font-size);
+    line-height: var(--p3-line-height);
+
+    & span {
+        color: var(--Dark, #191720);
+
+        /* B3 */
+        font-weight: 600;
+        font-size: var(--p3-font-size);
+        line-height: var(--p3-line-height);
+    }
+
+}
+.store-cate {
+    margin-top: 8px;
+
+    color: var(--Grey, #575363);
+
+    /* P3 */
+    font-size: var(--p3-font-size);
+    line-height: var(--p3-line-height);
+
+    & span {
+        color: var(--Dark, #191720);
+
+        /* B3 */
+        font-weight: 600;
+        font-size: var(--p3-font-size);
+        line-height: var(--p3-line-height);
+    }
+
 }
 
 .delivery-fee {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
 }
 
 .store-info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #444;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #444;
 }
 
 .store-rating {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #444;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    font-size: var(--p3-font-size);
+    line-height: var(--p3-line-height);
+    color: var(--Grey, #575363);
+
 }
 
-.star {
-  color: #f7b500;
-}

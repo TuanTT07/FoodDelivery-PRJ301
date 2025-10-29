@@ -35,10 +35,7 @@
             }
         %>
         --%>
-
-        <c:if test="${not empty sessionScope.user}">
-           
-               
+                
         <c:if test="${not empty sessionScope.u}">
             <div class="user-info">
                <div class="header__user">
