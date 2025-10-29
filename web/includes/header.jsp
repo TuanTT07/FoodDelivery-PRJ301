@@ -3,12 +3,12 @@
 <header class="header">
     <div class="container header__container">
 
-        <c:if test="${user.roleID eq 'S001'}">
+        <c:if test="${u.roleID.roleID eq 'S001'}">
             <a href="${pageContext.request.contextPath}/admin/dashboard.jsp">
                 <img class="header__img" src="${pageContext.request.contextPath}/assets/img/Logo.svg" alt="Logo">
             </a>
         </c:if>
-        <c:if test="${user.roleID ne 'S001'}">
+        <c:if test="${u.roleID.roleID ne 'S001'}">
             <a href="${pageContext.request.contextPath}/index.jsp">
                 <img class="header__img" src="${pageContext.request.contextPath}/assets/img/Logo.svg" alt="Logo">
             </a>
@@ -16,6 +16,11 @@
 
 
         <nav class="header-nav">
+            <c:if test="${u.roleID.roleID eq 'S004'}">
+                <a href="${pageContext.request.contextPath}/auth/register.jsp?action=signUpStore">Đăng kí cửa hàng</a>
+
+            </c:if>
+
             <a href="${pageContext.request.contextPath}/auth/register.jsp?action=signUpDelivery">Đăng kí tài xế</a>
             <a href="#">About</a> 
             <a href="#">Page</a> 
@@ -31,11 +36,11 @@
         %>
         --%>
 
-        <c:if test="${not empty sessionScope.user}">
-            <h3 class="header__name">${sessionScope.user.userFullName}</h3>
+        <c:if test="${not empty sessionScope.u}">
+            <h3 class="header__name">${sessionScope.u.userFullName}</h3>
         </c:if>
 
-        <c:if test="${empty user}">
+        <c:if test="${empty u}">
             <div class="header-action">
                 <a class="btn header-action__link" href="${pageContext.request.contextPath}/auth/register.jsp?action=signUpUser">Đăng kí</a>
                 <a class="btn header-action__btn" href="${pageContext.request.contextPath}/auth/login.jsp">Đăng nhập</a>
