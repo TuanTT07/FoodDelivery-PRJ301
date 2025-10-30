@@ -33,10 +33,19 @@
         }
 
         & p {
-            color: var(--purple-primary);
+            color: var(--orange);
         }
 
     }
+}
+
+#categoryList a.active .cate__bg {
+    background: var(--grey);
+    box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+}
+
+#categoryList a.active p {
+    color: var(--orange);
 }
 .cate__bg {
     background: var(--yellow-light);

@@ -49,30 +49,58 @@
                         </div>
 
                         <div id="storeList" class="store-container">
-                            <c:if test="${not empty listOfStore}">
-                                <c:forEach var="store" items="${listOfStore}">
-                                    <div class="store-card">
 
-                                        <img class="store-img" src="${store.bannerURL}" alt="Logo store"/>
-                                        <h3 class="store-name">${store.storeName}</h3>
-                                        <p class="store-address">${store.storeAddress}</p>
-                                        <p class="store-time__text">Thời gian hoạt động: 
+                            <!-- Ưu tiên hiển thị list đã lọc theo category -->
+                            <c:choose>
+                                <c:when test="${not empty listStoreByCate}">
+                                    <c:forEach var="store" items="${listStoreByCate}">
+                                        <div class="store-card">
+                                            <img class="store-img" src="${store.bannerURL}" alt="Logo store"/>
+                                            <h3 class="store-name">${store.storeName}</h3>
+                                            <p class="store-address">${store.storeAddress}</p>
+                                            <p class="store-time__text">
+                                                Thời gian hoạt động: 
+                                                <span>${fn:substring(store.openTime, 0, 5)} - ${fn:substring(store.closeTime, 0, 5)}</span>
+                                            </p>
+                                            <p class="store-cate">
+                                                Thể loại thức ăn: <span>${store.storeCategoryId.storeCategoryName}</span>
+                                            </p>
+                                            <p class="store-rating">
+                                                ${store.storeRating}
+                                                <img class="star" src="${pageContext.request.contextPath}/assets/img/star_icon.svg" alt="alt"/>
+                                            </p>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
 
-                                        <span>
-                                            ${fn:substring(store.openTime, 0, 5)} - ${fn:substring(store.closeTime, 0, 5)}
-                                        </span>
-                                        </p>
+                                <c:when test="${not empty listOfStore}">
+                                    <c:forEach var="store" items="${listOfStore}">
+                                        <div class="store-card">
+                                            <img class="store-img" src="${store.bannerURL}" alt="Logo store"/>
+                                            <h3 class="store-name">${store.storeName}</h3>
+                                            <p class="store-address">${store.storeAddress}</p>
+                                            <p class="store-time__text">
+                                                Thời gian hoạt động: 
+                                                <span>${fn:substring(store.openTime, 0, 5)} - ${fn:substring(store.closeTime, 0, 5)}</span>
+                                            </p>
+                                            <p class="store-cate">
+                                                Thể loại thức ăn: <span>${store.storeCategoryId.storeCategoryName}</span>
+                                            </p>
+                                            <p class="store-rating">
+                                                ${store.storeRating}
+                                                <img class="star" src="${pageContext.request.contextPath}/assets/img/star_icon.svg" alt="alt"/>
+                                            </p>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
 
-                                        <p class="store-cate">Thể loại thức ăn: <span>${store.storeCategoryId.storeCategoryName}</span></p>
 
-                                        <p class="store-rating">${store.storeRating}<img class="star" src="${pageContext.request.contextPath}/assets/img/star_icon.svg" alt="alt"/></p>
-                                    </div>
-                                </c:forEach>
-                            </c:if>
-                            <c:if test="${empty listOfStore}">
-                                <p>Không có cửa hàng nào.</p>
-                            </c:if>
+                                <c:otherwise>
+                                    <p>${not empty messErrorLocation ? messErrorLocation : error_storeByCate}</p>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
+
                     </div>
             </section>
         </main>

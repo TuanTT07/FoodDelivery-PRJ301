@@ -8,11 +8,13 @@ import dao.StoreCategoryDAO;
 import dao.StoreDAO;
 import dao.UserDAO;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.CategoryStore;
 import model.Store;
 import model.User;
@@ -179,7 +181,6 @@ public class StoreController extends HttpServlet {
         Store store = new Store(txtStoreName, txtStreet, txtCityName, txtDistrict, txtOpenTime, txtCloseTime, owner, txtCate, txtPhone, txtEmail, txtDesc, txtBankAccountName, txtBankAccountNumber, txtBankName, txtAvatarBase64, txtCoverImageBase64, txtIs24Hours);
         StoreDAO storeDAO = new StoreDAO();
         try {
-            System.out.println(">>> processAddStore() được gọi");
 
             storeDAO.insertStore(store);
             response.sendRedirect("store/dashboard.jsp");
@@ -191,11 +192,83 @@ public class StoreController extends HttpServlet {
         }
     }
 
+    private void processSearchStoreByLoaction(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String location = request.getParameter("location");
+        switch (location) {
+            case "1":
+                location = "TP. Hồ Chí Minh";
+                break;
+            case "2":
+                location = "Hà Nội";
+                break;
+            case "3":
+                location = "Đà Nẵng";
+                break;
+            case "4":
+                location = "Cần Thơ";
+                break;
+            default:
+                break;
+        }
+        String url = "";
+        String messErrorLocation = "";
+        StoreDAO sDAO = new StoreDAO();
+        if (location == null || location.trim().length() == 0) {
+            url = "index.jsp";
+            messErrorLocation = "Vui lòng chọn thành phố mà bạn đang sinh sống!";
+            request.setAttribute("messErrorLocation", messErrorLocation);
+        } else {
+            ArrayList<Store> listOfStore = new ArrayList<>();
+            listOfStore = sDAO.selectStoreByLocation(location);
+            HttpSession session = request.getSession();
+            session.setAttribute("listOfStoreByLocation", listOfStore);
+            session.setAttribute("location", location);
+            request.setAttribute("listOfStore", listOfStore);
+            url = "/user/userHome.jsp";
+        }
+        request.getRequestDispatcher(url).forward(request, response);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void processSearchStoreByCate(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtIdCate = request.getParameter("idCate");
+        HttpSession session = request.getSession();
+        String city = (String) session.getAttribute("location");
+        ArrayList<Store> storesByLocation = (ArrayList<Store>) session.getAttribute("listOfStoreByLocation");
+        if (storesByLocation == null || storesByLocation.isEmpty()) {
+            request.setAttribute("error_storeByCate", "Vui lòng chọn thành phố trước khi lọc theo thể loại!");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
+
+        ArrayList<Store> listofStoreByCate = new ArrayList<>();
+        String url = "/user/userHome.jsp";
+        for (Store store : storesByLocation) {
+            if (store.getStoreCategoryId().getStoreCategoryId().equals(txtIdCate)) {
+                listofStoreByCate.add(store);
+            }
+        }
+        if (listofStoreByCate.isEmpty()) {
+            request.setAttribute("error_storeByCate", "Không có cửa hàng nào phù hợp ở " + city + "!");
+        } else {
+            request.setAttribute("selectedCateId", txtIdCate);
+            request.setAttribute("listStoreByCate", listofStoreByCate);
+        }
+        request.getRequestDispatcher(url).forward(request, response);
+
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action.equals("signUpStore")) {
             processAddStore(request, response);
+        } else if (action.equals("searchStoreByLocation")) {
+            processSearchStoreByLoaction(request, response);
+        } else if (action.equals("searchStoreByCate")) {
+            processSearchStoreByCate(request, response);
         }
 
     }

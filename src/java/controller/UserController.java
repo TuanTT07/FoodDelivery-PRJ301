@@ -231,38 +231,6 @@ public class UserController extends HttpServlet {
         }
     }
 
-    private void processSearchStoreByLoaction(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String location = request.getParameter("location");
-        if (location.equalsIgnoreCase("1")) {
-            location = "TP. Hồ Chí Minh";
-        } else if (location.equalsIgnoreCase("2")) {
-            location = "Hà Nội";
-
-        } else if (location.equalsIgnoreCase("3")) {
-            location = "Đà Nẵng";
-
-        } else if (location.equalsIgnoreCase("4")) {
-            location = "Cần Thơ";
-        }
-        String url = "";
-        String messErrorLocation = "";
-        StoreDAO sDAO = new StoreDAO();
-        if (location == null || location.trim().length() == 0) {
-            url = "index.jsp";
-            messErrorLocation = "Vui lòng chọn thành phố mà bạn đang sinh sống!";
-            request.setAttribute("messErrorLocation", messErrorLocation);
-        } else {
-            ArrayList<Store> listOfStore = new ArrayList<>();
-            listOfStore = sDAO.selectStoreByLocation(location);
-            System.out.println(listOfStore.size());
-            request.setAttribute("location", location);
-            request.setAttribute("listOfStore", listOfStore);
-            url = "/user/userHome.jsp";
-        }
-        request.getRequestDispatcher(url).forward(request, response);
-    }
-
     private void processLogout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -283,8 +251,6 @@ public class UserController extends HttpServlet {
             processLogin(request, response);
         } else if (action.equals("logout")) {
             processLogout(request, response);
-        } else if (action.equals("searchStoreByLocation")) {
-            processSearchStoreByLoaction(request, response);
         } else if (action.equals("signUpUser")) {
             processAddUser(request, response, false);
         } else if (action.equals("signUpDelivery")) {

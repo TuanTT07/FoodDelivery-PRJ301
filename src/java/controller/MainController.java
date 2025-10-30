@@ -29,8 +29,8 @@ public class MainController extends HttpServlet {
         String url = "index.jsp";
         //Group actions for each controller
         String[] roleActions = {};
-        String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "searchStoreByLocation", "signUpDelivery"};
-        String[] storeActions = {"signUpStore", "viewStore", "updateStore"};
+        String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "signUpDelivery"};
+        String[] storeActions = {"signUpStore", "viewStore", "updateStore","searchStoreByCate","searchStoreByLocation"};
         String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProductList"};
         String[] productDetailActions = {"viewProductDetail"};
         String[] productOptionActions = {"addProductOption"};

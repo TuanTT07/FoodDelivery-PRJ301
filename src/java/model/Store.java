@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Store {
+public class Store implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String storeID;
     private String storeName;
     private String storeAddress;
