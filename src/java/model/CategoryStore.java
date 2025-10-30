@@ -2,59 +2,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package model;
 
-
+/**
+ *
+ * @author ACER
+ */
 public class CategoryStore {
-    private String categoryID;
-    private String categoryName;
-    private Store storeId;
-    private boolean isActive;
+
+    private String storeCategoryId;
+    private String storeCategoryName;
+    private boolean IsActive;
 
     public CategoryStore() {
     }
 
-    public CategoryStore(String categoryID, String categoryName, Store storeId, boolean isActive) {
-        this.categoryID = categoryID;
-        this.categoryName = categoryName;
-        this.storeId = storeId;
-        this.isActive = isActive;
+    
+    public CategoryStore(String storeCategoryId, String storeCategoryName, boolean IsActive) {
+        this.storeCategoryId = storeCategoryId;
+        this.storeCategoryName = storeCategoryName;
+        this.IsActive = IsActive;
     }
 
-    public String getCategoryID() {
-        return categoryID;
+    public String getStoreCategoryId() {
+        return storeCategoryId;
     }
 
-    public void setCategoryID(String categoryID) {
-        this.categoryID = categoryID;
+    public void setStoreCategoryId(String storeCategoryId) {
+        this.storeCategoryId = storeCategoryId;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getStoreCategoryName() {
+        return storeCategoryName;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public Store getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Store storeId) {
-        this.storeId = storeId;
+    public void setStoreCategoryName(String storeCategoryName) {
+        this.storeCategoryName = storeCategoryName;
     }
 
     public boolean isIsActive() {
-        return isActive;
+        return IsActive;
     }
 
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setIsActive(boolean IsActive) {
+        this.IsActive = IsActive;
     }
 
-    
-    
-    
 }

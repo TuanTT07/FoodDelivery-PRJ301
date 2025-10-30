@@ -6,18 +6,18 @@ public class Store {
 
     private String storeID;
     private String storeName;
-    private String storeAddress;   
+    private String storeAddress;
     private String city;
     private String district;
     private double storeRating;
-    private String openTime;       
+    private String openTime;
     private String closeTime;
-    private User ownerUserID;    
+    private User ownerUserID;
     private CategoryStore storeCategoryId;
     private String storePhone;
     private String storeEmail;
     private String description;
-    private boolean status;        
+    private boolean status;
     private String bankAccountName;
     private String bankAccountNumber;
     private String bankName;
@@ -25,9 +25,7 @@ public class Store {
     private String bannerURL;
     private boolean is24Hours;
     private LocalDateTime createdAt;
-          
-    
-    
+
     public Store() {
         this.storeRating = 0;
         this.status = true;
@@ -35,7 +33,6 @@ public class Store {
     }
 
     // Constructor đầy đủ
-
     public Store(String storeID, String storeName, String storeAddress, String city, String district, double storeRating, String openTime, String closeTime, User ownerUserID, CategoryStore storeCategoryId, String storePhone, String storeEmail, String description, boolean status, String bankAccountName, String bankAccountNumber, String bankName, String logoURL, String bannerURL, boolean is24Hours, LocalDateTime createdAt) {
         this.storeID = storeID;
         this.storeName = storeName;
@@ -60,11 +57,50 @@ public class Store {
         this.createdAt = createdAt;
     }
 
-    
-    
-    
-    // ===== Getter & Setter =====
+    public Store(
+            String storeName,
+            String storeAddress,
+            String city,
+            String district,
+            String openTime,
+            String closeTime,
+            User ownerUserID,
+            CategoryStore storeCategoryId,
+            String storePhone,
+            String storeEmail,
+            String description,
+            String bankAccountName,
+            String bankAccountNumber,
+            String bankName,
+            String logoURL,
+            String bannerURL,
+            boolean is24Hours
+    ) {
+        this.storeName = storeName;
+        this.storeAddress = storeAddress;
+        this.city = city;
+        this.district = district;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.ownerUserID = ownerUserID;
+        this.storeCategoryId = storeCategoryId;
+        this.storePhone = storePhone;
+        this.storeEmail = storeEmail;
+        this.description = description;
+        this.bankAccountName = bankAccountName;
+        this.bankAccountNumber = bankAccountNumber;
+        this.bankName = bankName;
+        this.logoURL = logoURL;
+        this.bannerURL = bannerURL;
+        this.is24Hours = is24Hours;
 
+        // Mặc định
+        this.status = true;
+        this.storeRating = 0.0;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    // ===== Getter & Setter =====
     public String getStoreID() {
         return storeID;
     }
@@ -233,7 +269,9 @@ public class Store {
         this.createdAt = createdAt;
     }
 
-    
-        
-   
+    @Override
+    public String toString() {
+        return "Store{" + "storeID=" + storeID + ", storeName=" + storeName + ", storeAddress=" + storeAddress + ", city=" + city + ", district=" + district + ", storeRating=" + storeRating + ", openTime=" + openTime + ", closeTime=" + closeTime + ", ownerUserID=" + ownerUserID + ", storeCategoryId=" + storeCategoryId + ", storePhone=" + storePhone + ", storeEmail=" + storeEmail + ", description=" + description + ", status=" + status + ", bankAccountName=" + bankAccountName + ", bankAccountNumber=" + bankAccountNumber + ", bankName=" + bankName + ", logoURL=" + logoURL + ", bannerURL=" + bannerURL + ", is24Hours=" + is24Hours + ", createdAt=" + createdAt + '}';
+    }
+
 }

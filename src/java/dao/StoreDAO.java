@@ -17,7 +17,7 @@ public class StoreDAO {
     }
 
     public String getLastStoreID() {
-        String sql = "SELECT TOP 1 StoreID FROM tblStore ORDER BY StoreID DESC";
+        String sql = "SELECT TOP 1 StoreID FROM tblStore ORDER BY CAST(SUBSTRING(StoreID, 3, LEN(StoreID)) AS INT) DESC";
         try ( Connection c = DBUtils.getConnection();  PreparedStatement ps = c.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return rs.getString("StoreID");
@@ -29,38 +29,94 @@ public class StoreDAO {
     }
 
     private String generateStoreID() {
-        String last = getLastStoreID(); // ví dụ U004
+        String last = getLastStoreID();
         if (last == null || last.isEmpty()) {
             return "ST001";
         }
-        int n = Integer.parseInt(last.substring(1)) + 1;
+        int n = Integer.parseInt(last.substring(2)) + 1;
         return String.format("ST%03d", n);
     }
 
-    //Create
     public boolean insertStore(Store store) {
-        String sql = "INSERT INTO tblStore "
-                + "(StoreID, StoreName, StoreAddress, StoreRating, OpenTime, CloseTime, OwnerUserID) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        System.out.println(">>> insertStore() được gọi");
+
+        String sql = "INSERT INTO tblStore ("
+                + "StoreID, StoreName, StoreAddress, City, District, StoreRating, "
+                + "OpenTime, CloseTime, OwnerUserID, StoreCategoryID, StorePhone, StoreEmail, "
+                + "Description, Status, BankAccountName, BankAccountNumber, BankName, "
+                + "LogoURL, BannerURL, Is24Hours, CreatedAt"
+                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (
                  Connection conn = DBUtils.getConnection();  PreparedStatement pst = conn.prepareStatement(sql)) {
-
-            pst.setString(1, store.getStoreID());
+            // Thông tin cơ bản
+            pst.setString(1, generateStoreID());
             pst.setString(2, store.getStoreName());
             pst.setString(3, store.getStoreAddress());
-            pst.setDouble(4, store.getStoreRating());
-            pst.setTime(5, java.sql.Time.valueOf(store.getOpenTime()));
-            pst.setTime(6, java.sql.Time.valueOf(store.getCloseTime()));
-            pst.setString(7, store.getOwnerUserID().getUserID());
+            pst.setString(4, store.getCity());
+            pst.setString(5, store.getDistrict());
+            pst.setDouble(6, store.getStoreRating());
 
-            return pst.executeUpdate() > 0;
+            // Giờ mở & đóng cửa (chuyển từ String -> SQL Time)
+            // Nếu null, tránh lỗi valueOf()
+            if (store.getOpenTime() != null && !store.getOpenTime().trim().isEmpty()) {
+                String openStr = store.getOpenTime().trim();
+                if (openStr.length() == 5) { // dạng HH:mm
+                    openStr += ":00";
+                }
+                pst.setTime(7, java.sql.Time.valueOf(openStr));
+            } else {
+                pst.setNull(7, java.sql.Types.TIME);
+            }
+
+            if (store.getCloseTime() != null && !store.getCloseTime().trim().isEmpty()) {
+                String closeStr = store.getCloseTime().trim();
+                if (closeStr.length() == 5) {
+                    closeStr += ":00";
+                }
+                pst.setTime(8, java.sql.Time.valueOf(closeStr));
+            } else {
+                pst.setNull(8, java.sql.Types.TIME);
+            }
+
+            // Khóa ngoại
+            pst.setString(9, (store.getOwnerUserID() != null) ? store.getOwnerUserID().getUserID() : null);
+            pst.setString(10, (store.getStoreCategoryId() != null) ? store.getStoreCategoryId().getStoreCategoryId() : null);
+
+            // Thông tin liên hệ & mô tả
+            pst.setString(11, store.getStorePhone());
+            pst.setString(12, store.getStoreEmail());
+            pst.setString(13, store.getDescription());
+
+            // 5Trạng thái & ngân hàng
+            pst.setBoolean(14, store.isStatus());
+            pst.setString(15, store.getBankAccountName());
+            pst.setString(16, store.getBankAccountNumber());
+            pst.setString(17, store.getBankName());
+
+            // Ảnh & tùy chọn 24h
+            pst.setString(18, store.getLogoURL());
+            pst.setString(19, store.getBannerURL());
+            pst.setBoolean(20, store.isIs24Hours());
+
+            //  Ngày tạo
+            if (store.getCreatedAt() != null) {
+                pst.setTimestamp(21, java.sql.Timestamp.valueOf(store.getCreatedAt()));
+            } else {
+                pst.setTimestamp(21, new java.sql.Timestamp(System.currentTimeMillis()));
+            }
+
+            // Thực thi câu lệnh
+            boolean success = pst.executeUpdate() > 0;
+            System.out.println("Insert success: " + success);
+            return success;
 
         } catch (SQLException e) {
-            System.out.println("Error inserting store: " + e.getMessage());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StoreDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("SQL Error inserting store: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            Logger.getLogger(StoreDAO.class.getName()).log(Level.SEVERE, null, e);
         }
+
         return false;
     }
 
@@ -94,7 +150,7 @@ public class StoreDAO {
                 store.setBankAccountNumber(rs.getString("BankAccountNumber"));
                 store.setBankName(rs.getString("BankName"));
                 store.setLogoURL(rs.getString("LogoURL"));
-                store.setCoverURL(rs.getString("CoverURL"));
+//                store.setCoverURL(rs.getString("CoverURL"));
                 String checkStatus = rs.getString("Status");
 
                 if (checkStatus.equals("1")) {
@@ -143,7 +199,7 @@ public class StoreDAO {
                 store.setBankAccountNumber(rs.getString("BankAccountNumber"));
                 store.setBankName(rs.getString("BankName"));
                 store.setLogoURL(rs.getString("LogoURL"));
-                store.setCoverURL(rs.getString("CoverURL"));
+//                store.setCoverURL(rs.getString("CoverURL"));
                 String checkStatus = rs.getString("Status");
 
                 if (checkStatus.equals("1")) {

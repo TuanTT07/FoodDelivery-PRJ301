@@ -11,14 +11,14 @@ public class Product {
     private String productName;
     private double productPrice;
     private String productDesc;
-    private CategoryStore categoryID;
+    private Category categoryID;
     private Store storeID;
     private boolean isActive;
 
     public Product() {
     }
 
-    public Product(String productID, String productName, double productPrice, String productDesc, CategoryStore categoryID, Store storeID, boolean isActive) {
+    public Product(String productID, String productName, double productPrice, String productDesc, Category categoryID, Store storeID, boolean isActive) {
         this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -60,11 +60,11 @@ public class Product {
         this.productDesc = productDesc;
     }
 
-    public CategoryStore getCategoryID() {
+    public Category getCategoryID() {
         return categoryID;
     }
 
-    public void setCategoryID(CategoryStore categoryID) {
+    public void setCategoryID(Category categoryID) {
         this.categoryID = categoryID;
     }
 
