@@ -4,11 +4,15 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ACER
  */
-public class CategoryStore {
+public class CategoryStore implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String storeCategoryId;
     private String storeCategoryName;
@@ -17,7 +21,6 @@ public class CategoryStore {
     public CategoryStore() {
     }
 
-    
     public CategoryStore(String storeCategoryId, String storeCategoryName, boolean IsActive) {
         this.storeCategoryId = storeCategoryId;
         this.storeCategoryName = storeCategoryName;
