@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,6 @@ public class StoreDAO {
     }
 
     public boolean insertStore(Store store) {
-        System.out.println(">>> insertStore() được gọi");
 
         String sql = "INSERT INTO tblStore ("
                 + "StoreID, StoreName, StoreAddress, City, District, StoreRating, "
@@ -108,7 +108,6 @@ public class StoreDAO {
 
             // Thực thi câu lệnh
             boolean success = pst.executeUpdate() > 0;
-            System.out.println("Insert success: " + success);
             return success;
 
         } catch (SQLException e) {
@@ -123,13 +122,13 @@ public class StoreDAO {
     //Read
     public ArrayList<Store> getAllStore() {
         ArrayList<Store> listStore = new ArrayList<>();
-        try {
-            Connection conn = DBUtils.getConnection();
-            String sql = "SELECT * FROM tblStore";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
+        String sql = "SELECT * FROM tblStore";
+
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement pst = conn.prepareStatement(sql);  ResultSet rs = pst.executeQuery()) {
+
             while (rs.next()) {
                 Store store = new Store();
+
                 store.setStoreID(rs.getString("StoreID"));
                 store.setStoreName(rs.getString("StoreName"));
                 store.setStoreAddress(rs.getString("StoreAddress"));
@@ -139,33 +138,41 @@ public class StoreDAO {
                 store.setStoreRating(rs.getDouble("StoreRating"));
                 store.setOpenTime(rs.getString("OpenTime"));
                 store.setCloseTime(rs.getString("CloseTime"));
-                String checkIs24H = rs.getString("Is24Hours");
-                if (checkIs24H.equals("1")) {
-                    store.setIs24Hours(true);
-                } else {
-                    store.setIs24Hours(false);
 
-                }
+                // Boolean fields
+                store.setIs24Hours(rs.getBoolean("Is24Hours"));
+                store.setStatus(rs.getBoolean("Status"));
+
+                // Bank info
                 store.setBankAccountName(rs.getString("BankAccountName"));
                 store.setBankAccountNumber(rs.getString("BankAccountNumber"));
                 store.setBankName(rs.getString("BankName"));
+
+                // URLs
+                System.out.println(rs.getString("LogoURL"));
+
                 store.setLogoURL(rs.getString("LogoURL"));
-//                store.setCoverURL(rs.getString("CoverURL"));
-                String checkStatus = rs.getString("Status");
+                store.setBannerURL(rs.getString("BannerURL"));
 
-                if (checkStatus.equals("1")) {
-                    store.setStatus(true);
-                } else {
-                    store.setStatus(false);
+                // Contact info
+                store.setStorePhone(rs.getString("StorePhone"));
+                store.setStoreEmail(rs.getString("StoreEmail"));
 
-                }
+                // Category and timestamps
+                StoreCategoryDAO storeCateDAO = new StoreCategoryDAO();
+                store.setStoreCategoryId(storeCateDAO.setCategoryStore(rs.getString("StoreCategoryID")));
 
+                // Get owner info from UserDAO
                 UserDAO uDAO = new UserDAO();
                 store.setOwnerUserID(uDAO.getUserByID(rs.getString("OwnerUserID")));
+
                 listStore.add(store);
             }
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return listStore;
     }
 
@@ -286,7 +293,7 @@ public class StoreDAO {
     }
 
     public ArrayList<Store> selectStoreByLocation(String location) {
-        ArrayList<Store> ketQua = new ArrayList<>();
+        ArrayList<Store> listStore = new ArrayList<>();
         try {
             Connection conn = DBUtils.getConnection();
             String sql = "SELECT * FROM tblStore WHERE City LIKE ?";
@@ -296,16 +303,57 @@ public class StoreDAO {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Store store = new Store();
+
                 store.setStoreID(rs.getString("StoreID"));
                 store.setStoreName(rs.getString("StoreName"));
                 store.setStoreAddress(rs.getString("StoreAddress"));
+                store.setCity(rs.getString("City"));
+                store.setDistrict(rs.getString("District"));
+                store.setDescription(rs.getString("Description"));
                 store.setStoreRating(rs.getDouble("StoreRating"));
-                ketQua.add(store);
 
+//                Time openTime = rs.getTime("OpenTime");
+//                Time closeTime = rs.getTime("CloseTime");
+//
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+//                store.setOpenTime(openTime.toLocalTime().format(formatter));
+//                store.setCloseTime(closeTime.toLocalTime().format(formatter));
+
+                store.setOpenTime(rs.getString("OpenTime"));
+                store.setCloseTime(rs.getString("CloseTime"));
+
+                // Boolean fields
+                store.setIs24Hours(rs.getBoolean("Is24Hours"));
+                store.setStatus(rs.getBoolean("Status"));
+
+                // Bank info
+                store.setBankAccountName(rs.getString("BankAccountName"));
+                store.setBankAccountNumber(rs.getString("BankAccountNumber"));
+                store.setBankName(rs.getString("BankName"));
+
+                // URLs
+                System.out.println(rs.getString("LogoURL"));
+
+                store.setLogoURL(rs.getString("LogoURL"));
+                store.setBannerURL(rs.getString("BannerURL"));
+
+                // Contact info
+                store.setStorePhone(rs.getString("StorePhone"));
+                store.setStoreEmail(rs.getString("StoreEmail"));
+
+                // Category and timestamps
+                StoreCategoryDAO storeCateDAO = new StoreCategoryDAO();
+                store.setStoreCategoryId(storeCateDAO.getStoreCateByID(rs.getString("StoreCategoryID")));
+
+                // Get owner info from UserDAO
+                UserDAO uDAO = new UserDAO();
+                store.setOwnerUserID(uDAO.getUserByID(rs.getString("OwnerUserID")));
+
+                listStore.add(store);
             }
         } catch (Exception e) {
         }
-        return ketQua;
+        return listStore;
     }
 
 }

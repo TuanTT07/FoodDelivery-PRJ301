@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -29,142 +31,51 @@
                             <p class="cate__label">Khám phá theo danh mục</p>
                         </div>
 
-                        <ul id="categoryList">
-                            <li>
-                                <a href="#" data-id="1">
-                                    <div class="cate__bg">
-                                        <img class="cate__img" src="${pageContext.request.contextPath}/assets/img/hamburger_icon.svg" alt="hamburger"/>
+                        <jsp:include page="sidebarCate.jsp"/>
+
+                        <div class="line"></div>
+
+
+                        <div class="info">
+                            <p class="info__address">Địa chỉ:${location}</p>
+                            <div class="info__sort">
+                                <p>Lọc theo: </p>
+                                <select id="sortStore" >
+                                    <option value="population">Phổ biến</option>
+                                    <option value="rate">Đánh giá</option>
+                                    <option value="Recommended">Đề xuất</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="storeList" class="store-container">
+                            <c:if test="${not empty listOfStore}">
+                                <c:forEach var="store" items="${listOfStore}">
+                                    <div class="store-card">
+
+                                        <img class="store-img" src="${store.bannerURL}" alt="Logo store"/>
+                                        <h3 class="store-name">${store.storeName}</h3>
+                                        <p class="store-address">${store.storeAddress}</p>
+                                        <p class="store-time__text">Thời gian hoạt động: 
+
+                                        <span>
+                                            ${fn:substring(store.openTime, 0, 5)} - ${fn:substring(store.closeTime, 0, 5)}
+                                        </span>
+                                        </p>
+
+                                        <p class="store-cate">Thể loại thức ăn: <span>${store.storeCategoryId.storeCategoryName}</span></p>
+
+                                        <p class="store-rating">${store.storeRating}<img class="star" src="${pageContext.request.contextPath}/assets/img/star_icon.svg" alt="alt"/></p>
                                     </div>
-                                    <p>Burger</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url" data-id="2">
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/pizza_icon.svg" alt="pizza"/>
-                                    </div>
-                                    <p>Pizza</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url" data-id="3"> 
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/sandwiches.svg" alt="sandwiches"/>
-                                    </div>
-                                    <p>Sandwiches</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url" data-id="4">
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/wings_icon.svg" alt="wings_icon"/>
-
-                                    </div>
-                                    <p>Wings</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url" data-id="5">
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/coffee_icon.svg" alt="coffee_icon"/>
-
-                                    </div>
-
-                                    <p>Coffee & Tea</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url" data-id="6">
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/indian_icon.svg" alt="indian_icon"/>
-
-                                    </div>
-
-                                    <p>Indian</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url" data-id="7">
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/chinese_icon.svg" alt="chinese_icon"/>
-                                    </div>
-
-                                    <p>Chinese</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url" data-id="8">
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/Thai_icon.svg" alt="Thai_icon"/>
-
-                                    </div>
-
-                                    <p>Thai</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url"data-id="9">
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/american_icon.svg" alt="american_iconlt"/>
-
-                                    </div>
-
-                                    <p>American</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="url"data-id="10"> 
-                                    <div class="cate__bg">
-                                        <img  class="cate__img" src="${pageContext.request.contextPath}/assets/img/japan_icon.webp" alt="sushi_icon"/>
-
-                                    </div>
-
-                                    <p>Japan</p>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </div>
-                    <div class="line"></div>
-
-
-                    <div class="info">
-                        <p class="info__address">Địa chỉ:${location}</p>
-                        <div class="info__sort">
-                            <p>Lọc theo: </p>
-                            <select id="sortStore" >
-                                <option value="population">Phổ biến</option>
-                                <option value="rate">Đánh giá</option>
-                                <option value="Recommended">Đề xuất</option>
-                            </select>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${empty listOfStore}">
+                                <p>Không có cửa hàng nào.</p>
+                            </c:if>
                         </div>
                     </div>
-
-                    <div id="storeList" class="store-container">
-                        <c:if test="${not empty listOfStore}">
-                            <c:forEach var="store" items="${listOfStore}">
-                                <div class="store-card">
-                                    <img class="store-img" src="assets/img/bannerStore.png" alt="alt"/>
-                                    <h3 class="store-name">${store.storeName}</h3>
-                                    <p class="store-address">${store.storeAddress}</p>
-                                    <p class="store-time__text">Thời gian hoạt động: <span>${store.openTime} - ${store.closeTime}</span></p>
-                                    <p class="store-cate">Thể loại thức ăn: <span>Cate</span></p>
-
-                                    <p class="store-rating">${store.storeRating}<img class="star" src="${pageContext.request.contextPath}/assets/img/star_icon.svg" alt="alt"/></p>
-                                </div>
-                            </c:forEach>
-                        </c:if>
-                        <c:if test="${empty listOfStore}">
-                            <p>Không có cửa hàng nào.</p>
-                        </c:if>
-
-                    </div>
-
-                </div>
             </section>
         </main>
-
-
         <jsp:include page="/includes/footer.jsp"/>
 
     </body>

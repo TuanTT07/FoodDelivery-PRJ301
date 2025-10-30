@@ -4,7 +4,11 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import model.CategoryStore;
+import utils.DBUtils;
 
 /**
  *
@@ -39,5 +43,24 @@ public class StoreCategoryDAO {
             cs.setIsActive(true);
         }
         return cs;
+    }
+    
+     public CategoryStore getStoreCateByID(String id) {
+        CategoryStore res = new CategoryStore();
+        try {
+            Connection conn = DBUtils.getConnection();
+            String sql = "SELECT * FROM tblStoreCategory WHERE StoreCategoryID LIKE ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                res.setStoreCategoryId(rs.getString("StoreCategoryID"));
+                res.setStoreCategoryName(rs.getString("StoreCategoryName"));
+                res.setIsActive(rs.getBoolean("[IsActive]"));
+                return res;
+            }
+        } catch (Exception e) {
+        }
+        return res;
     }
 }
