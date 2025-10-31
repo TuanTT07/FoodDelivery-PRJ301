@@ -30,7 +30,7 @@ public class MainController extends HttpServlet {
         //Group actions for each controller
         String[] roleActions = {};
         String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "signUpDelivery"};
-        String[] storeActions = {"signUpStore", "viewStore", "updateStore","searchStoreByCate","searchStoreByLocation"};
+        String[] storeActions = {"signUpStore", "getStore", "updateStore","searchStoreByCate","searchStoreByLocation"};
         String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProductList"};
         String[] productDetailActions = {"viewProductDetail"};
         String[] productOptionActions = {"addProductOption"};
@@ -38,7 +38,7 @@ public class MainController extends HttpServlet {
         String[] productToppingActions = {};
         String[] cartActions = {"viewCart", "clearCart"};
         String[] cartItemActions = {"addToCart", "updateCartItem", "deleteCartItem"};
-        String[] categoryActions = {"addCategory", "updateCategory", "viewCategories"};
+        String[] categoryActions = {"addCategory", "updateCategory", "viewCategories","addCate"};
         String[] orderActions = {"placeOrder", "viewOrderHistory", "cancelOrder", "confirmDelivery"};//confirmDelivery for shiper
         String[] orderDetailActions = {"viewOrderDetail"};
         String[] paymentActions = {"processPayment", "paymentSuccess", "paymentFail"};

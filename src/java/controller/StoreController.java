@@ -26,6 +26,21 @@ import model.User;
 @WebServlet(name = "StoreController", urlPatterns = {"/StoreController"})
 public class StoreController extends HttpServlet {
 
+    private void processGetStore(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        User user;
+        user = (User) session.getAttribute("u");
+        StoreDAO dao = new StoreDAO();
+        Store store = dao.getStoreByUserOwner(user.getUserID());
+        session.setAttribute("store", store);
+        System.out.println(store.getStoreID());
+        session.setAttribute("OwnerStoreName", store.getOwnerUserID().getUserFullName());
+        request.getRequestDispatcher("/store/dashboard.jsp").forward(request, response);
+
+    }
+
     private void processAddStore(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Lấy username của chủ cửa hàng
@@ -262,6 +277,9 @@ public class StoreController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
         if (action.equals("signUpStore")) {
             processAddStore(request, response);
@@ -269,6 +287,8 @@ public class StoreController extends HttpServlet {
             processSearchStoreByLoaction(request, response);
         } else if (action.equals("searchStoreByCate")) {
             processSearchStoreByCate(request, response);
+        } else if (action.equals("getStore")) {
+            processGetStore(request, response);
         }
 
     }
