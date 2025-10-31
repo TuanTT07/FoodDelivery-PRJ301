@@ -29,23 +29,16 @@
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/products.jsp') ? 'sidebar__item--active' : ''}">
             <a href="${pageContext.request.contextPath}/store/products.jsp" class="sidebar__link">
                 <img src="${pageContext.request.contextPath}/assets/img/food_icon.svg" alt="Food Menu" class="sidebar__icon">
-                <span class="sidebar__text">Food Menu</span>
+                <span class="sidebar__text">Product</span>
             </a>
         </li>
 
-        <!-- Edit Menu -->
-        <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/product-edit.jsp') ? 'sidebar__item--active' : ''}">
-            <a href="${pageContext.request.contextPath}/store/product-edit.jsp" class="sidebar__link">
-                <img src="${pageContext.request.contextPath}/assets/img/edit-icon.svg" alt="Edit Menu" class="sidebar__icon">
-                <span class="sidebar__text">Edit Menu</span>
-            </a>
-        </li>
         
         <!-- Category -->
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/category.jsp') ? 'sidebar__item--active' : ''}">
             <a href="${pageContext.request.contextPath}/store/category.jsp" class="sidebar__link">
                 <img src="${pageContext.request.contextPath}/assets/img/category.svg" alt="Review" class="sidebar__icon">
-                <span class="sidebar__text">Category</span>
+                <span class="sidebar__text">Menu</span>
             </a>
         </li>
         

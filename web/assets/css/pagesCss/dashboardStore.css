@@ -200,25 +200,25 @@
     color: #6b7280;
 }
 
-/* ===== PRODUCT ===== */
+/* ===== Layout (MENU + FOOD) ===== */
 
-.products {
+.layout {
     margin-top: 20px;
 }
 
-.products__title {
+.layout__title {
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 4px;
     color: #222;
 }
 
-.products__subtitle {
+.layout__subtitle {
     color: #666;
     margin-bottom: 24px;
 }
 
-.products__grid {
+.layout__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
@@ -226,7 +226,7 @@
 }
 
 /* Product card */
-.products__card {
+.layout__card {
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
@@ -237,38 +237,38 @@
     height: 320px;
 }
 
-.products__card:hover {
+.layout__card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
-.products__img {
+.layout__img {
     width: 100%;
     height: 160px;
     object-fit: cover;
 }
 
-.products__name {
+.layout__name {
     font-size: 18px;
     font-weight: 600;
     margin: 12px 0 4px 0;
     color: #333;
 }
 
-.products__price {
+.layout__price {
     color: var(--green);
     font-weight: 600;
     margin-bottom: 10px;
 }
 
 /* Actions */
-.products__actions {
+.layout__actions {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
 
-.products__actions button {
+.layout__actions button {
     border: none;
     background: var(--yellow-light);
     color: var(--dark);
@@ -279,17 +279,17 @@
     transition: all 0.2s ease;
 }
 
-.products__actions button:hover {
+.layout__actions button:hover {
     background: var(--yellow);
     transform: translateY(-2px);
 }
 
-.products__actions button:active {
+.layout__actions button:active {
     background: var(--orange);
     transform: translateY(0);
 }
 
-.product__card--add {
+.layout__card--add {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -302,16 +302,16 @@
     transition: all 0.3s ease;
 }
 
-.product__card--add:hover {
+.layout__card--add:hover {
     background-color: #e6fffa;
     transform: translateY(-3px);
 }
 
-.product__add {
+.layout__add {
     text-align: center;
 }
 
-.product__add-button {
+.layout__add-button {
     background-color: #00bfa6;
     color: #fff;
     border: none;
@@ -324,11 +324,11 @@
     transition: background-color 0.3s ease;
 }
 
-.product__add-button:hover {
+.layout__add-button:hover {
     background-color: #009e8a;
 }
 
-.product__add-text {
+.layout__add-text {
     margin-top: 10px;
     font-size: 16px;
     color: #333;
@@ -499,91 +499,4 @@
 .orders__card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-}
-
-/* ===== Category ===== */
-.category__list {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.category__title {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 4px;
-    color: #222;
-}
-
-.category__item {
-    background: #fff;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    transition: all 0.2s ease-in-out;
-}
-
-.category__item:hover {
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    transform: translateY(-2px);
-}
-
-.category__top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.category__user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.category__name {
-    font-weight: 600;
-    color: #222;
-}
-
-.category__date {
-    font-size: var(--p3-font-size);
-    color: #888;
-}
-
-.category__text {
-    margin-top: 10px;
-    font-size: var(--p2-font-size);
-    color: #444;
-    line-height: 1.6;
-    text-align: justify;
-}
-
-.category__actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 50px;
-}
-
-.category__actions button {
-    border: none;
-    background: var(--yellow-light);
-    color: var(--dark);
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-right: 0;
-}
-
-.category__actions button:hover {
-    background: var(--yellow);
-    transform: translateY(-2px);
-}
-
-.category__actions button:active {
-    background: var(--orange);
-    transform: translateY(0);
 }
