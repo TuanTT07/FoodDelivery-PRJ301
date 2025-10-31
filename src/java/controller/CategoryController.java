@@ -4,13 +4,16 @@
  */
 package controller;
 
+import dao.CategoryDAO;
+import dao.StoreDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Category;
+import model.Store;
 
 /**
  *
@@ -19,28 +22,36 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "CategoryController", urlPatterns = {"/CategoryController"})
 public class CategoryController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private void processAddCate(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtCateName = request.getParameter("cateName");
+        String txtStoreId = request.getParameter("storeID");
+        StoreDAO storeDAO = new StoreDAO();
+        Store store = storeDAO.getStoreByID(txtStoreId);
+
+        if (txtCateName == null || txtCateName.trim().length() == 0) {
+            request.setAttribute("error_cate", "không được để trống tên danh mục");
+            request.getRequestDispatcher("/store/category.jsp").forward(request, response);
+            return;
+        }
+        CategoryDAO cateDAO = new CategoryDAO();
+
+        Category cate = new Category(txtCateName, store);
+        if (cateDAO.insertCate(cate)) {
+            request.setAttribute("error_addCate", "Quá trình thêm danh mục bị lỗi!");
+            request.getRequestDispatcher("/store/category.jsp").forward(request, response);
+
+        }
+        request.getRequestDispatcher("/store/category.jsp").forward(request, response);
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CategoryController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CategoryController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String action = request.getParameter("action");
+
+        if (action.contains("addCate")) {
+            processAddCate(request, response);
         }
     }
 

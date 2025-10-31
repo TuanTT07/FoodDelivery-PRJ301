@@ -176,8 +176,8 @@ public class StoreDAO {
         return listStore;
     }
 
-    public ArrayList<Store> getStoreByUserOwner(String userOwnerID) {
-        ArrayList<Store> listStore = new ArrayList<>();
+    public Store getStoreByUserOwner(String userOwnerID) {
+        Store store = new Store();
         try {
             Connection conn = DBUtils.getConnection();
             String sql = "SELECT * FROM tblStore WHERE OwnerUserID = ?";
@@ -185,7 +185,6 @@ public class StoreDAO {
             pst.setString(1, userOwnerID);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                Store store = new Store();
                 store.setStoreID(rs.getString("StoreID"));
                 store.setStoreName(rs.getString("StoreName"));
                 store.setStoreAddress(rs.getString("StoreAddress"));
@@ -195,35 +194,35 @@ public class StoreDAO {
                 store.setStoreRating(rs.getDouble("StoreRating"));
                 store.setOpenTime(rs.getString("OpenTime"));
                 store.setCloseTime(rs.getString("CloseTime"));
-                String checkIs24H = rs.getString("Is24Hours");
-                if (checkIs24H.equals("1")) {
-                    store.setIs24Hours(true);
-                } else {
-                    store.setIs24Hours(false);
 
-                }
+                // Boolean fields
+                store.setIs24Hours(rs.getBoolean("Is24Hours"));
+                store.setStatus(rs.getBoolean("Status"));
+
+                // Bank info
                 store.setBankAccountName(rs.getString("BankAccountName"));
                 store.setBankAccountNumber(rs.getString("BankAccountNumber"));
                 store.setBankName(rs.getString("BankName"));
+
                 store.setLogoURL(rs.getString("LogoURL"));
-//                store.setCoverURL(rs.getString("CoverURL"));
-                String checkStatus = rs.getString("Status");
+                store.setBannerURL(rs.getString("BannerURL"));
 
-                if (checkStatus.equals("1")) {
-                    store.setStatus(true);
-                } else {
-                    store.setStatus(false);
+                // Contact info
+                store.setStorePhone(rs.getString("StorePhone"));
+                store.setStoreEmail(rs.getString("StoreEmail"));
 
-                }
+                // Category and timestamps
+                StoreCategoryDAO storeCateDAO = new StoreCategoryDAO();
+                store.setStoreCategoryId(storeCateDAO.setCategoryStore(rs.getString("StoreCategoryID")));
 
+                // Get owner info from UserDAO
                 UserDAO uDAO = new UserDAO();
                 store.setOwnerUserID(uDAO.getUserByID(rs.getString("OwnerUserID")));
-                listStore.add(store);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return listStore;
+        return store;
     }
 
     //Update
@@ -260,7 +259,7 @@ public class StoreDAO {
             //connect database
             Connection conn = DBUtils.getConnection();
             //create SQL statement
-            String sql = "";
+            String sql = "SELECT * FROM tblStore WHERE StoreID = ?";
             //create statement
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, storeID);
@@ -272,18 +271,36 @@ public class StoreDAO {
                 store.setStoreID(rs.getString("StoreID"));
                 store.setStoreName(rs.getString("StoreName"));
                 store.setStoreAddress(rs.getString("StoreAddress"));
+                store.setCity(rs.getString("City"));
+                store.setDistrict(rs.getString("District"));
+                store.setDescription(rs.getString("Description"));
                 store.setStoreRating(rs.getDouble("StoreRating"));
-                /*
-                opentime, closetime(SQL) variables type is Time
-                opentime, closetime(model) variables type is LocalTime
-                 */
-                //convert from java.sql.Time to java.time.LocalTime
-                if (rs.getTime("OpenTime") != null) {
-//                    store.setOpenTime(rs.getTime("OpenTime").toLocalTime());
-                }
-                if (rs.getTime("CloseTime") != null) {
-//                    store.setCloseTime(rs.getTime("CloseTime").toLocalTime());
-                }
+                store.setOpenTime(rs.getString("OpenTime"));
+                store.setCloseTime(rs.getString("CloseTime"));
+
+                // Boolean fields
+                store.setIs24Hours(rs.getBoolean("Is24Hours"));
+                store.setStatus(rs.getBoolean("Status"));
+
+                // Bank info
+                store.setBankAccountName(rs.getString("BankAccountName"));
+                store.setBankAccountNumber(rs.getString("BankAccountNumber"));
+                store.setBankName(rs.getString("BankName"));
+
+                store.setLogoURL(rs.getString("LogoURL"));
+                store.setBannerURL(rs.getString("BannerURL"));
+
+                // Contact info
+                store.setStorePhone(rs.getString("StorePhone"));
+                store.setStoreEmail(rs.getString("StoreEmail"));
+
+                // Category and timestamps
+                StoreCategoryDAO storeCateDAO = new StoreCategoryDAO();
+                store.setStoreCategoryId(storeCateDAO.setCategoryStore(rs.getString("StoreCategoryID")));
+
+                // Get owner info from UserDAO
+                UserDAO uDAO = new UserDAO();
+                store.setOwnerUserID(uDAO.getUserByID(rs.getString("OwnerUserID")));
                 return store;
             }
         } catch (Exception e) {
@@ -318,7 +335,6 @@ public class StoreDAO {
 //                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 //                store.setOpenTime(openTime.toLocalTime().format(formatter));
 //                store.setCloseTime(closeTime.toLocalTime().format(formatter));
-
                 store.setOpenTime(rs.getString("OpenTime"));
                 store.setCloseTime(rs.getString("CloseTime"));
 
@@ -355,6 +371,5 @@ public class StoreDAO {
         }
         return listStore;
     }
-    
 
 }

@@ -71,7 +71,8 @@ public class UserController extends HttpServlet {
         if (Validation.ROLE_ADMIN.equalsIgnoreCase(role)) {
             response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
         } else if (Validation.ROLE_STORE_OWNER.equalsIgnoreCase(role)) {
-            response.sendRedirect(request.getContextPath() + "/store/dashboard.jsp");
+        //xử lí store
+            response.sendRedirect(request.getContextPath() + "/MainController?action=getStore");
         } else if (Validation.ROLE_DRIVER.equalsIgnoreCase(role)) {
             response.sendRedirect(request.getContextPath() + "/delivery/dashboard.jsp");
         } else if (Validation.ROLE_MEMBER.equalsIgnoreCase(role)) {

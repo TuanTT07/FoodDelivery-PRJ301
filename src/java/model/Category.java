@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package model;
 
-
 public class Category {
+
     private String categoryID;
     private String categoryName;
     private Store storeId;
@@ -20,6 +19,11 @@ public class Category {
         this.categoryName = categoryName;
         this.storeId = storeId;
         this.isActive = isActive;
+    }
+
+    public Category(String categoryName, Store storeId) {
+        this.categoryName = categoryName;
+        this.storeId = storeId;
     }
 
     public String getCategoryID() {
@@ -54,7 +58,4 @@ public class Category {
         this.isActive = isActive;
     }
 
-    
-    
-    
 }

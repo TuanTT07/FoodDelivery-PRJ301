@@ -14,7 +14,7 @@
         <!-- CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css"/>
-        
+
         <!-- FONT -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,19 +28,7 @@
 
             <div class="store__content">
 
-                <div class="store__header">
-                    <form action="SearchController" method="post" class="store__search-form">
-                        <input type="text" name="keyword" placeholder="Search..." class="store__search-input">
-                        <button type="submit" class="store__search-button">
-                            <img src="${pageContext.request.contextPath}/assets/img/search.svg" alt="search" class="store__search-icon"/> 
-                        </button>
-                    </form>
-
-                    <div class="store__user-info">
-                        <p class="store__user-greeting">Hello, <span class="store__user-name">Store's owner</span></p>
-                        <img src="${pageContext.request.contextPath}/assets/img/avatar.svg" alt="Avatar" class="store__avatar"/>
-                    </div>
-                </div>
+                <jsp:include page="headerDashboard.jsp"/>
 
                 <!-- Wallet Content -->
                 <div class="wallet">
@@ -50,7 +38,7 @@
                             <h3 class="wallet__card-text">Revenue</h3>
                             <p class="wallet__card-number">$300.00</p>
                         </div>
-                      
+
                         <div class="wallet__card">
                             <h3 class="wallet__card-text">Profit</h3>
                             <p class="wallet__card-number">$123.00</p>

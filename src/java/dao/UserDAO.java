@@ -254,14 +254,30 @@ public class UserDAO {
             Connection conn = DBUtils.getConnection();
             String sql = "SELECT * FROM tblUser WHERE UserID= ?";
             PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 res.setUserID(rs.getString("UserID"));
                 res.setUserName(rs.getString("UserName"));
                 res.setUserFullName(rs.getString("FullName"));
                 res.setUserEmail(rs.getString("UserEmail"));
+                res.setUserPassword(rs.getString("UserPassword"));
                 res.setUserPhone(rs.getString("UserPhone"));
                 res.setUserAddress(rs.getString("UserAddress"));
+                Role role = new Role(rs.getString("RoleID"), null);
+                res.setRoleID(role);
+                Timestamp tsCreated = rs.getTimestamp("CreatedAt");
+                if (tsCreated != null) {
+                    res.setCreatedAt(tsCreated.toLocalDateTime());
+                }
+
+                Timestamp tsUpdated = rs.getTimestamp("UpdatedAt");
+                if (tsUpdated != null) {
+                    res.setUpdatedAt(tsUpdated.toLocalDateTime());
+                } else {
+                    res.setUpdatedAt(null);
+                }
+                res.setStatus(rs.getBoolean("Status"));
                 return res;
             }
         } catch (Exception e) {

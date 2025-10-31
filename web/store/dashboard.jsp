@@ -1,10 +1,6 @@
-<%-- 
-    Document   : dashboardStore
-    Created on : Oct 22, 2025
-    Author     : ACER
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,7 +10,7 @@
         <!-- CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css"/>
-        
+
         <!-- FONT -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,24 +24,14 @@
 
             <div class="store__content">
 
-                <div class="store__header">
-                    <form action="SearchController" method="post" class="store__search-form">
-                        <input type="text" name="keyword" placeholder="Search..." class="store__search-input">
-                        <button type="submit" class="store__search-button">
-                            <img src="${pageContext.request.contextPath}/assets/img/search.svg" alt="search" class="store__search-icon"/> 
-                        </button>
-                    </form>
+                <jsp:include page="headerDashboard.jsp"/>
 
-                    <div class="store__user-info">
-                        <p class="store__user-greeting">Hello, <span class="store__user-name">Store's owner</span></p>
-                        <img src="${pageContext.request.contextPath}/assets/img/avatar.svg" alt="Avatar" class="store__avatar"/>
-                    </div>
-                </div>
 
                 <!-- Dashboard Content -->
                 <div class="store__dashboard">
                     <h2 class="store__dashboard-title">Dashboard Overview</h2>
-                    <p class="store__dashboard-subtitle">Welcome back, Store's owner</p>
+
+                    <p class="store__dashboard-subtitle">Welcome back,${sessionScope.OwnerStoreName}</p>
 
                     <div class="store__stats">
                         <div class="store__card">
