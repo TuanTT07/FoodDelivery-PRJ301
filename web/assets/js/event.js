@@ -102,19 +102,48 @@ Popzy.prototype.close = function () {
 };
 
 //  Tạo popup event
-const popzy2 = new Popzy({
-    templateId: "popzy-2",
-    closeMethods: ["overlay", "escape"],
-    cssClass: ["event-modal"],
-    destroyOnClose: true,
-    onOpen: () => console.log("Popzy 2 opened"),
-    onClose: () => console.log("Popzy 2 closed"),
-});
+// Popzy 2: chỉ khởi tạo nếu tồn tại
+let popzy2 = null;
+if (document.querySelector("#popzy-2")) {
+    popzy2 = new Popzy({
+        templateId: "popzy-2",
+        closeMethods: ["overlay", "escape"],
+        cssClass: ["event-modal"],
+        destroyOnClose: true,
+        onOpen: () => console.log("Popzy 2 opened"),
+        onClose: () => console.log("Popzy 2 closed")
+    });
+}
 
-// Chỉ hiển thị lần đầu trong phiên
+// Popzy 3: chỉ khởi tạo nếu tồn tại
+let popzy3 = null;
+if (document.querySelector("#popzy-3")) {
+    popzy3 = new Popzy({
+        templateId: "popzy-3",
+        closeMethods: ["button", "escape", "overlay"],
+        cssClass: ["event-modal"],
+        destroyOnClose: true,
+        onOpen: () => console.log("Popzy 3 opened"),
+        onClose: () => console.log("Popzy 3 closed")
+    });
+}
+
 window.addEventListener("DOMContentLoaded", () => {
-    if (!sessionStorage.getItem("popzy2_shown")) {
+    // Chỉ mở popzy2 nếu có template đó
+    if (popzy2 && !sessionStorage.getItem("popzy2_shown")) {
         popzy2.open();
         sessionStorage.setItem("popzy2_shown", "true");
     }
+
+    // Chỉ xử lý popup thêm thực đơn nếu có
+    if (popzy3) {
+        const addBtn = document.querySelector(".layout__card--add");
+        if (addBtn) {
+            addBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                popzy3.open();
+            });
+        }
+    }
 });
+

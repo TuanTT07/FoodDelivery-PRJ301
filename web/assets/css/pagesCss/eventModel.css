@@ -6,14 +6,15 @@
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.3s;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
     z-index: 9999;
 }
 
 .popzy-backdrop.show {
     opacity: 1;
+    visibility: visible;
 }
-
 .popzy-container.event-modal {
     background: var(--white);
     border-radius: 16px;
@@ -43,5 +44,72 @@
 
 .event-date {
     font-size: 14px;
-   color: var(--grey);
+    color: var(--grey);
+}
+
+/*
+Phần thêm MENU và FOOD trang storeDashBoard
+*/
+
+/* ===== Tiêu đề popup ===== */
+.popup__title {
+    font-size: var(--h5-font-size);
+    color: #d4a017; /* vàng đậm */
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Ô nhập ===== */
+.event-popup__input input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: var(--p2-font-size);
+    border: 2px solid #f2d16b;
+    border-radius: 10px;
+    background: #fffef6;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s;
+}
+
+.event-popup__input input:focus {
+    border-color: #e6b800;
+    box-shadow: 0 0 0 3px rgba(230, 184, 0, 0.25);
+    background-color: #fffdf2;
+}
+
+/* ===== Nút submit ===== */
+.event-popup button[type="submit"] {
+    margin-top: 22px;
+    background: linear-gradient(135deg, #f7cf4d, #e6b800);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+}
+
+.event-popup button[type="submit"]:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #ffd84f, #d9a300);
+    box-shadow: 0 6px 14px rgba(230, 184, 0, 0.35);
+}
+
+/* ===== Animation xuất hiện ===== */
+@keyframes popzyFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.popzy-content {
+    animation: popzyFadeIn 0.35s ease;
 }

@@ -43,53 +43,31 @@
                 </header>
 
                 <!-- Product Content -->
-                
-                <div class="products">
-                    <h2 class="products__title">Food Menu</h2>
-                    <p class="products__subtitle">Experience our finest dishes of the day</p>
 
-                    <!-- Food List -->
-                    
-                    <div class="products__grid">
-                        <div class="products__card">
-                            <img src="${pageContext.request.contextPath}/assets/img/spaghetti.png" alt="Spaghetti" class="products__img">
-                            <h3 class="products__name">Spaghetti</h3>
-                            <p class="products__price">$12.50</p>
-                            <div class="products__actions">
-                                <button>Add to cart</button>
-                                <button>Buy now</button>
+                <div class="layout">
+                    <h2 class="layout__title">Món ăn</h2>
+                    <p class="layout__subtitle">Experience our finest dishes of the day</p>
+
+                    <div class="layout__grid">
+
+                        <div class="layout__card--add">
+                            <div class="layout__add">
+                                <button class="layout__add-button">+</button>
+                                <p class="layout__add-text">Thêm món ăn mới</p>
                             </div>
                         </div>
 
-                        <div class="products__card">
-                            <img src="${pageContext.request.contextPath}/assets/img/beef-burger.jpg" alt="Beef Burger" class="products__img">
-                            <h3 class="products__name">Beef Burger</h3>
-                            <p class="products__price">$8.90</p>
-                            <div class="products__actions">
-                                <button>Add to cart</button>
-                                <button>Buy now</button>
+
+                        <div class="layout__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/spagheti.png" alt="Spaghetti" class="products__img">
+                            <h3 class="layout__name">Spaghetti</h3>
+                            <p class="layout__price">$12.50</p>
+                            <div class="layout__actions">
+                                <button>Edit</button>
+                                <button>Delete</button>
                             </div>
                         </div>
 
-                        <div class="products__card">
-                            <img src="${pageContext.request.contextPath}/assets/img/chicken-rice.jpg" alt="Chicken Rice" class="products__img">
-                            <h3 class="products__name">Chicken Rice</h3>
-                            <p class="products__price">$6.00</p>
-                            <div class="products__actions">
-                                <button>Add to cart</button>
-                                <button>Buy now</button>
-                            </div>
-                        </div>
-
-                        <div class="products__card">
-                            <img src="${pageContext.request.contextPath}/assets/img/pizza-margherita.jpg" alt="Pizza Margherita" class="products__img">
-                            <h3 class="products__name">Pizza Margherita</h3>
-                            <p class="products__price">$10.00</p>
-                            <div class="products__actions">
-                                <button>Add to cart</button>
-                                <button>Buy now</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

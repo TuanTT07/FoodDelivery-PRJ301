@@ -45,8 +45,7 @@
 
                 <!-- Content Section -->
                 <div class="admin-wrap">
-                    <h2>Reviews</h2>
-                    
+                    <h2>Reviews</h2>  
                 </div>
             </div>
         </div>
