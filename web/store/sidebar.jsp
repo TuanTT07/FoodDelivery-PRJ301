@@ -36,7 +36,7 @@
         
         <!-- Category -->
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/category.jsp') ? 'sidebar__item--active' : ''}">
-            <a href="${pageContext.request.contextPath}/store/category.jsp" class="sidebar__link">
+            <a href="${pageContext.request.contextPath}/MainController?action=viewCate&storeID=${sessionScope.store.storeID}" class="sidebar__link">
                 <img src="${pageContext.request.contextPath}/assets/img/category.svg" alt="Review" class="sidebar__icon">
                 <span class="sidebar__text">Menu</span>
             </a>
