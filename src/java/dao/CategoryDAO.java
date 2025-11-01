@@ -118,7 +118,35 @@ public class CategoryDAO {
             pst.setString(2, id);
             int rows = pst.executeUpdate();
 
-            return rows > 0; 
+            return rows > 0;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public boolean softDelete(String id) {
+        String sql = "UPDATE tblCategory SET IsActive = 0 WHERE CategoryID = ?";
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, id);
+            int rows = pst.executeUpdate();
+
+            return rows > 0;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public boolean activeCate(String id) {
+        String sql = "UPDATE tblCategory SET IsActive = 1 WHERE CategoryID = ?";
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, id);
+            int rows = pst.executeUpdate();
+
+            return rows > 0;
         } catch (Exception e) {
         }
         return false;

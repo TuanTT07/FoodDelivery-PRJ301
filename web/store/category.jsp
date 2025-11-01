@@ -78,19 +78,34 @@
                         </template>
 
                         <c:forEach var="cate" items="${listOfCate}">
-
-                            <div class="layout__card" 
-                                 data-id="${cate.categoryID}" 
-                                 data-name="${cate.categoryName}">
-                                <h3 class="layout__name">${cate.categoryName}</h3>
-                                <p class="${cate.isActive? "layout__active": "layout__stop"}">${cate.isActive? "Đang hoạt động": "Tạm ngưng"}</p>
-                                <div class="layout__actions">
-                                    <a class="layout__actions--edit" href="#">Edit</a>
-                                    <a href="${pageContext.request.contextPath}/MainController?action=deleteCate&id=${cate.categoryID}">Delete</a>
+                            <c:if test="${cate.isActive}">
+                                <div class="layout__card" 
+                                     data-id="${cate.categoryID}" 
+                                     data-name="${cate.categoryName}">
+                                    <h3 class="layout__name">${cate.categoryName}</h3>
+                                    <p class="${cate.isActive? "layout__active": "layout__stop"}">${cate.isActive? "Đang hoạt động": "Tạm ngưng"}</p>
+                                    <div class="layout__actions">
+                                        <a class="layout__actions--edit" href="#">Edit</a>
+                                        <a href="${pageContext.request.contextPath}/MainController?action=deleteCate&idCate=${cate.categoryID}">Delete</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
                         </c:forEach>
-
+                        <c:forEach var="cate" items="${listOfCate}">
+                            <c:if test="${cate.isActive eq false}">
+                                <div class="layout__card" 
+                                     data-id="${cate.categoryID}" 
+                                     data-name="${cate.categoryName}">
+                                    <h3 class="layout__name">${cate.categoryName}</h3>
+                                    <p class="${cate.isActive? "layout__active": "layout__stop"}">${cate.isActive? "Đang hoạt động": "Tạm ngưng"}</p>
+                                    <div class="layout__actions">
+                                        <a class="layout__actions--edit" href="#">Chỉnh sửa</a>
+                                        <a href="${pageContext.request.contextPath}/MainController?action=deleteCate&idCate=${cate.categoryID}">Xoá</a>
+                                        <a href="${pageContext.request.contextPath}/MainController?action=activeCate&idCate=${cate.categoryID}">Kích hoạt</a>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
