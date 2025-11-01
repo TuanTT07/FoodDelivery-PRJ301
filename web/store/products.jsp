@@ -4,6 +4,7 @@
     Author     : ACER
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +29,7 @@
             <div class="store__content">
 
                 <!-- Header -->
-                 <jsp:include page="headerDashboard.jsp"/>
+                <jsp:include page="headerDashboard.jsp"/>
 
                 <!-- Product Content -->
 
@@ -39,23 +40,23 @@
                     <div class="layout__grid">
 
                         <div class="layout__card--add">
-                            <div class="layout__add">
+                            <a href="${pageContext.request.contextPath}/MainController?action=goToAddProductForm&storeID=${sessionScope.store.storeID}" class="layout__add">
                                 <button class="layout__add-button">+</button>
                                 <p class="layout__add-text">Thêm món ăn mới</p>
-                            </div>
+                            </a>
                         </div>
 
-
-                        <div class="layout__card">
-                            <img src="${pageContext.request.contextPath}/assets/img/spagheti.png" alt="Spaghetti" class="products__img">
-                            <h3 class="layout__name">Spaghetti</h3>
-                            <p class="layout__price">$12.50</p>
-                            <div class="layout__actions">
-                                <button>Edit</button>
-                                <button>Delete</button>
+                        <c:forEach  var="p" items="${listOfProduct}">
+                            <div class="layout__card">
+                                <img src="${pageContext.request.contextPath}/assets/img/spagheti.png" alt="Spaghetti" class="products__img">
+                                <h3 class="layout__name">${p.productName}</h3>
+                                <p class="layout__price">${p.productPrice}VND</p>
+                                <div class="layout__actions">
+                                    <button>Edit</button>
+                                    <button>Delete</button>
+                                </div>
                             </div>
-                        </div>
-
+                        </c:forEach>
                     </div>
                 </div>
             </div>
