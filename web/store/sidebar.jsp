@@ -27,7 +27,7 @@
 
         <!-- Food Menu -->
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/products.jsp') ? 'sidebar__item--active' : ''}">
-            <a href="${pageContext.request.contextPath}/store/products.jsp" class="sidebar__link">
+            <a href="${pageContext.request.contextPath}/MainController?action=viewProduct&storeID=${sessionScope.store.storeID}" class="sidebar__link">
                 <img src="${pageContext.request.contextPath}/assets/img/food_icon.svg" alt="Food Menu" class="sidebar__icon">
                 <span class="sidebar__text">Product</span>
             </a>

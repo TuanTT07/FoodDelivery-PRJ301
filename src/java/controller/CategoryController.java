@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Category;
 import model.Store;
 
@@ -55,15 +56,34 @@ public class CategoryController extends HttpServlet {
 
     private void processViewCate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String action = request.getParameter("action");
         String txtStoreID = request.getParameter("storeID");
+
         CategoryDAO cateDAO = new CategoryDAO();
         ArrayList<Category> listOfCate = cateDAO.getAllCateByStoreID(txtStoreID);
 
+        HttpSession session = request.getSession();
+        session.setAttribute("listOfCate", listOfCate);
+
+        // Nếu user bấm thêm sản phẩm
+        if ("goToAddProductForm".equals(action)) {
+
+            if (listOfCate == null || listOfCate.isEmpty()) {
+                request.setAttribute("error_listOfCate", "Bạn cần tạo Category trước khi thêm món ăn!");
+                request.getRequestDispatcher("store/category.jsp").forward(request, response);
+                return;
+            }
+
+            request.getRequestDispatcher("store/formProduct.jsp").forward(request, response);
+            return;
+        }
+
+        // Mặc định -> show category list
         if (listOfCate.isEmpty()) {
             request.setAttribute("error_listOfCate", "Chưa có thực đơn nào!");
-        } else {
-            request.setAttribute("listOfCate", listOfCate);
         }
+
         request.getRequestDispatcher("store/category.jsp").forward(request, response);
     }
 
@@ -125,6 +145,8 @@ public class CategoryController extends HttpServlet {
             processDeleteCate(request, response, true);
         } else if (action.equals("activeCate")) {
             processDeleteCate(request, response, false);
+        } else if (action.equals("goToAddProductForm")) {
+            processViewCate(request, response);
         }
     }
 

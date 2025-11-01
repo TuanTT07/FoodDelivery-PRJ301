@@ -109,6 +109,33 @@ public class CategoryDAO {
         return listOfCate;
     }
 
+    public Category getCateByCateID(String cateID) {
+        try {
+            String sql = "SELECT * FROM tblCategory WHERE CategoryID = ?";
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, cateID);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                Category cate = new Category();
+                cate.setCategoryID(rs.getString("CategoryID"));
+                cate.setCategoryName(rs.getString("CategoryName"));
+                StoreDAO storeDAO = new StoreDAO();
+                Store store = storeDAO.getStoreByID(rs.getString("StoreID"));
+                cate.setStoreId(store);
+                String txtActive = rs.getString("IsActive");
+                if (txtActive.equals("1")) {
+                    cate.setIsActive(true);
+                } else {
+                    cate.setIsActive(false);
+                }
+                return cate;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     public boolean updateCate(String name, String id) {
         String sql = "UPDATE tblCategory SET CategoryName = ? WHERE CategoryID = ?";
         try {
