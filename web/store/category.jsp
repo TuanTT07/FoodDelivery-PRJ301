@@ -41,16 +41,10 @@
                         <button type="submit" >Hoàn thành</button>
                     </form>
                 </template>
-                <c:if test="${not empty error_addCate}">
-                    <script>
-                        alert("${error_addCate}");
-                    </script>
-                </c:if>
 
-                <c:if test="${not empty error_cateName}">
-                    <script>
-                        alert("${error_cateName}");
-                    </script>
+
+                <c:if test="${not empty error_cate}">
+                    <script>alert("${error_cate}");</script>
                 </c:if>
 
                 <div class="layout">
@@ -65,16 +59,34 @@
                                 <p class="layout__add-text">Thêm thực đơn mới</p>
                             </div>
                         </div>
+
+
                         <c:if test="${error_listOfCate}">
                             <p>${error_listOfCate}</p>
                         </c:if>
+                        <template id="popzy-4">
+                            <form action="${pageContext.request.contextPath}/MainController" method="post" class="event-popup">
+                                <input hidden type="text" name="action" value="updateCate">
+                                <input hidden type="text" name="storeID" value="${sessionScope.store.storeID}">
+                                <input hidden type="text" name="idCate" class="cate-id">
+                                <h3 class="popup__title">Chỉnh Sửa Thực Đơn</h3>
+                                <div class="event-popup__input">
+                                    <input type="text" name="cateName" class="cate-name" required placeholder="Tên thực đơn">
+                                </div>
+                                <button type="submit">Hoàn thành</button>
+                            </form>
+                        </template>
+
                         <c:forEach var="cate" items="${listOfCate}">
-                            <div class="layout__card">
+
+                            <div class="layout__card" 
+                                 data-id="${cate.categoryID}" 
+                                 data-name="${cate.categoryName}">
                                 <h3 class="layout__name">${cate.categoryName}</h3>
                                 <p class="${cate.isActive? "layout__active": "layout__stop"}">${cate.isActive? "Đang hoạt động": "Tạm ngưng"}</p>
                                 <div class="layout__actions">
-                                    <a href="${pageContext.request.contextPath}/MainController?action=updateCate">Edit</a>
-                                    <a href="${pageContext.request.contextPath}/MainController?action=deleteCate">Delete</a>
+                                    <a class="layout__actions--edit" href="#">Edit</a>
+                                    <a href="${pageContext.request.contextPath}/MainController?action=deleteCate&id=${cate.categoryID}">Delete</a>
                                 </div>
                             </div>
                         </c:forEach>

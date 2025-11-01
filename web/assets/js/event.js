@@ -122,28 +122,80 @@ if (document.querySelector("#popzy-3")) {
         templateId: "popzy-3",
         closeMethods: ["button", "escape", "overlay"],
         cssClass: ["event-modal"],
-        destroyOnClose: true,
+        destroyOnClose: false,
         onOpen: () => console.log("Popzy 3 opened"),
         onClose: () => console.log("Popzy 3 closed")
     });
 }
+let popzy4 = null;
+if (document.querySelector("#popzy-4")) {
+    popzy4 = new Popzy({
+        templateId: "popzy-4",
+        closeMethods: ["button", "escape", "overlay"],
+        cssClass: ["event-modal"],
+        destroyOnClose: false,
+        onOpen: () => console.log("Popzy 4 opened"),
+        onClose: () => console.log("Popzy 4 closed")
+    });
+}
 
-window.addEventListener("DOMContentLoaded", () => {
-    // Chỉ mở popzy2 nếu có template đó
+function openPopzy3() {
+    let pop = new Popzy({
+        templateId: "popzy-3",
+        destroyOnClose: true,
+        closeMethods: ["button", "escape", "overlay"],
+        cssClass: ["event-modal"]
+    });
+    pop.open();
+}
+function openPopzy4() {
+    let pop = new Popzy({
+        templateId: "popzy-4",
+        destroyOnClose: true,
+        closeMethods: ["button", "escape", "overlay"],
+        cssClass: ["event-modal"]
+    });
+    pop.open();
+}
+window.addEventListener("DOMContentLoaded", function () {
     if (popzy2 && !sessionStorage.getItem("popzy2_shown")) {
         popzy2.open();
         sessionStorage.setItem("popzy2_shown", "true");
     }
 
-    // Chỉ xử lý popup thêm thực đơn nếu có
     if (popzy3) {
         const addBtn = document.querySelector(".layout__card--add");
         if (addBtn) {
-            addBtn.addEventListener("click", (e) => {
+            addBtn.addEventListener("click", function (e) {
                 e.preventDefault();
-                popzy3.open();
+                openPopzy3();
             });
         }
+
+        // Nút Edit
+        const editBtns = document.querySelectorAll(".layout__actions--edit");
+        editBtns.forEach(btn => {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                const card = e.target.closest(".layout__card"); // lấy đúng card đang bấm
+                const id = card.dataset.id;
+                const name = card.dataset.name;
+
+                let pop = new Popzy({
+                    templateId: "popzy-4",
+                    destroyOnClose: true,
+                    closeMethods: ["button", "escape", "overlay"],
+                    cssClass: ["event-modal"]
+                });
+
+                pop.open();
+
+                // sau khi open mới query được form
+                const form = document.querySelector(".popzy-content form");
+                form.querySelector(".cate-id").value = id;
+                form.querySelector(".cate-name").value = name;
+            });
+        });
     }
 });
-

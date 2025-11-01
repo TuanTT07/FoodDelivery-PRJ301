@@ -31,7 +31,7 @@ public class CategoryController extends HttpServlet {
         Store store = storeDAO.getStoreByID(txtStoreId);
 
         if (txtCateName == null || txtCateName.trim().length() == 0) {
-            request.setAttribute("error_cate", "không được để trống tên danh mục");
+            request.setAttribute("error_cate", "không được để trống tên danh mục!");
             request.getRequestDispatcher("/store/category.jsp").forward(request, response);
             return;
         }
@@ -40,17 +40,17 @@ public class CategoryController extends HttpServlet {
         Category cate = new Category(txtCateName, store);
         boolean check = cateDAO.getCateByName(txtCateName);
         if (check) {
-            request.setAttribute("error_cateName", "Ten danh muc da ton tai");
+            request.setAttribute("error_cate", "Tên danh mục đã tồn tại! Vui lòng nhập tên khác.");
             request.setAttribute("error_name", txtCateName);
             request.getRequestDispatcher("/store/category.jsp").forward(request, response);
             return;
         }
-        if (cateDAO.insertCate(cate)) {
-            request.setAttribute("error_addCate", "Quá trình thêm danh mục bị lỗi!");
+        if (!cateDAO.insertCate(cate)) {
+            request.setAttribute("error_cate", "Quá trình thêm danh mục bị lỗi!");
             request.getRequestDispatcher("/store/category.jsp").forward(request, response);
 
         }
-        request.getRequestDispatcher("/store/category.jsp").forward(request, response);
+        processViewCate(request, response);
     }
 
     private void processViewCate(HttpServletRequest request, HttpServletResponse response)
@@ -67,6 +67,25 @@ public class CategoryController extends HttpServlet {
         request.getRequestDispatcher("store/category.jsp").forward(request, response);
     }
 
+    private void processUpdateCate(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtIdCate = request.getParameter("idCate");
+        String txtCateName = request.getParameter("cateName");
+        if (txtCateName == null || txtCateName.trim().length() == 0) {
+            request.setAttribute("error_cate", "không được để trống tên danh mục");
+            processViewCate(request, response);
+            return;
+        }
+        CategoryDAO cateDAO = new CategoryDAO();
+        boolean checkUpdate =cateDAO.updateCate(txtCateName, txtIdCate);
+        if (!checkUpdate) {
+            request.setAttribute("error_cate", "Quá trình chỉnh sửa danh mục bị lỗi!");
+            processViewCate(request, response);
+            return;
+        }
+        processViewCate(request, response);
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -76,6 +95,8 @@ public class CategoryController extends HttpServlet {
             processAddCate(request, response);
         } else if (action.equals("viewCate")) {
             processViewCate(request, response);
+        } else if (action.equals("updateCate")) {
+            processUpdateCate(request, response);
         }
     }
 
