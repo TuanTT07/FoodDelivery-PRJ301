@@ -77,13 +77,37 @@ public class CategoryController extends HttpServlet {
             return;
         }
         CategoryDAO cateDAO = new CategoryDAO();
-        boolean checkUpdate =cateDAO.updateCate(txtCateName, txtIdCate);
+        boolean checkUpdate = cateDAO.updateCate(txtCateName, txtIdCate);
         if (!checkUpdate) {
             request.setAttribute("error_cate", "Quá trình chỉnh sửa danh mục bị lỗi!");
             processViewCate(request, response);
             return;
         }
         processViewCate(request, response);
+    }
+
+    private void processDeleteCate(HttpServletRequest request, HttpServletResponse response, boolean delete)
+            throws ServletException, IOException {
+        String txtIdCate = request.getParameter("idCate");
+        CategoryDAO cateDAO = new CategoryDAO();
+        if (delete) {
+            boolean checkDelete = cateDAO.softDelete(txtIdCate);
+            if (!checkDelete) {
+                request.setAttribute("error_cate", "Quá trình xoa danh mục bị lỗi!");
+                processViewCate(request, response);
+                return;
+            }
+        } else {
+            boolean checkActive = cateDAO.activeCate(txtIdCate);
+            if (!checkActive) {
+                request.setAttribute("error_cate", "Quá trình kích hoạt danh mục bị lỗi!");
+                processViewCate(request, response);
+                return;
+            }
+        }
+
+        processViewCate(request, response);
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -97,6 +121,10 @@ public class CategoryController extends HttpServlet {
             processViewCate(request, response);
         } else if (action.equals("updateCate")) {
             processUpdateCate(request, response);
+        } else if (action.equals("deleteCate")) {
+            processDeleteCate(request, response, true);
+        } else if (action.equals("activeCate")) {
+            processDeleteCate(request, response, false);
         }
     }
 
