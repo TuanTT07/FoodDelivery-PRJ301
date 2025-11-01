@@ -108,4 +108,19 @@ public class CategoryDAO {
         }
         return listOfCate;
     }
+
+    public boolean updateCate(String name, String id) {
+        String sql = "UPDATE tblCategory SET CategoryName = ? WHERE CategoryID = ?";
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, name);
+            pst.setString(2, id);
+            int rows = pst.executeUpdate();
+
+            return rows > 0; 
+        } catch (Exception e) {
+        }
+        return false;
+    }
 }
