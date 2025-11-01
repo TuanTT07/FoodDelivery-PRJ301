@@ -7,6 +7,7 @@ package controller;
 import dao.CategoryDAO;
 import dao.StoreDAO;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,12 +38,33 @@ public class CategoryController extends HttpServlet {
         CategoryDAO cateDAO = new CategoryDAO();
 
         Category cate = new Category(txtCateName, store);
+        boolean check = cateDAO.getCateByName(txtCateName);
+        if (check) {
+            request.setAttribute("error_cateName", "Ten danh muc da ton tai");
+            request.setAttribute("error_name", txtCateName);
+            request.getRequestDispatcher("/store/category.jsp").forward(request, response);
+            return;
+        }
         if (cateDAO.insertCate(cate)) {
             request.setAttribute("error_addCate", "Quá trình thêm danh mục bị lỗi!");
             request.getRequestDispatcher("/store/category.jsp").forward(request, response);
 
         }
         request.getRequestDispatcher("/store/category.jsp").forward(request, response);
+    }
+
+    private void processViewCate(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtStoreID = request.getParameter("storeID");
+        CategoryDAO cateDAO = new CategoryDAO();
+        ArrayList<Category> listOfCate = cateDAO.getAllCateByStoreID(txtStoreID);
+
+        if (listOfCate.isEmpty()) {
+            request.setAttribute("error_listOfCate", "Chưa có thực đơn nào!");
+        } else {
+            request.setAttribute("listOfCate", listOfCate);
+        }
+        request.getRequestDispatcher("store/category.jsp").forward(request, response);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -52,6 +74,8 @@ public class CategoryController extends HttpServlet {
 
         if (action.contains("addCate")) {
             processAddCate(request, response);
+        } else if (action.equals("viewCate")) {
+            processViewCate(request, response);
         }
     }
 

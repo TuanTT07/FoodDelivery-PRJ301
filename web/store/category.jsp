@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -35,12 +36,22 @@
 
                         <h3 class="popup__title">Thêm Thực Đơn</h3>
                         <div class="event-popup__input">
-                            <input type="type" name="cateName" value="" required="" placeholder="Tên thực đơn">
+                            <input type="type" name="cateName" value="${error_name}" required="" placeholder="Tên thực đơn">
                         </div>
-
                         <button type="submit" >Hoàn thành</button>
                     </form>
                 </template>
+                <c:if test="${not empty error_addCate}">
+                    <script>
+                        alert("${error_addCate}");
+                    </script>
+                </c:if>
+
+                <c:if test="${not empty error_cateName}">
+                    <script>
+                        alert("${error_cateName}");
+                    </script>
+                </c:if>
 
                 <div class="layout">
 
@@ -54,16 +65,19 @@
                                 <p class="layout__add-text">Thêm thực đơn mới</p>
                             </div>
                         </div>
-
-                        <div class="layout__card">
-                            <img src="${pageContext.request.contextPath}/assets/img/spagheti.png" alt="Spaghetti" class="products__img">
-                            <h3 class="layout__name">Spaghetti</h3>
-                            <p class="layout__price">$12.50</p>
-                            <div class="layout__actions">
-                                <button>Edit</button>
-                                <button>Delete</button>
+                        <c:if test="${error_listOfCate}">
+                            <p>${error_listOfCate}</p>
+                        </c:if>
+                        <c:forEach var="cate" items="${listOfCate}">
+                            <div class="layout__card">
+                                <h3 class="layout__name">${cate.categoryName}</h3>
+                                <p class="${cate.isActive? "layout__active": "layout__stop"}">${cate.isActive? "Đang hoạt động": "Tạm ngưng"}</p>
+                                <div class="layout__actions">
+                                    <a href="${pageContext.request.contextPath}/MainController?action=updateCate">Edit</a>
+                                    <a href="${pageContext.request.contextPath}/MainController?action=deleteCate">Delete</a>
+                                </div>
                             </div>
-                        </div>
+                        </c:forEach>
 
                     </div>
                 </div>

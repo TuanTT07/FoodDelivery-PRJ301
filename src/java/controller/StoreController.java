@@ -35,7 +35,6 @@ public class StoreController extends HttpServlet {
         StoreDAO dao = new StoreDAO();
         Store store = dao.getStoreByUserOwner(user.getUserID());
         session.setAttribute("store", store);
-        System.out.println(store.getStoreID());
         session.setAttribute("OwnerStoreName", store.getOwnerUserID().getUserFullName());
         request.getRequestDispatcher("/store/dashboard.jsp").forward(request, response);
 

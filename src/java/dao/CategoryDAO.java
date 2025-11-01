@@ -7,7 +7,9 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import model.Category;
+import model.Store;
 import utils.DBUtils;
 
 /**
@@ -56,5 +58,54 @@ public class CategoryDAO {
         } catch (Exception e) {
         }
         return false;
+    }
+
+    public boolean getCateByName(String name) {
+        try {
+            System.out.println(name);
+            String sql = "SELECT * FROM tblCategory WHERE CategoryName LIKE  ?";
+
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            if (name == null || name.trim().length() == 0) {
+                return false;
+            }
+            pst.setString(1, "%" + name + "%");
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public ArrayList<Category> getAllCateByStoreID(String storeID) {
+        ArrayList<Category> listOfCate = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM tblCategory WHERE StoreID = ?";
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, storeID);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Category cate = new Category();
+                cate.setCategoryID(rs.getString("CategoryID"));
+                cate.setCategoryName(rs.getString("CategoryName"));
+                StoreDAO storeDAO = new StoreDAO();
+                Store store = storeDAO.getStoreByID(rs.getString("StoreID"));
+                cate.setStoreId(store);
+                String txtActive = rs.getString("IsActive");
+                if (txtActive.equals("1")) {
+                    cate.setIsActive(true);
+                } else {
+                    cate.setIsActive(false);
+                }
+
+                listOfCate.add(cate);
+            }
+        } catch (Exception e) {
+        }
+        return listOfCate;
     }
 }
