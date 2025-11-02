@@ -45,7 +45,7 @@ public class ProductController extends HttpServlet {
         request.getRequestDispatcher("store/products.jsp").forward(request, response);
     }
 
-    private void processAddProduct(HttpServletRequest request, HttpServletResponse response)
+    private void processAddProduct(HttpServletRequest request, HttpServletResponse response, boolean update)
             throws ServletException, IOException {
         String txtProductName = request.getParameter("productName");
         String txtProductPrice = request.getParameter("productPrice");
@@ -120,12 +120,21 @@ public class ProductController extends HttpServlet {
         try {
             Product product = new Product(txtProductName, Double.parseDouble(txtProductPrice), txtProductDesc, cate, store);
 
-            if (!productDAO.insert(product)) {
-                request.setAttribute("error_producAdd", "Quá trình thêm thất bại! Vui lòng thử lại sau!");
+            boolean success = false;
+            if (update) { // nếu đang update
+                String productID = request.getParameter("productID");
+                product.setProductID(productID);
+                success = productDAO.updateProduct(product);
+
+            } else { // đang add
+                success = productDAO.insert(product);
+            }
+
+            if (!success) {
+                request.setAttribute("error_producAdd", update ? "Cập nhật thất bại!" : "Thêm thất bại!");
                 request.getRequestDispatcher("store/formProduct.jsp").forward(request, response);
                 return;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,14 +144,47 @@ public class ProductController extends HttpServlet {
 
     }
 
+    private void processGotoFormProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String productID = request.getParameter("productID");
+        ProductDAO pdao = new ProductDAO();
+        Product product = pdao.getProductByProductID(productID);
+
+        CategoryDAO cateDAO = new CategoryDAO();
+        HttpSession session = request.getSession();
+        session.setAttribute("listOfCate", cateDAO.getAllCateByStoreID(product.getStoreID().getStoreID()));
+
+        request.setAttribute("product", product);
+        request.setAttribute("isUpdate", true);
+        request.getRequestDispatcher("store/formProduct.jsp").forward(request, response);
+    }
+
+    private void processDeleteProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String productID = request.getParameter("productID");
+        ProductDAO pdao = new ProductDAO();
+
+        // dùng hard delete hoặc softDelete tùy m chọn
+        pdao.softDelete(productID);
+
+        String storeID = request.getParameter("storeID");
+        response.sendRedirect("MainController?action=viewProduct&storeID=" + storeID);
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
         if (action.equals("addProduct")) {
-            processAddProduct(request, response);
+            processAddProduct(request, response, false);
         } else if (action.equals("viewProduct")) {
             processViewProduct(request, response);
+        } else if (action.equals("editProduct")) {
+            processGotoFormProduct(request, response);
+        } else if (action.equals("updateProduct")) {
+            processAddProduct(request, response, true);
+        } else if (action.equals("deleteProduct")) {
+            processDeleteProduct(request, response);
         }
 
     }

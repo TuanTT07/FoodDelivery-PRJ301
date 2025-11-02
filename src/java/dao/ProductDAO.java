@@ -57,6 +57,37 @@ public class ProductDAO {
         return false;
     }
 
+    public boolean updateProduct(Product p) {
+        String sql = "UPDATE tblProduct SET  ProductName= ? ,ProductPrice = ? ,ProductDesc = ?,CategoryID = ? ,StoreID = ?,IsActive = ?" + " WHERE ProductID= ?";
+
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, p.getProductName());
+            pst.setDouble(2, p.getProductPrice());
+            pst.setString(3, p.getProductDesc());
+            pst.setString(4, p.getCategoryID().getCategoryID());
+            pst.setString(5, p.getStoreID().getStoreID());
+            pst.setBoolean(6, p.isIsActive());
+            pst.setString(7, p.getProductID());
+
+            return pst.executeUpdate() > 0;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public boolean softDelete(String productID) {
+        String sql = "UPDATE tblProduct SET IsActive = 0 WHERE ProductID = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, productID);
+            return pst.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public ArrayList<Product> getAllProductByStoreId(String storeId) {
         ArrayList<Product> listOfProduct = new ArrayList<>();
         try {
@@ -90,7 +121,7 @@ public class ProductDAO {
 
     public Product getProductByProductname(String productName) {
         try {
-            String sql = "SELECT * FROM tblProduct WHERE ProductName = ?";
+            String sql = "SELECT * FROM tblProduct WHERE ProductName = ? AND  IsActive = 1";
             Connection conn = DBUtils.getConnection();
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, productName);
@@ -118,8 +149,38 @@ public class ProductDAO {
         return null;
     }
 
+    public Product getProductByProductID(String productID) {
+        try {
+            String sql = "SELECT * FROM tblProduct WHERE ProductID = ?";
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, productID);
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setProductID(rs.getString("ProductID"));
+                product.setProductName(rs.getString("ProductName"));
+                product.setProductPrice(rs.getDouble("ProductPrice"));
+                product.setProductDesc(rs.getString("ProductDesc"));
+
+                CategoryDAO cateDAO = new CategoryDAO();
+                Category cate = cateDAO.getCateByCateID(rs.getString("CategoryID"));
+                product.setCategoryID(cate);
+
+                StoreDAO storeDAO = new StoreDAO();
+                Store store = storeDAO.getStoreByID(rs.getString("StoreID"));
+                product.setStoreID(store);
+                product.setIsActive(rs.getBoolean("IsActive"));
+                return product;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     public boolean checkProductInCate(String cate, String name) {
-        String sql = "SELECT * FROM tblProduct WHERE CategoryID = ? AND ProductName LIKE ?";
+        String sql = "SELECT * FROM tblProduct WHERE CategoryID = ? AND ProductName LIKE ? AND  IsActive = 1";
 
         try {
             Connection conn = DBUtils.getConnection();

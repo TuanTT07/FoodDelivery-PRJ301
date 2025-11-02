@@ -31,14 +31,14 @@ public class MainController extends HttpServlet {
         String[] roleActions = {};
         String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "signUpDelivery"};
         String[] storeActions = {"signUpStore", "getStore", "updateStore","searchStoreByCate","searchStoreByLocation"};
-        String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct"};
+        String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct","editProduct", "updateProduct"};
         String[] productDetailActions = {"viewProductDetail"};
         String[] productOptionActions = {"addProductOption"};
         String[] toppingActions = {"addTopping", "updateTopping"};
         String[] productToppingActions = {};
         String[] cartActions = {"viewCart", "clearCart"};
         String[] cartItemActions = {"addToCart", "updateCartItem", "deleteCartItem"};
-        String[] categoryActions = {"addCategory", "updateCate", "viewCate","addCate","deleteCate", "activeCate","goToAddProductForm"};
+        String[] categoryActions = {"addCategory", "updateCate", "viewCate","addCate","deleteCate", "activeCate","goToProductForm"};
         String[] orderActions = {"placeOrder", "viewOrderHistory", "cancelOrder", "confirmDelivery"};//confirmDelivery for shiper
         String[] orderDetailActions = {"viewOrderDetail"};
         String[] paymentActions = {"processPayment", "paymentSuccess", "paymentFail"};

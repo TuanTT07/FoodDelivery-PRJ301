@@ -40,22 +40,28 @@
                     <div class="layout__grid">
 
                         <div class="layout__card--add">
-                            <a href="${pageContext.request.contextPath}/MainController?action=goToAddProductForm&storeID=${sessionScope.store.storeID}" class="layout__add">
+                            <a href="${pageContext.request.contextPath}/MainController?action=goToProductForm&storeID=${sessionScope.store.storeID}" class="layout__add">
                                 <button class="layout__add-button">+</button>
                                 <p class="layout__add-text">Thêm món ăn mới</p>
                             </a>
                         </div>
 
                         <c:forEach  var="p" items="${listOfProduct}">
-                            <div class="layout__card">
-                                <img src="${pageContext.request.contextPath}/assets/img/spagheti.png" alt="Spaghetti" class="products__img">
-                                <h3 class="layout__name">${p.productName}</h3>
-                                <p class="layout__price">${p.productPrice}VND</p>
-                                <div class="layout__actions">
-                                    <button>Edit</button>
-                                    <button>Delete</button>
+                            <c:if test="${p.isActive}">
+                                <div class="layout__card">
+                                    <img src="${pageContext.request.contextPath}/assets/img/spagheti.png" alt="Spaghetti" class="products__img">
+                                    <h3 class="layout__name">${p.productName}</h3>
+                                    <p class="layout__price">${p.productPrice}VND</p>
+                                    <div class="layout__actions">
+                                        <a href="${pageContext.request.contextPath}/MainController?action=editProduct&productID=${p.productID}">
+                                            Edit
+                                        </a>
+
+                                        <a href="${pageContext.request.contextPath}/MainController?action=deleteProduct&productID=${p.productID}&storeID=${sessionScope.store.storeID}"
+                                           onclick="return confirm('Xác nhận xoá sản phẩm này?')">Delete</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
                         </c:forEach>
                     </div>
                 </div>

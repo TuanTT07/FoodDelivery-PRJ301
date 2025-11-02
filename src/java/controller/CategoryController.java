@@ -67,7 +67,7 @@ public class CategoryController extends HttpServlet {
         session.setAttribute("listOfCate", listOfCate);
 
         // Nếu user bấm thêm sản phẩm
-        if ("goToAddProductForm".equals(action)) {
+        if ("goToProductForm".equals(action)) {
 
             if (listOfCate == null || listOfCate.isEmpty()) {
                 request.setAttribute("error_listOfCate", "Bạn cần tạo Category trước khi thêm món ăn!");
@@ -145,7 +145,7 @@ public class CategoryController extends HttpServlet {
             processDeleteCate(request, response, true);
         } else if (action.equals("activeCate")) {
             processDeleteCate(request, response, false);
-        } else if (action.equals("goToAddProductForm")) {
+        } else if (action.equals("goToProductForm")) {
             processViewCate(request, response);
         }
     }
