@@ -54,7 +54,7 @@
                             <c:choose>
                                 <c:when test="${not empty listStoreByCate}">
                                     <c:forEach var="store" items="${listStoreByCate}">
-                                        <div class="store-card">
+                                        <a class="store-card" href="${pageContext.request.contextPath}/MainController?storeId=${store.storeID}&action=goToStoreDetail">
                                             <img class="store-img" src="${store.bannerURL}" alt="Logo store"/>
                                             <h3 class="store-name">${store.storeName}</h3>
                                             <p class="store-address">${store.storeAddress}</p>
@@ -69,13 +69,13 @@
                                                 ${store.storeRating}
                                                 <img class="star" src="${pageContext.request.contextPath}/assets/img/star_icon.svg" alt="alt"/>
                                             </p>
-                                        </div>
+                                        </a>
                                     </c:forEach>
                                 </c:when>
 
                                 <c:when test="${not empty listOfStore}">
                                     <c:forEach var="store" items="${listOfStore}">
-                                        <div class="store-card">
+                                        <a class="store-card" href="${pageContext.request.contextPath}/MainController?storeId=${store.storeID}&action=goToStoreDetail" class="store-card">
                                             <img class="store-img" src="${store.bannerURL}" alt="Logo store"/>
                                             <h3 class="store-name">${store.storeName}</h3>
                                             <p class="store-address">${store.storeAddress}</p>
@@ -90,7 +90,7 @@
                                                 ${store.storeRating}
                                                 <img class="star" src="${pageContext.request.contextPath}/assets/img/star_icon.svg" alt="alt"/>
                                             </p>
-                                        </div>
+                                        </a>
                                     </c:forEach>
                                 </c:when>
 

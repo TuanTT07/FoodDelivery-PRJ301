@@ -4,18 +4,25 @@
  */
 package controller;
 
+import dao.CategoryDAO;
+import dao.ProductDAO;
 import dao.StoreCategoryDAO;
 import dao.StoreDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Category;
 import model.CategoryStore;
+import model.Product;
 import model.Store;
 import model.User;
 
@@ -29,7 +36,6 @@ public class StoreController extends HttpServlet {
     private void processGetStore(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-
         User user;
         user = (User) session.getAttribute("u");
         StoreDAO dao = new StoreDAO();
@@ -271,7 +277,43 @@ public class StoreController extends HttpServlet {
             request.setAttribute("listStoreByCate", listofStoreByCate);
         }
         request.getRequestDispatcher(url).forward(request, response);
+    }
 
+    private void processGoToStoreDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtStoreId = request.getParameter("storeId");
+        //lấy ra thông tin store
+        StoreDAO storeDAO = new StoreDAO();
+        Store store = storeDAO.getStoreByID(txtStoreId);
+
+        //lấy ra danh mục sản phẩm
+        CategoryDAO cateDAO = new CategoryDAO();
+        ArrayList<Category> listOfCate = cateDAO.getAllCateByStoreID(txtStoreId);
+        //lấy ra toàn bộ sản phẩm
+        ProductDAO productDAO = new ProductDAO();
+        ArrayList<Product> listOfProduct = productDAO.getAllProductByStoreId(txtStoreId);
+
+        Map<Category, List<Product>> productMap = new LinkedHashMap<>();
+        for (Category c : listOfCate) {
+            List<Product> productsByCate = new ArrayList<>();
+            for (Product p : listOfProduct) {
+                if (c.getCategoryID().equals(p.getCategoryID().getCategoryID())) {
+                    productsByCate.add(p);
+                }
+            }
+            productMap.put(c, productsByCate);
+        }
+
+        request.setAttribute("store", store);
+        request.setAttribute("listOfCate", listOfCate);
+        request.setAttribute("productMap", productMap);
+
+        if (store == null || listOfCate.isEmpty() || listOfProduct.isEmpty()) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
+
+        request.getRequestDispatcher("store/storeDetail.jsp").forward(request, response);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -288,6 +330,8 @@ public class StoreController extends HttpServlet {
             processSearchStoreByCate(request, response);
         } else if (action.equals("getStore")) {
             processGetStore(request, response);
+        } else if (action.equals("goToStoreDetail")) {
+            processGoToStoreDetail(request, response);
         }
 
     }

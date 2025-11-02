@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,13 +36,14 @@
                         <!-- Store info -->
                         <div class="info-store">
                             <div>
-                                <h2 class="info-store__name">Tên cửa hàng</h2>
+                                <h2 class="info-store__name">${store.storeName}</h2>
 
                                 <div class="info-store__details">
-                                    <p>Phí giao hàng: <span>100K</span></p>
-                                    <p>Thời gian: <span>20 phút</span></p>
-                                    <p>Loại đồ ăn: <span>Hamburger</span></p>
+                                    <p>Địa chỉ: <span>${store.storeAddress}</span></p>
+                                    <p>Thời gian hoạt động: <span>${fn:substring(store.openTime, 0, 5)} - ${fn:substring(store.closeTime, 0, 5)}</span></p>
+                                    <p>Loại đồ ăn: <span>${store.storeCategoryId.storeCategoryName}</span></p>
                                 </div>
+
 
                                 <div class="info-store__ratings">
                                     <p><span>5.0</span> Đánh giá (100)</p>
@@ -59,27 +61,31 @@
                     </div>
                     <div class="line"></div>
 
+                    <!-- Menu -->
                     <div class="menu-tabs">
-                        <c:forEach var="c" items="${categories}">
-                            <button class="tab-btn" onclick="scrollToCategory('${c.categoryName}')">
-                                ${c.categoryName}
-                            </button>
+                        <c:forEach var="c" items="${listOfCate}">
+                            <c:if test="${c.isActive}">
+                                <button class="tab-btn" onclick="scrollToCategory('${c.categoryName}')">
+                                    ${c.categoryName}
+                                </button>
+                            </c:if>
                         </c:forEach>
                     </div>
 
-                    <c:forEach var="c" items="${categories}">
-                        <section id="${c.categoryName.replace(' ', '-')}">
-                            <h2>${c.categoryName}</h2>
-                            <div class="product-grid">
-                                <c:forEach var="p" items="${productMap[c.categoryName]}">
-                                    <div class="product-card">
-                                        <img src="${pageContext.request.contextPath}/assets/img/${p.image}" alt="${p.productName}">
-                                        <h3>${p.productName}</h3>
-                                        <p>${p.description}</p>
-                                        <span>$${p.price}</span>
-                                    </div>
-                                </c:forEach>
-                            </div>
+                    <c:forEach var="entry" items="${productMap}">
+                        <c:set var="category" value="${entry.key}" />
+                        <c:set var="products" value="${entry.value}" />
+
+                        <section id="${fn:replace(category.categoryName,' ','-')}">
+                            <h2>${category.categoryName}</h2>
+                            <c:forEach var="p" items="${products}">
+                                <div class="product-card">
+                                    <%--<img src="${pageContext.request.contextPath}/assets/img/${p.image != null ? p.image : 'default.png'}" alt="${p.productName}">--%>
+                                    <h3>${p.productName}</h3>
+                                    <p>${p.productDesc}</p>
+                                    <span>${p.productPrice} VND</span>
+                                </div>
+                            </c:forEach>
                         </section>
                     </c:forEach>
 
@@ -96,6 +102,5 @@
                 }
             }
         </script>
-
     </body>
 </html>
