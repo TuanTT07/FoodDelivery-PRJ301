@@ -87,4 +87,51 @@ public class ProductDAO {
         }
         return listOfProduct;
     }
+
+    public Product getProductByProductname(String productName) {
+        try {
+            String sql = "SELECT * FROM tblProduct WHERE ProductName = ?";
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, productName);
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setProductID(rs.getString("ProductID"));
+                product.setProductName(rs.getString("ProductName"));
+                product.setProductPrice(rs.getDouble("ProductPrice"));
+                product.setProductDesc(rs.getString("ProductDesc"));
+
+                CategoryDAO cateDAO = new CategoryDAO();
+                Category cate = cateDAO.getCateByCateID(rs.getString("CategoryID"));
+                product.setCategoryID(cate);
+
+                StoreDAO storeDAO = new StoreDAO();
+                Store store = storeDAO.getStoreByID(rs.getString("StoreID"));
+                product.setStoreID(store);
+                product.setIsActive(rs.getBoolean("IsActive"));
+                return product;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public boolean checkProductInCate(String cate, String name) {
+        String sql = "SELECT * FROM tblProduct WHERE CategoryID = ? AND ProductName LIKE ?";
+
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, cate);
+            pst.setString(2, name);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
 }

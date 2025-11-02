@@ -52,12 +52,14 @@ public class ProductController extends HttpServlet {
         String txtProductDesc = request.getParameter("productDesc");
         String txtCategoryId = request.getParameter("categoryID");
         String txtStoreId = request.getParameter("storeId");
+        ProductDAO productDAO = new ProductDAO();
 
         if (txtCategoryId == null || txtStoreId == null) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
         }
         CategoryDAO cateDAO = new CategoryDAO();
+
         Category cate = cateDAO.getCateByCateID(txtCategoryId);
         StoreDAO storeDAO = new StoreDAO();
         Store store = storeDAO.getStoreByID(txtStoreId);
@@ -66,6 +68,19 @@ public class ProductController extends HttpServlet {
         String error_productName = "";
         String error_productPrice = "";
         String error_productDesc = "";
+        String error_productCate = "";
+        String error_ProductInCate = "";
+
+        if (productDAO.checkProductInCate(txtCategoryId, txtProductName)) {
+            error_ProductInCate = "Sản phẩm đã có trong danh mục! Vui lòng chọn danh mục khác hoặc đặt tên khác.";
+            hasError = true;
+
+        }
+
+        if (productDAO.getProductByProductname(txtProductName) != null) {
+            error_productName = "Tên sản phẩm đã tồn tại! Không được trùng!";
+            hasError = true;
+        }
 
         if (txtProductName == null || txtProductName.trim().isEmpty()) {
             error_productName = "Tên sản phẩm không được để trống!";
@@ -80,17 +95,29 @@ public class ProductController extends HttpServlet {
             error_productDesc = "Vui lòng nhập mô tả sản phẩm!";
             hasError = true;
         }
+        if (cate == null) {
+            error_productCate = "Vui lòng chọn danh mục sản phẩm!";
+            hasError = true;
+
+        }
 
         if (hasError) {
+            request.setAttribute("error_productName", error_productName);
+            request.setAttribute("error_productPrice", error_productPrice);
+            request.setAttribute("error_productDesc", error_productDesc);
+            request.setAttribute("error_productCate", error_productCate);
+            request.setAttribute("error_ProductInCate", error_ProductInCate);
+
+            // giữ lại giá trị user nhập để không phải nhập lại
             request.setAttribute("txtProductName", txtProductName);
             request.setAttribute("txtProductPrice", txtProductPrice);
             request.setAttribute("txtProductDesc", txtProductDesc);
+
             request.getRequestDispatcher("store/formProduct.jsp").forward(request, response);
             return;
         }
 
         try {
-            ProductDAO productDAO = new ProductDAO();
             Product product = new Product(txtProductName, Double.parseDouble(txtProductPrice), txtProductDesc, cate, store);
 
             if (!productDAO.insert(product)) {
