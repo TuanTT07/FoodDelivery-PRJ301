@@ -285,4 +285,16 @@ public class UserDAO {
         return res;
     }
 
+    public boolean changeRoleStoreOwner(String id) {
+        String sql = "UPDATE tblUser SET RoleID = ? WHERE UserID = ?";
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "S002");
+            pst.setString(2, id);
+            return pst.executeUpdate() > 0;
+        } catch (Exception e) {
+        }
+        return false;
+    }
 }

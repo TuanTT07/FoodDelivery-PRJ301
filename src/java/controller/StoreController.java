@@ -49,6 +49,8 @@ public class StoreController extends HttpServlet {
     private void processAddStore(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Lấy username của chủ cửa hàng
+        String txtUserId = request.getParameter("userId");
+        System.out.println(txtUserId);
         String txtUsername = request.getParameter("username");
         String txtEmail = request.getParameter("email");
         String txtPhone = request.getParameter("Phone");
@@ -173,7 +175,6 @@ public class StoreController extends HttpServlet {
         // Nếu có lỗi thì quay lại form
         if (hasError) {
             Store store1 = new Store(txtStoreName, txtStreet, txtCityName, txtDistrict, txtOpenTime, txtCloseTime, owner, txtCate, txtPhone, txtEmail, txtDesc, txtBankAccountName, txtBankAccountNumber, txtBankName, txtAvatarBase64, txtCoverImageBase64, txtIs24Hours);
-            System.out.println(store1.toString());
             request.setAttribute("error_storeName", error_storeName);
             request.setAttribute("error_address", error_address);
             request.setAttribute("error_category", error_category);
@@ -201,7 +202,9 @@ public class StoreController extends HttpServlet {
         Store store = new Store(txtStoreName, txtStreet, txtCityName, txtDistrict, txtOpenTime, txtCloseTime, owner, txtCate, txtPhone, txtEmail, txtDesc, txtBankAccountName, txtBankAccountNumber, txtBankName, txtAvatarBase64, txtCoverImageBase64, txtIs24Hours);
         StoreDAO storeDAO = new StoreDAO();
         try {
-
+            UserDAO uDAO = new UserDAO();
+            
+            System.out.println(uDAO.changeRoleStoreOwner(txtUserId));
             storeDAO.insertStore(store);
             response.sendRedirect("store/dashboard.jsp");
 
