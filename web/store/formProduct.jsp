@@ -11,46 +11,81 @@
     </head>
     <body>
         <div class="container">
-            <h2>Thêm Sản Phẩm</h2>
+            <h2> ${isUpdate? "Cập Nhật": "Thêm"} Sản Phẩm</h2>
+            <c:choose>
+                <c:when test="${isUpdate}">
+                    <c:set var="actionValue" value="updateProduct"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="actionValue" value="addProduct"/>
+                </c:otherwise>
+            </c:choose>
+
             <form action="${pageContext.request.contextPath}/MainController" method="post" class="mt-4">
 
-                <input type="text" name="action" value="addProduct" hidden>
+                <input type="text" name="action" value="${actionValue}" hidden>
+
+                <c:if test="${isUpdate}">
+                    <input type="text" name="productID" value="${product.productID}" hidden>
+                </c:if>
+
                 <input type="text" name="storeId" value="${sessionScope.store.storeID}" hidden>
                 <div class="mb-3">
                     <label class="form-label">Tên sản phẩm</label>
-                    <input type="text" class="form-control" name="productName" required placeholder="VD: Trà Sữa Trân Châu" value="${txtProductName}"> 
+                    <input type="text" class="form-control" name="productName" required
+                           value="${isUpdate ? product.productName : txtProductName}">
+
                     <span>${error_productName}</span>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Giá sản phẩm</label>
-                    <input type="number" step="0.01" class="form-control" name="productPrice" required placeholder="VD: 45000" value="${txtProductPrice}">
+                    <input type="number" step="0.01" class="form-control" name="productPrice" required
+                           value="${isUpdate ? product.productPrice : txtProductPrice}">
+
                     <span>${error_productPrice}</span>
 
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Mô tả</label>
-                    <textarea class="form-control " name="productDesc" rows="3" cols="50" style="resize: none;" placeholder="Mô tả sản phẩm (optional)">${txtProductDesc}</textarea>
+                    <textarea class="form-control " name="productDesc" rows="3" cols="50" style="resize: none;" placeholder="Mô tả sản phẩm (optional)">${isUpdate ? product.productDesc : txtProductDesc}</textarea>
                 </div>
 
                 <div class="mb-3">
 
                     <label class="form-label">Danh mục</label>                        
                     <select class="form-select" name="categoryID" required>
-                        <option  value="">Chọn danh mục</option>
+                        <option value="">Chọn danh mục</option>
 
                         <c:forEach var="cate" items="${sessionScope.listOfCate}">
-                            <option  value="${cate.categoryID}">${cate.categoryName}</option>
+                            <c:if test="${cate.isActive}">
+                                <option value="${cate.categoryID}"
+                                        ${isUpdate && product.categoryID.categoryID == cate.categoryID ? "selected" : ""}>
+                                    ${cate.categoryName}
+                                </option>
+                            </c:if>
                         </c:forEach>
                     </select>
+
 
                     <span>${txtProductCate}</span>
 
                 </div>
-                <button type="submit" class="btn btn-primary px-5">Add Product</button>
+                <button type="submit" class="btn btn-primary px-5">
+                    <c:choose>
+                        <c:when test="${isUpdate}">Cập nhật sản phẩm</c:when>
+                        <c:otherwise>Thêm sản phẩm</c:otherwise>
+                    </c:choose>
+                </button>
+
             </form>
 
+            <c:if test="${not empty error_ProductInCate}">
+                <script>
+                    alert("${error_ProductInCate}");
+                </script>
+            </c:if>
             <c:if test="${not empty error_ProductInCate}">
                 <script>
                     alert("${error_ProductInCate}");
