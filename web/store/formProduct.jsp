@@ -18,32 +18,44 @@
                 <input type="text" name="storeId" value="${sessionScope.store.storeID}" hidden>
                 <div class="mb-3">
                     <label class="form-label">Tên sản phẩm</label>
-                    <input type="text" class="form-control" name="productName" required placeholder="VD: Trà Sữa Trân Châu">
+                    <input type="text" class="form-control" name="productName" required placeholder="VD: Trà Sữa Trân Châu" value="${txtProductName}"> 
+                    <span>${error_productName}</span>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Giá sản phẩm</label>
-                    <input type="number" step="0.01" class="form-control" name="productPrice" required placeholder="VD: 45000">
+                    <input type="number" step="0.01" class="form-control" name="productPrice" required placeholder="VD: 45000" value="${txtProductPrice}">
+                    <span>${error_productPrice}</span>
+
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Mô tả</label>
-                    <textarea class="form-control " name="productDesc" rows="3" cols="50" style="resize: none;" placeholder="Mô tả sản phẩm (optional)"></textarea>
+                    <textarea class="form-control " name="productDesc" rows="3" cols="50" style="resize: none;" placeholder="Mô tả sản phẩm (optional)">${txtProductDesc}</textarea>
                 </div>
 
                 <div class="mb-3">
 
                     <label class="form-label">Danh mục</label>                        
                     <select class="form-select" name="categoryID" required>
+                        <option  value="">Chọn danh mục</option>
 
                         <c:forEach var="cate" items="${sessionScope.listOfCate}">
-
                             <option  value="${cate.categoryID}">${cate.categoryName}</option>
                         </c:forEach>
                     </select>
+
+                    <span>${txtProductCate}</span>
+
                 </div>
                 <button type="submit" class="btn btn-primary px-5">Add Product</button>
             </form>
+
+            <c:if test="${not empty error_ProductInCate}">
+                <script>
+                    alert("${error_ProductInCate}");
+                </script>
+            </c:if>
         </div>
 
 
