@@ -79,6 +79,7 @@
                                             alert("${error_message}");
                                         </script>
                                     </c:if>
+                                    <input hidden name="userId" value="${u.userID}">
                                     <input type="hidden" name="username" value="${u.userName}">
                                     <div>
                                         <input class="inputStoreName" type="text" name="storeName" placeholder="Tên cửa hàng" value="${storeName != null ? storeName : ''}">
