@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CategoryStore;
 import model.Store;
 import utils.DBUtils;
 
@@ -296,8 +297,9 @@ public class StoreDAO {
 
                 // Category and timestamps
                 StoreCategoryDAO storeCateDAO = new StoreCategoryDAO();
-                store.setStoreCategoryId(storeCateDAO.setCategoryStore(rs.getString("StoreCategoryID")));
-
+                CategoryStore cate = storeCateDAO.getStoreCateByID(rs.getString("StoreCategoryID"));
+                store.setStoreCategoryId(cate);
+                
                 // Get owner info from UserDAO
                 UserDAO uDAO = new UserDAO();
                 store.setOwnerUserID(uDAO.getUserByID(rs.getString("OwnerUserID")));
@@ -346,9 +348,6 @@ public class StoreDAO {
                 store.setBankAccountName(rs.getString("BankAccountName"));
                 store.setBankAccountNumber(rs.getString("BankAccountNumber"));
                 store.setBankName(rs.getString("BankName"));
-
-                // URLs
-                System.out.println(rs.getString("LogoURL"));
 
                 store.setLogoURL(rs.getString("LogoURL"));
                 store.setBannerURL(rs.getString("BannerURL"));

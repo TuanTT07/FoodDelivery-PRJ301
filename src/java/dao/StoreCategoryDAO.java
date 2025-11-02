@@ -44,23 +44,25 @@ public class StoreCategoryDAO {
         }
         return cs;
     }
-    
-     public CategoryStore getStoreCateByID(String id) {
-        CategoryStore res = new CategoryStore();
+
+    public CategoryStore getStoreCateByID(String id) {
+        CategoryStore res = null;
         try {
             Connection conn = DBUtils.getConnection();
-            String sql = "SELECT * FROM tblStoreCategory WHERE StoreCategoryID LIKE ?";
+            String sql = "SELECT * FROM tblStoreCategory WHERE StoreCategoryID = ?";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
+                res = new CategoryStore();
                 res.setStoreCategoryId(rs.getString("StoreCategoryID"));
                 res.setStoreCategoryName(rs.getString("StoreCategoryName"));
-                res.setIsActive(rs.getBoolean("[IsActive]"));
+                res.setIsActive(rs.getBoolean("IsActive"));
                 return res;
             }
         } catch (Exception e) {
         }
         return res;
     }
+
 }
