@@ -59,6 +59,30 @@
                                     <input class="inputPhone" type="text" name="Phone" placeholder="Số điện thoại" value="${u.userPhone}" >
                                     <span style="color:red">${error_phone}</span>
                                 </div>
+                                <c:if test="${param.action eq 'signUpUser'}">
+                                    <div>
+                                        <label class="label_address">Địa chỉ</label>
+                                        <div class="Form_Address">
+                                            <div>
+                                                <input class="inputStreet" type="text" name="street" placeholder="Số/ đường" value="${street != null ? street : param.street}" >
+                                            </div>
+                                            <div>
+                                                <input class="inputWard" type="text" name="district" placeholder="Phường/Xã" value="${ward != null ? ward : param.ward}" >
+                                            </div>
+
+                                            <div>
+                                                <select class="inputCity" name="city">
+                                                    <option value="">Chọn tỉnh/thành phố</option>
+                                                    <option value="1" ${city == '1' ? 'selected' : ''}>TP. Hồ Chí Minh</option>
+                                                    <option value="2" ${city == '2' ? 'selected' : ''}>Hà Nội</option>
+                                                    <option value="3" ${city == '3' ? 'selected' : ''}>Đà Nẵng</option>
+                                                    <option value="4" ${city == '4' ? 'selected' : ''}>Cần Thơ</option>
+                                                </select>     
+                                            </div>                                 
+                                        </div>
+                                        <span style="color: red">${error_address}</span>
+                                    </div>
+                                </c:if>
                                 <!-- Form cho Delivery -->
 
                                 <c:if test="${param.action eq 'signUpDelivery'}">
@@ -70,6 +94,17 @@
                                         <option value="4" ${city == '4' ? 'selected' : ''}>Cần Thơ</option>
                                     </select>     
                                     <span style="color: red">${error_address}</span>
+                                </c:if>
+                                <c:if test="${param.action ne 'signUpStore'}">
+                                    <div>
+                                        <label >Ảnh đại diện(Bắt buộc):</label>
+                                        <input type="file" id="avatarFile" name="avatar" accept="image/*" ${param.action eq 'signUpDelivery' and empty avatar ? 'required' : ''}} >
+                                        <input type="hidden" name="txtAvatarUser" id="avatarBase64" value="${avatar}"  >
+                                        <img id="avatarPreview"
+                                             src="${not empty avatar ? avatar : ''}"
+                                             style="display: ${not empty avatar ? 'block' : 'none'}; max-width:150px; margin-top:5px;" />
+                                        <span style="color: red;display: block">${error_avatar}</span>
+                                    </div>
                                 </c:if>
 
                                 <!-- Form cho Store -->
@@ -210,33 +245,6 @@
         </main>              
         <jsp:include page="/includes/footer.jsp"/>
 
-        <script>
-            function handleFileInput(fileInputId, hiddenInputId, previewImgId) {
-                const fileInput = document.getElementById(fileInputId);
-                const hiddenInput = document.getElementById(hiddenInputId);
-                const previewImg = document.getElementById(previewImgId);
-
-                fileInput.addEventListener('change', function () {
-                    const file = this.files[0];
-                    if (!file)
-                        return;
-
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const base64String = e.target.result; // data:image/png;base64,...
-                        hiddenInput.value = base64String;
-
-                        // Hiển thị preview
-                        previewImg.src = base64String;
-                        previewImg.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-
-            // Áp dụng cho cả 2 file input
-            handleFileInput('avatarFile', 'avatarBase64', 'avatarPreview');
-            handleFileInput('coverFile', 'coverImageBase64', 'coverPreview');
-        </script>
+        <script src="${pageContext.request.contextPath}/assets/js/handleFile.js"></script>
     </body>
 </html>

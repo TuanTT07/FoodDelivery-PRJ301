@@ -39,6 +39,7 @@ public class UserDAO {
                 user.setUserPassword(rs.getString("UserPassword"));
                 user.setUserPhone(rs.getString("UserPhone"));
                 user.setUserAddress(rs.getString("UserAddress"));
+                user.setAvatarURL(rs.getString("AvatarURL"));
                 Role role = new Role(rs.getString("RoleID"), null);
                 user.setRoleID(role);
                 Timestamp tsCreated = rs.getTimestamp("CreatedAt");
@@ -79,6 +80,7 @@ public class UserDAO {
                 user.setUserPassword(rs.getString("UserPassword"));
                 user.setUserPhone(rs.getString("UserPhone"));
                 user.setUserAddress(rs.getString("UserAddress"));
+                user.setAvatarURL(rs.getString("AvatarURL"));
                 Role role = new Role(rs.getString("RoleID"), null);
                 user.setRoleID(role);
                 Timestamp tsCreated = rs.getTimestamp("CreatedAt");
@@ -118,6 +120,7 @@ public class UserDAO {
                 user.setUserPassword(rs.getString("UserPassword"));
                 user.setUserPhone(rs.getString("UserPhone"));
                 user.setUserAddress(rs.getString("UserAddress"));
+                user.setAvatarURL(rs.getString("AvatarURL"));
                 Role role = new Role(rs.getString("RoleID"), null);
                 user.setRoleID(role);
                 Timestamp tsCreated = rs.getTimestamp("CreatedAt");
@@ -201,8 +204,8 @@ public class UserDAO {
         }
 
         String sql = "INSERT INTO tblUser (UserID, UserName, FullName, UserEmail, "
-                + "UserPassword, UserPhone, UserAddress, RoleID, CreatedAt, UpdatedAt, Status) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), NULL, ?)";
+                + "UserPassword, UserPhone, UserAddress, AvatarURL, RoleID, CreatedAt, UpdatedAt, Status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), NULL, ?)";
         try {
             Connection conn = DBUtils.getConnection();
             PreparedStatement pst = conn.prepareStatement(sql);
@@ -213,8 +216,9 @@ public class UserDAO {
             pst.setString(5, user.getUserPassword());
             pst.setString(6, user.getUserPhone());
             pst.setString(7, user.getUserAddress());
-            pst.setString(8, user.getRoleID().getRoleID());
-            pst.setBoolean(9, true); // Status = 1
+            pst.setString(8, user.getAvatarURL());
+            pst.setString(9, user.getRoleID().getRoleID());
+            pst.setBoolean(10, true); // Status = 1
             return pst.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
