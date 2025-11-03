@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dao.ProductDAO;
+import dao.ProductDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -11,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Product;
+import model.ProductDetail;
 
 /**
  *
@@ -19,28 +23,68 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ProductDetailController", urlPatterns = {"/ProductDetailController"})
 public class ProductDetailController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private void processAddProductDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtProductID = request.getParameter("productID");
+        String txtSize = request.getParameter("size");
+        String txtCombo = request.getParameter("combo");
+        String txtExtraInfo = request.getParameter("extraInfo");
+
+        boolean hasError = false;
+        String error_Size = "";
+        String error_Com = "";
+        String error_ExtraInfo = "";
+        String error = "";
+
+        if (txtSize == null || txtSize.trim().isEmpty()) {
+            error_Size = "Vui lòng chọn kích cỡ sản phẩm!";
+            hasError = true;
+        }
+        if (txtCombo == null || txtCombo.trim().isEmpty()) {
+            error_Com = "Vui lòng đề xuất combo cho khách hàng!";
+            hasError = true;
+        }
+        if (txtExtraInfo == null || txtExtraInfo.trim().isEmpty()) {
+            error_ExtraInfo = "Vui lòng nhập mô tả!";
+            hasError = true;
+        }
+
+        ProductDAO pDAO = new ProductDAO();
+        Product p = pDAO.getProductByProductID(txtProductID);
+        if (p == null) {
+            error = "Không tìm thấy sản phẩm thích hợp!";
+            hasError = true;
+        }
+        if (hasError) {
+            request.setAttribute("error_Size", error_Size);
+            request.setAttribute("error_Com", error_Com);
+            request.setAttribute("error_ExtraInfo", error_ExtraInfo);
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("/MainController?action=goToProductDetailForm&productID=" + txtProductID).forward(request, response);
+            return;
+
+        }
+
+        ProductDetail pDetail = new ProductDetail(txtSize, txtCombo, txtExtraInfo, p);
+        ProductDetailDAO pdDAO = new ProductDetailDAO();
+        if (!pdDAO.insertProductDetail(pDetail)) {
+            error = "Quá trình thêm chi tiết sản phẩm bị lỗi. Vui lòng thử lại!";
+            request.getRequestDispatcher("/MainController?action=goToProductDetailForm&productID=" + txtProductID).forward(request, response);
+            return;
+        }
+        request.setAttribute("success", "Đã thêm chi tiết sản phẩm thành công");
+        request.getRequestDispatcher("/MainController?action=goToProductDetailForm&productID=" + txtProductID).forward(request, response);
+        return;
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProductDetailController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProductDetailController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        String action = request.getParameter("action");
+
+        if (action.equals("addProductDetail")) {
+            processAddProductDetail(request, response);
         }
     }
 

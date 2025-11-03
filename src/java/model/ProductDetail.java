@@ -24,6 +24,14 @@ public class ProductDetail {
         this.productID = productID;
     }
 
+    public ProductDetail(String size, String combo, String extraInfo, Product productID) {
+        this.size = size;
+        this.combo = combo;
+        this.extraInfo = extraInfo;
+        this.productID = productID;
+    }
+    
+
     public String getDetailID() {
         return detailID;
     }
