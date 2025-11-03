@@ -90,3 +90,136 @@
 
     }
 }
+
+/* ====== MENU SECTION ====== */
+.menu-tabs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 16px;
+    background: #fff;
+    margin-top: 40px;
+}
+.menu-tabs::-webkit-scrollbar {
+    display: none;
+}
+.tab-btn {
+    flex-shrink: 0;
+    padding: 10px 22px;
+    font-size: 1rem;
+    color: #333;
+    border: none;
+    border-radius: 20px;
+    background: #f6f6f6;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+.tab-btn:hover,
+.tab-btn.active {
+    background: #ffcf70;
+    color: #000;
+}
+
+section[id] {
+    margin-top: 50px;
+}
+
+section[id] h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #222;
+    font-family: var(--font-family_second);
+}
+
+section[id] .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 14px;
+}
+
+.product-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.product-card p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.product-card span {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #e67e22;
+}
+
+.btn-add-cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #7b2ff7;
+    background-image: linear-gradient(45deg, #7b2ff7, #9c6bff);
+    box-shadow: 0 3px 6px rgba(123, 47, 247, 0.25);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* icon bên trong */
+.btn-add-cart img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+    margin-top: 14px;
+}
+
+/* hiệu ứng hover */
+.btn-add-cart:hover {
+    background-image: linear-gradient(45deg, #8b48ff, #b28dff);
+    box-shadow: 0 0 10px rgba(155, 105, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+
+
+
+
+

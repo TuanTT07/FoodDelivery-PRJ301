@@ -35,7 +35,7 @@
 
                 <div class="layout">
                     <h2 class="layout__title">Món ăn</h2>
-                    <p class="layout__subtitle">Experience our finest dishes of the day</p>
+                    <p class="layout__subtitle">Trải nghiệm những món ăn ngon của chúng tôi hôm nay</p>
 
                     <div class="layout__grid">
 
@@ -52,14 +52,19 @@
                                     <img src="${pageContext.request.contextPath}/assets/img/spagheti.png" alt="Spaghetti" class="products__img">
                                     <h3 class="layout__name">${p.productName}</h3>
                                     <p class="layout__price">${p.productPrice}VND</p>
+                                    <p class="layout__category">Danh mục:</p>
                                     <div class="layout__actions">
                                         <a href="${pageContext.request.contextPath}/MainController?action=editProduct&productID=${p.productID}">
-                                            Edit
+                                            Chỉnh sửa
                                         </a>
 
                                         <a href="${pageContext.request.contextPath}/MainController?action=deleteProduct&productID=${p.productID}&storeID=${sessionScope.store.storeID}"
-                                           onclick="return confirm('Xác nhận xoá sản phẩm này?')">Delete</a>
+                                           onclick="return confirm('Xác nhận xoá sản phẩm này?')">Xóa</a>
+
                                     </div>
+                                    <a href="#" class="">
+                                        Thêm thông tin chi tiết
+                                    </a>
                                 </div>
                             </c:if>
                         </c:forEach>

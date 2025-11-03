@@ -50,7 +50,7 @@
                 <div class="layout">
 
                     <h2 class="layout__title">Thực đơn</h2>
-                    <p class="layout__subtitle">Experience our finest dishes of the day</p>
+                    <p class="layout__subtitle">Trải nghiệm những món ăn ngon của chúng tôi hôm nay</p>
 
                     <div class="layout__grid">
                         <div class="layout__card--add">
@@ -85,8 +85,8 @@
                                     <h3 class="layout__name">${cate.categoryName}</h3>
                                     <p class="${cate.isActive? "layout__active": "layout__stop"}">${cate.isActive? "Đang hoạt động": "Tạm ngưng"}</p>
                                     <div class="layout__actions">
-                                        <a class="layout__actions--edit" href="#">Edit</a>
-                                        <a href="${pageContext.request.contextPath}/MainController?action=deleteCate&idCate=${cate.categoryID}">Delete</a>
+                                        <a class="layout__actions--edit" href="#">Chỉnh sửa</a>
+                                        <a href="${pageContext.request.contextPath}/MainController?action=deleteCate&idCate=${cate.categoryID}">Xóa</a>
                                     </div>
                                 </div>
                             </c:if>

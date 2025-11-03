@@ -36,19 +36,19 @@
                     <div class="store__stats">
                         <div class="store__card">
                             <h3 class="store__card-number">12</h3>
-                            <p class="store__card-label">Order</p>
+                            <p class="store__card-label">Đơn hàng</p>
                         </div>
                         <div class="store__card">
                             <h3 class="store__card-number">8</h3>
-                            <p class="store__card-label">Completed</p>
+                            <p class="store__card-label">Đã hoàn thành</p>
                         </div>
                         <div class="store__card">
                             <h3 class="store__card-number">2</h3>
-                            <p class="store__card-label">Delivering</p>
+                            <p class="store__card-label">Đang vận chuyển</p>
                         </div>
                         <div class="store__card">
                             <h3 class="store__card-number">5</h3>
-                            <p class="store__card-label">Favourite</p>
+                            <p class="store__card-label">Yêu thích</p>
                         </div>
                     </div>
                 </div>

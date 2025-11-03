@@ -78,18 +78,21 @@
 
                         <section id="${fn:replace(category.categoryName,' ','-')}">
                             <h2>${category.categoryName}</h2>
-                            <c:forEach var="p" items="${products}">
-                                <div class="product-card">
-                                    <%--<img src="${pageContext.request.contextPath}/assets/img/${p.image != null ? p.image : 'default.png'}" alt="${p.productName}">--%>
-                                    <h3>${p.productName}</h3>
-                                    <p>${p.productDesc}</p>
-                                    <span>${p.productPrice} VND</span>
-                                </div>
-                            </c:forEach>
+                            <div class="product-grid">
+                                <c:forEach var="p" items="${products}">
+                                    <div class="product-card">
+                                        <%--<img src="${pageContext.request.contextPath}/assets/img/${p.image != null ? p.image : 'default.png'}" alt="${p.productName}">--%>
+                                        <h3>${p.productName}</h3>
+                                        <p>${p.productDesc}</p>
+                                        <span>${p.productPrice} VND</span>
+                                        <button class="btn-add-cart">
+                                            <img src="${pageContext.request.contextPath}/assets/img/cart-shopping-solid-full.svg" alt="cart" />
+                                        </button>
+                                    </div>
+                                </c:forEach>
+                            </div>
                         </section>
                     </c:forEach>
-
-
             </section>
         </main>
         <jsp:include page="/includes/footer.jsp"></jsp:include>
