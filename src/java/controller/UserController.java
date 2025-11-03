@@ -71,7 +71,7 @@ public class UserController extends HttpServlet {
         if (Validation.ROLE_ADMIN.equalsIgnoreCase(role)) {
             response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
         } else if (Validation.ROLE_STORE_OWNER.equalsIgnoreCase(role)) {
-        //xử lí store
+            //xử lí store
             response.sendRedirect(request.getContextPath() + "/MainController?action=getStore");
         } else if (Validation.ROLE_DRIVER.equalsIgnoreCase(role)) {
             response.sendRedirect(request.getContextPath() + "/delivery/dashboard.jsp");
@@ -86,19 +86,27 @@ public class UserController extends HttpServlet {
     private void processAddUser(HttpServletRequest request, HttpServletResponse response, boolean isDelivery)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        System.out.println(action);
         String username = request.getParameter("userName");
+        System.out.println(username);
         String password = request.getParameter("password");
+        System.out.println(password);
         String fullName = request.getParameter("Fullname");
+        System.out.println(fullName);
         String email = request.getParameter("email");
+        System.out.println(email);
         String phone = request.getParameter("Phone");
+        System.out.println(phone);
+        String avatar = request.getParameter("txtAvatarUser");
+        System.out.println(avatar);
 
         //set role
         RoleDAO rDAO = new RoleDAO();
         Role role = rDAO.setRole(action);
-
+        System.out.println(role);
         // Địa chỉ tách 3 phần
         String street = request.getParameter("street"); // số/đường
-        String ward = request.getParameter("ward");   // phường/xã
+        String ward = request.getParameter("district");   // phường/xã
         String cityCode = request.getParameter("city");   // 1/2/3/4
 
         String cityName = "";
@@ -124,8 +132,9 @@ public class UserController extends HttpServlet {
             addr.append(addr.length() > 0 ? ", " : "").append(cityName);
         }
         String address = addr.toString();
+        System.out.println(address);
 
-        User user = new User(username, fullName, email, password, phone, address, role);
+        User user = new User(username, fullName, email, password, phone, address, avatar, role);
         UserDAO userDAO = new UserDAO();
 
         String error_username = "";
@@ -134,6 +143,7 @@ public class UserController extends HttpServlet {
         String error_email = "";
         String error_phone = "";
         String error_address = "";
+        String error_avatar = "";
 
         boolean hasError = false;
         // Validate 
@@ -176,10 +186,15 @@ public class UserController extends HttpServlet {
             error_phone = "Phone is required!";
             hasError = true;
         } else if (!phone.matches(Validation.PHONE_REGEX)) {
-            error_phone = "đầu số của các nhà mạng hợp pháp (03, 05, 07, 08, 09)";
+            error_phone = "đầu số của các nhà mạng hợp pháp (03, 05, 07, 08, 09) và tối đa là 10 số";
             hasError = true;
         } else if (userDAO.existsByPhone(phone)) {
             error_phone = "phone number used";
+            hasError = true;
+        }
+        
+        if (avatar == null || avatar.trim().isEmpty()) {
+            error_avatar = "Vui lòng chọn ảnh đại diện!";
             hasError = true;
         }
 
@@ -198,9 +213,11 @@ public class UserController extends HttpServlet {
             request.setAttribute("error_email", error_email);
             request.setAttribute("error_phone", error_phone);
             request.setAttribute("error_address", error_address);
+            request.setAttribute("error_avatar", error_avatar);
             request.setAttribute("street", street);
             request.setAttribute("ward", ward);
             request.setAttribute("city", cityCode);
+            request.setAttribute("avatar", avatar);
             request.getRequestDispatcher("/auth/register.jsp").forward(request, response);
             return;
         }
