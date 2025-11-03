@@ -30,22 +30,22 @@ public class MainController extends HttpServlet {
         //Group actions for each controller
         String[] roleActions = {};
         String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "updateUser", "deleteUser", "signUpDelivery"};
-        String[] storeActions = {"signUpStore", "getStore", "updateStore","searchStoreByCate","searchStoreByLocation", "goToStoreDetail"};
-        String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct","editProduct", "updateProduct"};
-        String[] productDetailActions = {"viewProductDetail"};
-        String[] productOptionActions = {"addProductOption"};
-        String[] toppingActions = {"addTopping", "updateTopping"};
+        String[] storeActions = {"signUpStore", "getStore", "updateStore", "searchStoreByCate", "searchStoreByLocation", "goToStoreDetail", "goToProductDetailForm"};
+        String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct", "editProduct", "updateProduct"};
+        String[] productDetailActions = {"addProductDetail"};
+        String[] productOptionActions = {};
+        String[] toppingActions = {};
         String[] productToppingActions = {};
-        String[] cartActions = {"viewCart", "clearCart"};
-        String[] cartItemActions = {"addToCart", "updateCartItem", "deleteCartItem"};
-        String[] categoryActions = {"addCategory", "updateCate", "viewCate","addCate","deleteCate", "activeCate","goToProductForm"};
-        String[] orderActions = {"placeOrder", "viewOrderHistory", "cancelOrder", "confirmDelivery"};//confirmDelivery for shiper
-        String[] orderDetailActions = {"viewOrderDetail"};
-        String[] paymentActions = {"processPayment", "paymentSuccess", "paymentFail"};
+        String[] cartActions = {};
+        String[] cartItemActions = {};
+        String[] categoryActions = {"addCategory", "updateCate", "viewCate", "addCate", "deleteCate", "activeCate", "goToProductForm"};
+        String[] orderActions = {};
+        String[] orderDetailActions = {};
+        String[] paymentActions = {};
         String[] paymentGatewayActions = {};
-        String[] reviewActions = {"submitReview", "viewReviews"};
-        String[] eventActions = {"createEvent", "applyEvent"};
-        String[] voucherActions = {"applyVoucher", "createVoucher"}; //applyVoucher for user, createVoucher for admin or store owner
+        String[] reviewActions = {};
+        String[] eventActions = {};
+        String[] voucherActions = {}; //applyVoucher for user, createVoucher for admin or store owner
 
         if (Arrays.asList(userActions).contains(action)) {
             url = "UserController";

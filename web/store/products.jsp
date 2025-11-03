@@ -60,11 +60,10 @@
 
                                         <a href="${pageContext.request.contextPath}/MainController?action=deleteProduct&productID=${p.productID}&storeID=${sessionScope.store.storeID}"
                                            onclick="return confirm('Xác nhận xoá sản phẩm này?')">Xóa</a>
-
+                                        <a href="${pageContext.request.contextPath}/MainController?action=goToProductDetailForm&productID=${p.productID}" class="">
+                                            Thêm thông tin chi tiết
+                                        </a>
                                     </div>
-                                    <a href="#" class="">
-                                        Thêm thông tin chi tiết
-                                    </a>
                                 </div>
                             </c:if>
                         </c:forEach>

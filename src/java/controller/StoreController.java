@@ -203,7 +203,7 @@ public class StoreController extends HttpServlet {
         StoreDAO storeDAO = new StoreDAO();
         try {
             UserDAO uDAO = new UserDAO();
-            
+
             System.out.println(uDAO.changeRoleStoreOwner(txtUserId));
             storeDAO.insertStore(store);
             response.sendRedirect("store/dashboard.jsp");
@@ -319,12 +319,29 @@ public class StoreController extends HttpServlet {
         request.getRequestDispatcher("store/storeDetail.jsp").forward(request, response);
     }
 
+    private void processGoToProductDetailForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtProductID = request.getParameter("productID");
+        ProductDAO productDAO = new ProductDAO();
+        Product product = productDAO.getProductByProductID(txtProductID);
+        if (product == null) {
+            request.setAttribute("errorMessage", "Sản phẩm không tồn tại hoặc đã bị xóa.");
+            request.getRequestDispatcher("/404.jsp").forward(request, response);
+            return;
+        } else {
+            request.getRequestDispatcher("/store/formProductDetail.jsp").forward(request, response);
+            return;
+        }
+
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
+        
         if (action.equals("signUpStore")) {
             processAddStore(request, response);
         } else if (action.equals("searchStoreByLocation")) {
@@ -335,6 +352,8 @@ public class StoreController extends HttpServlet {
             processGetStore(request, response);
         } else if (action.equals("goToStoreDetail")) {
             processGoToStoreDetail(request, response);
+        } else if (action.equals("goToProductDetailForm")) {
+            processGoToProductDetailForm(request, response);
         }
 
     }
