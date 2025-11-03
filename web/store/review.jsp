@@ -32,7 +32,7 @@
 
                 <!-- Review Content -->
                 <div class="review__list">
-                    <h2 class="review__title">Store Review</h2>
+                    <h2 class="review__title">Đánh giá cửa hàng</h2>
                     <div class="review__item">
                         <div class="review__top">
                             <div class="review__user">
@@ -49,8 +49,8 @@
                             Dịch vụ tốt, nhân viên thân thiện và sản phẩm chất lượng. Tôi rất hài lòng!
                         </p>
                         <div class="review__actions">
-                            <button>Response</button>
-                            <button>Delete</button>
+                            <button>Trả lời</button>
+                            <button>Xóa</button>
                         </div>
                     </div>
 
@@ -70,8 +70,8 @@
                             Hàng giao hơi chậm nhưng chất lượng ổn. Cửa hàng nên cải thiện khâu vận chuyển.
                         </p>  
                         <div class="review__actions">
-                            <button>Response</button>
-                            <button>Delete</button>
+                            <button>Trả lời</button>
+                            <button>Xóa</button>
                         </div>
                     </div>
                 </div>

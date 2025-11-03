@@ -35,12 +35,12 @@
                     <h2 class="wallet__title">Revenue</h2>
                     <div class="wallet__stat">
                         <div class="wallet__card">
-                            <h3 class="wallet__card-text">Revenue</h3>
+                            <h3 class="wallet__card-text">Doanh thu</h3>
                             <p class="wallet__card-number">$300.00</p>
                         </div>
 
                         <div class="wallet__card">
-                            <h3 class="wallet__card-text">Profit</h3>
+                            <h3 class="wallet__card-text">Lợi nhuận</h3>
                             <p class="wallet__card-number">$123.00</p>
                         </div>
                     </div>

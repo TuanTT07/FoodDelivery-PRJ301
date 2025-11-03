@@ -32,27 +32,27 @@
 
                 <!-- Dashboard Content -->
                 <div class="orders">
-                    <h2 class="orders__title">List of orders</h2>
+                    <h2 class="orders__title">Danh sách món ăn</h2>
                     <div class="orders__grid">
                         <div class="orders__card">
                             <img src="${pageContext.request.contextPath}/assets/img/spaghetti.png" alt="Spaghetti" class="products__img">
                             <h3 class="products__name">Spaghetti</h3>
                             <p class="products__price">$12.50</p>
-                            <p class="orders__status">Completed</p>
+                            <p class="orders__status">Đã hoàn thành</p>
                         </div>
                             
                         <div class="orders__card">
                             <img src="${pageContext.request.contextPath}/assets/img/beef-burger.jpg" alt="Beef Burger" class="products__img">
                             <h3 class="products__name">Beef Burger</h3>
                             <p class="products__price">$8.90</p>
-                            <p class="orders__status">Delivering</p>
+                            <p class="orders__status">Đang giao</p>
                         </div>
                             
                         <div class="orders__card">
                             <img src="${pageContext.request.contextPath}/assets/img/pizza-margherita.jpg" alt="Pizza Margherita" class="products__img">
                             <h3 class="products__name">Pizza Margherita</h3>
                             <p class="products__price">$10.00</p>
-                            <p class="orders__status">Canceled</p>
+                            <p class="orders__status">Đã hủy đơn</p>
                         </div>
                     </div>
                 </div>

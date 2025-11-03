@@ -14,7 +14,6 @@
         <!-- CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/pagesCss/cart.css"/>
         <!-- FONT -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
