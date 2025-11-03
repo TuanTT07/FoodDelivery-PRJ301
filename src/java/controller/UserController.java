@@ -86,24 +86,17 @@ public class UserController extends HttpServlet {
     private void processAddUser(HttpServletRequest request, HttpServletResponse response, boolean isDelivery)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        System.out.println(action);
         String username = request.getParameter("userName");
-        System.out.println(username);
         String password = request.getParameter("password");
-        System.out.println(password);
         String fullName = request.getParameter("Fullname");
-        System.out.println(fullName);
         String email = request.getParameter("email");
-        System.out.println(email);
         String phone = request.getParameter("Phone");
-        System.out.println(phone);
         String avatar = request.getParameter("txtAvatarUser");
-        System.out.println(avatar);
 
         //set role
         RoleDAO rDAO = new RoleDAO();
         Role role = rDAO.setRole(action);
-        System.out.println(role);
+
         // Địa chỉ tách 3 phần
         String street = request.getParameter("street"); // số/đường
         String ward = request.getParameter("district");   // phường/xã
@@ -132,7 +125,6 @@ public class UserController extends HttpServlet {
             addr.append(addr.length() > 0 ? ", " : "").append(cityName);
         }
         String address = addr.toString();
-        System.out.println(address);
 
         User user = new User(username, fullName, email, password, phone, address, avatar, role);
         UserDAO userDAO = new UserDAO();
@@ -192,7 +184,7 @@ public class UserController extends HttpServlet {
             error_phone = "phone number used";
             hasError = true;
         }
-        
+
         if (avatar == null || avatar.trim().isEmpty()) {
             error_avatar = "Vui lòng chọn ảnh đại diện!";
             hasError = true;
