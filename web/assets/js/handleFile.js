@@ -1,8 +1,3 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
- */
-
 function handleFileInput(fileInputId, hiddenInputId, previewImgId) {
     const fileInput = document.getElementById(fileInputId);
     const hiddenInput = document.getElementById(hiddenInputId);
@@ -27,3 +22,4 @@ function handleFileInput(fileInputId, hiddenInputId, previewImgId) {
 // Áp dụng cho cả 2 file input
 handleFileInput('avatarFile', 'avatarBase64', 'avatarPreview');
 handleFileInput('coverFile', 'coverImageBase64', 'coverPreview');
+

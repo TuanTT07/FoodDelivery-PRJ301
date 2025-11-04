@@ -133,29 +133,47 @@
             </div>
 
             <!-- FORM 3: PRODUCT PICTURES -->
-            <div class="card mb-4">
-                <div class="card-header bg-info text-white">Product Pictures</div>
-                <div class="card-body">
-                    <form action="${pageContext.request.contextPath}/MainController" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="addProductPicture">
-                        <input type="hidden" name="productID" value="${param.productID}">
+            <form action="${pageContext.request.contextPath}/MainController" method="post" id="pictureForm">
+                <input type="hidden" name="action" value="addProductPicture">
+                <input type="hidden" name="productID" value="${param.productID}">
+                <input type="hidden" name="base64List" id="base64List">
 
-                        <div class="mb-3">
-                            <label class="form-label">Upload Pictures</label>
-                            <input type="file" name="pictureFiles" class="form-control" multiple required>
-                            <div class="form-text">You can select multiple pictures.</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Main Picture</label>
-                            <input type="checkbox" name="isMain" value="true"> Set as main picture
-                        </div>
-
-                        <button type="submit" class="btn btn-info text-white">Upload Pictures</button>
-                    </form>
+                <div class="mb-3">
+                    <label class="form-label">Upload Pictures</label>
+                    <input type="file" id="pictureInput" multiple accept="image/*" class="form-control" required>
+                    <div class="form-text">You can select multiple pictures.</div>
                 </div>
-            </div>
 
+                <div id="previewContainer" class="d-flex gap-2 flex-wrap"></div>
+
+                <button type="submit" class="btn btn-info text-white">Upload Pictures</button>
+            </form>
+            <!-- Success or Error Alert -->
+            <c:if test="${not empty successPicture}">
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="pictureSuccessAlert">
+                    ${successPicture}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const form = document.getElementById('pictureForm');
+                        if (form)
+                            form.style.display = 'none'; // Ẩn form khi upload thành công
+
+                        // Tự ẩn alert sau 3 giây
+                        setTimeout(() => {
+                            const alert = document.getElementById('pictureSuccessAlert');
+                            if (alert)
+                                alert.style.display = 'none';
+                        }, 3000);
+                    });
+                </script>
+            </c:if>
+
+            <c:if test="${not empty errorPicture}">
+                <div class="alert alert-danger mt-3">${errorPicture}</div>
+            </c:if>
             <!-- Back to Product Page -->
             <div class="text-center">
                 <!-- Cần phải xử lí lại -->
@@ -166,69 +184,70 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                            const container = document.getElementById('optionContainer');
-                            const addBtn = document.getElementById('addOption');
+                    const container = document.getElementById('optionContainer');
+                    const addBtn = document.getElementById('addOption');
 
-                            // Hàm tạo 1 dòng option mới
-                            function createOptionRow() {
-                                const row = document.createElement('div');
-                                row.classList.add('row', 'mb-2', 'optionRow');
+                    // Hàm tạo 1 dòng option mới
+                    function createOptionRow() {
+                        const row = document.createElement('div');
+                        row.classList.add('row', 'mb-2', 'optionRow');
 
-                                const colType = document.createElement('div');
-                                colType.classList.add('col-md-4');
-                                const inputType = document.createElement('input');
-                                inputType.type = 'text';
-                                inputType.name = 'optionType';
-                                inputType.classList.add('form-control');
-                                inputType.placeholder = 'Option Type (e.g. Topping)';
-                                inputType.required = true;
-                                colType.appendChild(inputType);
+                        const colType = document.createElement('div');
+                        colType.classList.add('col-md-4');
+                        const inputType = document.createElement('input');
+                        inputType.type = 'text';
+                        inputType.name = 'optionType';
+                        inputType.classList.add('form-control');
+                        inputType.placeholder = 'Option Type (e.g. Topping)';
+                        inputType.required = true;
+                        colType.appendChild(inputType);
 
-                                const colValue = document.createElement('div');
-                                colValue.classList.add('col-md-4');
-                                const inputValue = document.createElement('input');
-                                inputValue.type = 'text';
-                                inputValue.name = 'optionValue';
-                                inputValue.classList.add('form-control');
-                                inputValue.placeholder = 'Option Value (e.g. Cheese)';
-                                inputValue.required = true;
-                                colValue.appendChild(inputValue);
+                        const colValue = document.createElement('div');
+                        colValue.classList.add('col-md-4');
+                        const inputValue = document.createElement('input');
+                        inputValue.type = 'text';
+                        inputValue.name = 'optionValue';
+                        inputValue.classList.add('form-control');
+                        inputValue.placeholder = 'Option Value (e.g. Cheese)';
+                        inputValue.required = true;
+                        colValue.appendChild(inputValue);
 
-                                const colPrice = document.createElement('div');
-                                colPrice.classList.add('col-md-3');
-                                const inputPrice = document.createElement('input');
-                                inputPrice.type = 'number';
-                                inputPrice.step = '0.01';
-                                inputPrice.name = 'extraPrice';
-                                inputPrice.classList.add('form-control');
-                                inputPrice.placeholder = 'Extra Price';
-                                colPrice.appendChild(inputPrice);
+                        const colPrice = document.createElement('div');
+                        colPrice.classList.add('col-md-3');
+                        const inputPrice = document.createElement('input');
+                        inputPrice.type = 'number';
+                        inputPrice.step = '0.01';
+                        inputPrice.name = 'extraPrice';
+                        inputPrice.classList.add('form-control');
+                        inputPrice.placeholder = 'Extra Price';
+                        colPrice.appendChild(inputPrice);
 
-                                const colBtn = document.createElement('div');
-                                colBtn.classList.add('col-md-1', 'd-flex', 'align-items-center');
-                                const removeBtn = document.createElement('button');
-                                removeBtn.type = 'button';
-                                removeBtn.textContent = '−';
-                                removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
-                                removeBtn.addEventListener('click', () => row.remove());
-                                colBtn.appendChild(removeBtn);
+                        const colBtn = document.createElement('div');
+                        colBtn.classList.add('col-md-1', 'd-flex', 'align-items-center');
+                        const removeBtn = document.createElement('button');
+                        removeBtn.type = 'button';
+                        removeBtn.textContent = '−';
+                        removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
+                        removeBtn.addEventListener('click', () => row.remove());
+                        colBtn.appendChild(removeBtn);
 
-                                // gắn tất cả vào row
-                                row.appendChild(colType);
-                                row.appendChild(colValue);
-                                row.appendChild(colPrice);
-                                row.appendChild(colBtn);
+                        // gắn tất cả vào row
+                        row.appendChild(colType);
+                        row.appendChild(colValue);
+                        row.appendChild(colPrice);
+                        row.appendChild(colBtn);
 
-                                return row;
-                            }
+                        return row;
+                    }
 
-                            // khi load trang, có 1 dòng mặc định
-                            container.appendChild(createOptionRow());
+                    // khi load trang, có 1 dòng mặc định
+                    container.appendChild(createOptionRow());
 
-                            // khi nhấn + Add Option
-                            addBtn.addEventListener('click', () => {
-                                container.appendChild(createOptionRow());
-                            });
+                    // khi nhấn + Add Option
+                    addBtn.addEventListener('click', () => {
+                        container.appendChild(createOptionRow());
+                    });
         </script>
+        <script src="${pageContext.request.contextPath}/assets/js/handlePictureProduct.js"></script>
     </body>
 </html>
