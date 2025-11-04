@@ -33,7 +33,7 @@ public class MainController extends HttpServlet {
         String[] storeActions = {"signUpStore", "getStore", "updateStore", "searchStoreByCate", "searchStoreByLocation", "goToStoreDetail", "goToProductDetailForm"};
         String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct", "editProduct", "updateProduct"};
         String[] productDetailActions = {"addProductDetail"};
-        String[] productOptionActions = {};
+        String[] productOptionActions = {"addProductOption"};
         String[] toppingActions = {};
         String[] productToppingActions = {};
         String[] cartActions = {};
