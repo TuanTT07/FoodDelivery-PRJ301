@@ -31,7 +31,7 @@ public class MainController extends HttpServlet {
         String[] roleActions = {};
         String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser","callUpdateUser", "updateUser", "deleteUser", "signUpDelivery"};
         String[] storeActions = {"signUpStore", "getStore", "updateStore", "searchStoreByCate", "searchStoreByLocation", "goToStoreDetail", "goToProductDetailForm"};
-        String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct", "editProduct", "updateProduct"};
+        String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct", "editProduct", "updateProduct", "goToProductDetail"};
         String[] productDetailActions = {"addProductDetail"};
         String[] productOptionActions = {"addProductOption"};
         String[] toppingActions = {};
