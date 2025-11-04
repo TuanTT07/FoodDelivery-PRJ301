@@ -4,7 +4,11 @@
  */
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import model.Role;
+import utils.DBUtils;
 
 /**
  *
@@ -28,5 +32,24 @@ public class RoleDAO {
             role.setRoleName("store_owner");
         }
         return role;
+    }
+    
+    public Role getById(String roleId) {
+        String sql = "SELECT RoleID, RoleName FROM tblRole WHERE RoleID = ?";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, roleId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Role role = new Role();
+                    role.setRoleID(rs.getString("RoleID"));
+                    role.setRoleName(rs.getString("RoleName"));
+                    return role;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

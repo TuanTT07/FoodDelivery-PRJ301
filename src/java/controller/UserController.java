@@ -248,6 +248,191 @@ public class UserController extends HttpServlet {
         response.sendRedirect("index.jsp");
     }
 
+    private void processSearchUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String name = request.getParameter("name");
+        UserDAO userDAO = new UserDAO();
+
+        ArrayList<User> listOfUsers = new ArrayList<>();
+        if (name == null || name.trim().isEmpty()) {
+            listOfUsers = userDAO.getAllUser();
+        } else {
+            listOfUsers = userDAO.getAllUserByFullName(name);
+        }
+
+        request.setAttribute("listOfUsers", listOfUsers);
+        request.setAttribute("name", name);
+
+        //Forward về customer.jsp 
+        request.getRequestDispatcher("/admin/customer.jsp").forward(request, response);
+    }
+
+    private void processCallUpdateUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        UserDAO userDao = new UserDAO();
+        String uid = request.getParameter("userID");
+        User user = userDao.getUserByID(uid);
+        if (user != null) {
+            request.setAttribute("update", true);
+            request.setAttribute("u", user);
+        }
+        request.getRequestDispatcher("/auth/update.jsp").forward(request, response);
+    }
+
+    private void processUpdateUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // 1) Lấy tham số
+        String userName = request.getParameter("userName");
+        String fullName = request.getParameter("Fullname");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("Phone");
+
+        String street = request.getParameter("street");
+        String ward = request.getParameter("ward");
+        String cityCode = request.getParameter("city");
+        String avatar = request.getParameter("txtAvatarUser");
+
+        String status = request.getParameter("status");
+        boolean checkStatus = (status != null);;
+
+        String roleId = request.getParameter("roleId");
+
+        // 2) Map city
+        String cityName = "";
+        if ("1".equals(cityCode)) {
+            cityName = "TP. Hồ Chí Minh";
+        } else if ("2".equals(cityCode)) {
+            cityName = "Hà Nội";
+        } else if ("3".equals(cityCode)) {
+            cityName = "Đà Nẵng";
+        } else if ("4".equals(cityCode)) {
+            cityName = "Cần Thơ";
+        }
+
+        UserDAO userDAO = new UserDAO();
+        User current = userDAO.getUserByUsername(userName);
+        if (current == null) {
+            request.setAttribute("msg", "Không tìm thấy tài khoản cần cập nhật.");
+            request.getRequestDispatcher("/auth/register.jsp?action=signUpUser").forward(request, response);
+            return;
+        }
+
+        // 4) Validate 
+        boolean hasError = false;
+        String error_fullName = "";
+        String error_email = "";
+        String error_phone = "";
+        String error_address = "";
+        if (fullName == null || fullName.trim().isEmpty()) {
+            error_fullName = "Full name is required!";
+            hasError = true;
+        } else if (!fullName.matches(Validation.FULLNAME_REGEX)) {
+            error_fullName = "bắt buộc có ít nhất 2 từ (ví dụ \"Nguyen Van\")";
+            hasError = true;
+        }
+
+        if (email == null || email.trim().isEmpty()) {
+            error_email = "Email is required!";
+            hasError = true;
+        } else if (!email.matches(Validation.EMAIL_REGEX)) {
+            error_email = "email sai";
+            hasError = true;
+        } else if (!email.equalsIgnoreCase(current.getUserEmail()) && userDAO.existsByEmail(email)) {
+            error_email = "email used";
+            hasError = true;
+        }
+
+        if (phone == null || phone.trim().isEmpty()) {
+            error_phone = "Phone is required!";
+            hasError = true;
+        } else if (!phone.matches(Validation.PHONE_REGEX)) {
+            error_phone = "đầu số hợp lệ (03, 05, 07, 08, 09)";
+            hasError = true;
+        } else if (!phone.equalsIgnoreCase(current.getUserPhone()) && userDAO.existsByPhone(phone)) {
+            error_phone = "phone number used";
+            hasError = true;
+        }
+        // Địa chỉ: chỉ bắt buộc nếu người dùng có nhập bất kỳ trường mới nào
+        String address = current.getUserAddress(); // mặc định giữ địa chỉ cũ
+        boolean hasNewAddress = false;
+
+        // nếu có nhập bất kỳ phần nào trong ba trường
+        if ((street != null && !street.trim().isEmpty())
+                || (ward != null && !ward.trim().isEmpty())
+                || (cityCode != null && !cityCode.trim().isEmpty())) {
+            hasNewAddress = true;
+        }
+        if (hasNewAddress) {
+            if (street == null || street.trim().isEmpty() || ward == null || ward.trim().isEmpty() || cityName.isEmpty()) {
+                error_address = "Nhập địa chỉ mới, cần đủ Số/đường, Phường/Xã và Tỉnh/TP.";
+                hasError = true;
+            } else {
+                address = street.trim() + ", " + ward.trim() + ", " + cityName;
+            }
+        }
+        // Nếu có lỗi thì quay lại form
+        if (hasError) {
+
+            request.setAttribute("error_fullName", error_fullName);
+            request.setAttribute("error_email", error_email);
+            request.setAttribute("error_phone", error_phone);
+            request.setAttribute("error_address", error_address);
+
+            request.setAttribute("street", street);
+            request.setAttribute("ward", ward);
+            request.setAttribute("city", cityCode);
+
+            // Lưu lại dữ liệu người dùng đã nhập
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("email", email);
+            request.setAttribute("phone", phone);
+            request.setAttribute("address", address);
+            request.setAttribute("u", current);
+            request.getRequestDispatcher("/auth/update.jsp").forward(request, response);
+            return;
+        }
+
+        // 6) Apply changes to 'current'
+        current.setUserFullName(fullName);  // dùng đúng tên getter/setter mà DAO đang gọi
+        current.setUserEmail(email);
+        current.setUserPhone(phone);
+        current.setUserAddress(address);
+        current.setStatus(checkStatus);
+
+        if (avatar != null && !avatar.trim().isEmpty()) {
+            current.setAvatarURL(avatar.trim()); // DAO gọi getAvatarURL()
+        }
+
+        if (roleId != null && !roleId.trim().isEmpty()) {
+            RoleDAO rDAO = new RoleDAO();
+            Role role = rDAO.getById(roleId);
+            if (role != null) {
+                current.setRoleID(role); // DAO gọi getRoleID().getRoleID()
+            }
+        }
+
+        boolean ok = userDAO.updateByUserName(current);
+        if (ok) {
+            request.setAttribute("msg_success", "Cập nhật thành công!");
+            User refreshed = userDAO.getUserByUsername(userName);
+            request.getRequestDispatcher("/admin/customer.jsp").forward(request, response);
+        } else {
+            request.setAttribute("error_message", "Update thất bại (không có dòng nào bị ảnh hưởng).");
+            request.setAttribute("u", current);
+            request.getRequestDispatcher("/auth/update.jsp").forward(request, response);
+        }
+    }
+
+    private void processDeleteUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String uid = request.getParameter("userID");
+        System.out.println(uid);
+        UserDAO userDAO = new UserDAO();
+        userDAO.softDelete(uid);
+        processSearchUser(request, response);
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -265,6 +450,14 @@ public class UserController extends HttpServlet {
             processAddUser(request, response, false);
         } else if (action.equals("signUpDelivery")) {
             processAddUser(request, response, true);
+        } else if (action.equals("searchUser")) {
+            processSearchUser(request, response);
+        } else if (action.equals("callUpdateUser")) {
+            processCallUpdateUser(request, response);
+        } else if (action.equals("updateUser")) {
+            processUpdateUser(request, response);
+        } else if (action.equals("deleteUser")) {
+            processDeleteUser(request, response);
         }
     }
 
