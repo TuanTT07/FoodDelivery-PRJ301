@@ -25,7 +25,7 @@
     font-weight: 600;
 }
 
-.inputUserName, .inputPassword,.inputFullname,.inputEmail, .inputPhone, .inputStreet, .inputWard, .inputCity, .inputTimeOpen, .inputTimeClose , .inputStoreName{
+.inputUserName, .inputPassword,.inputFullname,.inputEmail, .inputPhone, .inputStreet, .inputWard, .inputCity, .inputTimeOpen, .inputTimeClose , .inputStoreName, .oldAddress{
     margin-bottom: 20px;
     display: inline-block;
     padding: 15px 0 15px 10px;
