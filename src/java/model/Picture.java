@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -25,6 +25,13 @@ public class Picture {
         this.isMain = isMain;
     }
 
+    public Picture(Product productId, String pictureURL,  boolean isMain) {
+        this.productId = productId;
+        this.pictureURL = pictureURL;
+        this.isMain = isMain;
+    }
+
+    
     public String getPictureId() {
         return pictureId;
     }

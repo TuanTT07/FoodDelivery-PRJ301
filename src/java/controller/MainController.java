@@ -36,6 +36,7 @@ public class MainController extends HttpServlet {
         String[] productOptionActions = {"addProductOption"};
         String[] toppingActions = {};
         String[] productToppingActions = {};
+        String[] pictureActions = {"addProductPicture"};
         String[] cartActions = {};
         String[] cartItemActions = {};
         String[] categoryActions = {"addCategory", "updateCate", "viewCate", "addCate", "deleteCate", "activeCate", "goToProductForm"};
@@ -45,7 +46,7 @@ public class MainController extends HttpServlet {
         String[] paymentGatewayActions = {};
         String[] reviewActions = {};
         String[] eventActions = {};
-        String[] voucherActions = {}; //applyVoucher for user, createVoucher for admin or store owner
+        String[] voucherActions = {};
 
         if (Arrays.asList(userActions).contains(action)) {
             url = "UserController";
@@ -63,6 +64,8 @@ public class MainController extends HttpServlet {
             url = "ToppingController";
         } else if (Arrays.asList(productToppingActions).contains(action)) {
             url = "ProductToppingController";
+        } else if (Arrays.asList(pictureActions).contains(action)) {
+            url = "PictureController";
         } else if (Arrays.asList(cartActions).contains(action)) {
             url = "CartController";
         } else if (Arrays.asList(cartItemActions).contains(action)) {
