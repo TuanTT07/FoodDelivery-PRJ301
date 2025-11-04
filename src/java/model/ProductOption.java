@@ -24,6 +24,14 @@ public class ProductOption {
         this.productID = productID;
     }
 
+    public ProductOption(String optionType, String optionValue, double extraPrice, Product productID) {
+        this.optionType = optionType;
+        this.optionValue = optionValue;
+        this.extraPrice = extraPrice;
+        this.productID = productID;
+    }
+    
+
     public String getOptionID() {
         return optionID;
     }

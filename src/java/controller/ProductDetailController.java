@@ -59,7 +59,7 @@ public class ProductDetailController extends HttpServlet {
             request.setAttribute("error_Size", error_Size);
             request.setAttribute("error_Com", error_Com);
             request.setAttribute("error_ExtraInfo", error_ExtraInfo);
-            request.setAttribute("error", error);
+            request.setAttribute("errorDetail", error);
             request.getRequestDispatcher("/MainController?action=goToProductDetailForm&productID=" + txtProductID).forward(request, response);
             return;
 
@@ -72,7 +72,7 @@ public class ProductDetailController extends HttpServlet {
             request.getRequestDispatcher("/MainController?action=goToProductDetailForm&productID=" + txtProductID).forward(request, response);
             return;
         }
-        request.setAttribute("success", "Đã thêm chi tiết sản phẩm thành công");
+        request.setAttribute("successDetail", "Đã thêm chi tiết sản phẩm thành công");
         request.getRequestDispatcher("/MainController?action=goToProductDetailForm&productID=" + txtProductID).forward(request, response);
         return;
     }

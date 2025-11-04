@@ -11,7 +11,7 @@
 
         <div class="container py-4">
             <h2 class="mb-4 text-center text-primary">Add Product Information</h2>
-            
+
             <!-- FORM 1: PRODUCT DETAIL -->
             <div class="card mb-4">
                 <div class="card-header bg-primary text-white">Product Detail</div>
@@ -61,8 +61,11 @@
                     </form>
 
                     <!-- Success alert + hide form -->
-                    <c:if test="${not empty success}">
-                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="successAlert">
+                    <c:if test="${not empty errorDetail}">
+                        <div class="alert alert-danger">${errorDetail}</div>
+                    </c:if>
+                    <c:if test="${not empty successDetail}">
+                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="successAlertDetail">
                             ${success}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -75,7 +78,7 @@
 
                                 // auto-hide success after 3s (tùy chọn)
                                 setTimeout(() => {
-                                    const a = document.getElementById('successAlert');
+                                    const a = document.getElementById('successAlertDetail');
                                     if (a)
                                         a.style.display = 'none';
                                 }, 3000);
@@ -93,14 +96,39 @@
                         <input type="hidden" name="action" value="addProductOption">
                         <input type="hidden" name="productID" value="${param.productID}">
 
-                        <div id="optionContainer" class="mb-3">
-                            <!-- Default option row -->
-                        </div>
+                        <!-- Global error (tránh trùng với errorOption) -->
+                        <c:if test="${not empty errorOption}">
+                            <div class="alert alert-danger">${errorOption}</div>
+                        </c:if>
+
+                        <div id="optionContainer" class="mb-3"></div>
 
                         <button type="button" id="addOption" class="btn btn-outline-primary mb-3">+ Add Option</button>
                         <br>
                         <button type="submit" class="btn btn-warning text-dark">Save All Options</button>
                     </form>
+
+                    <!-- Success alert + hide form -->
+                    <c:if test="${not empty successOption}">
+                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="optionSuccessAlert">
+                            ${successOption}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const form = document.getElementById('optionForm');
+                                if (form)
+                                    form.style.display = 'none';
+
+                                setTimeout(() => {
+                                    const alert = document.getElementById('optionSuccessAlert');
+                                    if (alert)
+                                        alert.style.display = 'none';
+                                }, 3000);
+                            });
+                        </script>
+                    </c:if>
                 </div>
             </div>
 
