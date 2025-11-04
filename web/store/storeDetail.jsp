@@ -81,13 +81,15 @@
                             <div class="product-grid">
                                 <c:forEach var="p" items="${products}">
                                     <div class="product-card">
-                                        <%--<img src="${pageContext.request.contextPath}/assets/img/${p.image != null ? p.image : 'default.png'}" alt="${p.productName}">--%>
-                                        <h3>${p.productName}</h3>
-                                        <p>${p.productDesc}</p>
-                                        <span>${p.productPrice} VND</span>
-                                        <button class="btn-add-cart">
-                                            <img src="${pageContext.request.contextPath}/assets/img/cart-shopping-solid-full.svg" alt="cart" />
-                                        </button>
+                                        <a href="${pageContext.request.contextPath}/MainController?productID=${p.productID}&action=goToProductDetail">
+                                            <%--<img src="${pageContext.request.contextPath}/assets/img/${p.image != null ? p.image : 'default.png'}" alt="${p.productName}">--%>
+                                            <h3>${p.productName}</h3>
+                                            <p>${p.productDesc}</p>
+                                            <span>${p.productPrice} VND</span>
+                                            <button class="btn-add-cart">
+                                                <img src="${pageContext.request.contextPath}/assets/img/cart-shopping-solid-full.svg" alt="cart" />
+                                            </button>
+                                        </a>
                                     </div>
                                 </c:forEach>
                             </div>

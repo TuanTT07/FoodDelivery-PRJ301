@@ -7,6 +7,8 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import model.Product;
 import model.ProductOption;
 import utils.DBUtils;
 
@@ -57,5 +59,33 @@ public class ProductOptionDAO {
         } catch (Exception e) {
         }
         return false;
+    }
+
+    public ArrayList<ProductOption> getProductOptionByPID(String productID) {
+        ArrayList<ProductOption> listOfProductOption = new ArrayList<>();
+        String sql = "SELECT * FROM tblProductOption WHERE ProductID = ?";
+
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, productID);
+            ResultSet rs = pst.executeQuery();
+
+            ProductDAO pDAO = new ProductDAO();
+            Product p = pDAO.getProductByProductID(productID);
+            
+            while (rs.next()) {
+                ProductOption po = new ProductOption();
+                po.setOptionID(rs.getString("OptionID"));
+                po.setOptionType(rs.getString("OptionType"));
+                po.setOptionValue(rs.getString("OptionValue"));
+                po.setExtraPrice(rs.getDouble("ExtraPrice"));
+
+                po.setProductID(p);
+                listOfProductOption.add(po);
+            }
+        } catch (Exception e) {
+        }
+        return listOfProductOption;
     }
 }

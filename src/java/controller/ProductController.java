@@ -5,7 +5,10 @@
 package controller;
 
 import dao.CategoryDAO;
+import dao.PictureDAO;
 import dao.ProductDAO;
+import dao.ProductDetailDAO;
+import dao.ProductOptionDAO;
 import dao.StoreDAO;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Category;
+import model.Picture;
 import model.Product;
+import model.ProductDetail;
+import model.ProductOption;
 import model.Store;
 
 /**
@@ -171,6 +177,37 @@ public class ProductController extends HttpServlet {
         response.sendRedirect("MainController?action=viewProduct&storeID=" + storeID);
     }
 
+    private void processGoToProductDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtProductID = request.getParameter("productID");
+
+        ProductDAO proDAO = new ProductDAO();
+        Product p = proDAO.getProductByProductID(txtProductID);
+
+        ProductDetailDAO pdDAO = new ProductDetailDAO();
+
+        ProductOptionDAO poDAO = new ProductOptionDAO();
+
+        PictureDAO picDAO = new PictureDAO();
+        if (p == null) {
+            request.setAttribute("error", "Không tìm thấy sản phẩm này!");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
+
+        ArrayList<Picture> listOfPictures = picDAO.getProductPictureByPID(txtProductID);
+        ArrayList<ProductDetail> listOfDetails = pdDAO.getProductDetailByPID(txtProductID);
+        ArrayList<ProductOption> listOfOptions = poDAO.getProductOptionByPID(txtProductID);
+
+        request.setAttribute("p", p);
+        request.setAttribute("listOfPictures", listOfPictures);
+        request.setAttribute("listOfDetails", listOfDetails);
+        request.setAttribute("listOfOptions", listOfOptions);
+
+        request.getRequestDispatcher("product/productDetail.jsp").forward(request, response);
+
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -185,6 +222,8 @@ public class ProductController extends HttpServlet {
             processAddProduct(request, response, true);
         } else if (action.equals("deleteProduct")) {
             processDeleteProduct(request, response);
+        } else if (action.equals("goToProductDetail")) {
+            processGoToProductDetail(request, response);
         }
 
     }

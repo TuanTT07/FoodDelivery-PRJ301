@@ -30,32 +30,32 @@
                         </div>
 
                         <div class="product-detail__info">
-                            <h3 class="product-detail__title">Eggs Benedict Burger</h3>
-                            <p class="product-detail__desc">
-                                Ground beef, hollandaise sauce mix, stone ground mustard, with an egg — it’s so tasty you’ll love this burger.
-                            </p>
-                            <p class="product-detail__price">Giá tiền: 100K</p>
+                            <h3 class="product-detail__title">${product.productName}</h3>
+                            <p class="product-detail__desc">${product.productDesc}</p>
+                            <p class="product-detail__price">Giá tiền: ${product.productPrice} VND</p>
+
 
                             <form action="${pageContext.request.contextPath}/MainController" method="post" class="product-detail__form">
                                 <input type="hidden" name="action" value="addToCart"/>
                                 <input type="hidden" name="productId" value="P001"/>
-                                <c:if test="${not empty toppings}">
+                                <c:if test="${not empty listOfOptions}">
                                     <div class="product-detail__toppings">
                                         <h3 class="product-detail__subheading">Chọn topping:</h3>
 
                                         <ul class="product-detail__topping-list">
-                                            <c:forEach var="t" items="${toppings}">
+                                            <c:forEach var="t" items="${listOfOptions}">
                                                 <li class="product-detail__topping-item">
                                                     <label class="product-detail__topping-label">
-                                                        <input type="checkbox" name="topping" value="${t.id}" class="product-detail__topping-checkbox">
-                                                        <span class="product-detail__topping-name">${t.name}</span>
-                                                        <span class="product-detail__topping-price">${t.price}</span>
+                                                        <input type="checkbox" name="topping" value="${t.optionID}" class="product-detail__topping-checkbox">
+                                                        <span class="product-detail__topping-name">${t.optionValue}</span>
+                                                        <span class="product-detail__topping-price">+ ${t.extraPrice} VND</span>
                                                     </label>
                                                 </li>
                                             </c:forEach>
                                         </ul>
                                     </div>
                                 </c:if>
+
 
                                 <textarea class="product-detail__note" name="note" rows="4" cols="50" placeholder="Yêu cầu riêng..."></textarea>
 
