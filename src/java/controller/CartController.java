@@ -4,13 +4,16 @@
  */
 package controller;
 
+import dao.CartDAO;
+import dao.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Cart;
+import model.User;
 
 /**
  *
@@ -19,29 +22,36 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "CartController", urlPatterns = {"/CartController"})
 public class CartController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private void processGoToCart(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String txtUserID = request.getParameter("userId");
+        CartDAO cartDAO = new CartDAO();
+        Cart c = cartDAO.getCartByUserId(txtUserID);
+
+        // Nếu chưa có thì tạo mới
+        if (c == null) {
+            UserDAO uDAO = new UserDAO();
+            User u = uDAO.getUserByID(txtUserID);
+            c = new Cart(null, u, 0);
+            cartDAO.insertCart(c);
+        }
+
+        // Lấy lại cart sau khi tạo
+        c = cartDAO.getCartByUserId(txtUserID);
+        request.setAttribute("cart", c);
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CartController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CartController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String action = request.getParameter("action");
+
+        if (action.equals("goToCart")) {
+            processGoToCart(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

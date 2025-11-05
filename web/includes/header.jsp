@@ -39,7 +39,7 @@
         <c:if test="${not empty sessionScope.u}">
             <div class="user-info">
                 <!-- Giỏ hàng riêng -->
-                <a href="${pageContext.request.contextPath}/cart.jsp" class="header__cart">
+                <a href="${pageContext.request.contextPath}/MainController?action=goToCart&userId=${sessionScope.u.userID}" class="header__cart">
                     <img src="${pageContext.request.contextPath}/assets/img/cart-shopping-solid-full.svg"
                          alt="Giỏ hàng" class="header__cart-icon">
                 </a>
