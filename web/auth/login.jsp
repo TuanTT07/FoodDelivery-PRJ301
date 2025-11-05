@@ -34,7 +34,11 @@
                             <input type="hidden" name="action" value="loginUser">
                             <div class="login-conttent">
                                 <div>
-                                    <input class="inputUserName" type="text" name="userName" value="<c:out value='${not empty email ? email : username}'/>" placeholder="Tên đăng nhập hoặc email" required>
+                                    <input class="inputUserName" 
+                                           type="text" 
+                                           name="userName" 
+                                           value="<c:out value='${not empty userName ? userName : (not empty email ? email : username)}'/>" 
+                                           placeholder="Tên đăng nhập hoặc email" required>
                                 </div>
                                 <div>
                                     <input class="inputPassword" type="password" name="password" placeholder="Mật khẩu" required>

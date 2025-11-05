@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import model.Role;
 import model.Store;
 import model.User;
+import utils.PasswordUtils;
 import utils.Validation;
 
 /**
@@ -31,54 +32,58 @@ public class UserController extends HttpServlet {
     private void processLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String username = request.getParameter("userName");
-        String password = request.getParameter("password");
-
-        boolean isEmail = Pattern.matches(Validation.EMAIL_REGEX, username);
+        String userName = request.getParameter("userName");   // có thể là username hoặc email
+        String password = request.getParameter("password");  // plaintext
 
         UserDAO userDAO = new UserDAO();
-        User user = isEmail ? userDAO.loginByEmail(username, password)
-                : userDAO.loginByUsername(username, password);
 
+        // 1) Xác định kiểu đăng nhập: email hay username
+        boolean isEmail = Pattern.matches(Validation.EMAIL_REGEX, userName);
+
+        // 2) Lấy user theo loại đã xác định 
+        User user = isEmail ? userDAO.getUserByEmail(userName) : userDAO.getUserByUsername(userName);
         if (user == null) {
-            request.setAttribute("msg", "Invalid username or password!");
+            user = isEmail ? userDAO.getUserByUsername(userName) : userDAO.getUserByEmail(userName);
+        }
 
-            if (isEmail) {
-                request.setAttribute("email", username);
-            } else {
-                request.setAttribute("username", username);
-            }
+        // 3) Không tồn tại user
+        if (user == null) {
+            request.setAttribute("msg", "Sai tên đăng nhập hoặc mật khẩu!");
+            request.setAttribute("userName", userName);
             request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
             return;
         }
-        //kiem tra status, neu status la 0
-        if (user.isStatus() == false) {
-            request.setAttribute("msg", "Tài khoản của bạn đang bị khóa. Vui lòng liên hệ quản trị viên!");
-            if (isEmail) {
-                request.setAttribute("email", username);
-            } else {
-                request.setAttribute("username", username);
-            }
+
+        // 4) So khớp mật khẩu (bcrypt)
+        if (!PasswordUtils.matches(password, user.getUserPassword())) {
+            request.setAttribute("msg", "Sai tên đăng nhập hoặc mật khẩu!");
+            request.setAttribute("userName", userName);
             request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
             return;
         }
-        //neu status la 1
+
+        // 5) Kiểm tra trạng thái
+        if (!user.isStatus()) {
+            request.setAttribute("msg", "Tài khoản bị khóa. Vui lòng liên hệ quản trị viên!");
+            request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
+            return;
+        }
+
+        // 6) Lưu session + điều hướng theo role
         HttpSession session = request.getSession();
         session.setAttribute("u", user);
 
-        String role = user.getRoleID() != null ? user.getRoleID().getRoleID() : "";
-
+        String role = (user.getRoleID() != null) ? user.getRoleID().getRoleID() : "";
         if (Validation.ROLE_ADMIN.equalsIgnoreCase(role)) {
             response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
         } else if (Validation.ROLE_STORE_OWNER.equalsIgnoreCase(role)) {
-            //xử lí store
             response.sendRedirect(request.getContextPath() + "/MainController?action=getStore");
         } else if (Validation.ROLE_DRIVER.equalsIgnoreCase(role)) {
             response.sendRedirect(request.getContextPath() + "/delivery/dashboard.jsp");
         } else if (Validation.ROLE_MEMBER.equalsIgnoreCase(role)) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else {
-            request.setAttribute("msg", "Invalid account!");
+            request.setAttribute("msg", "Không xác định được vai trò người dùng!");
             request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
         }
     }
@@ -88,6 +93,7 @@ public class UserController extends HttpServlet {
         String action = request.getParameter("action");
         String username = request.getParameter("userName");
         String password = request.getParameter("password");
+        String hashedPassword = PasswordUtils.hash(password);
         String fullName = request.getParameter("Fullname");
         String email = request.getParameter("email");
         String phone = request.getParameter("Phone");
@@ -126,7 +132,7 @@ public class UserController extends HttpServlet {
         }
         String address = addr.toString();
 
-        User user = new User(username, fullName, email, password, phone, address, avatar, role);
+        User user = new User(username, fullName, email, hashedPassword, phone, address, avatar, role);
         UserDAO userDAO = new UserDAO();
 
         String error_username = "";
@@ -433,6 +439,83 @@ public class UserController extends HttpServlet {
         processSearchUser(request, response);
     }
 
+    private void processChangePassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // 1) Yêu cầu đăng nhập
+        HttpSession session = request.getSession(false);
+        User current = (session != null) ? (User) session.getAttribute("u") : null;
+        if (current == null) {
+            response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
+            return;
+        }
+
+        // 2) Lấy input
+        String oldPass = request.getParameter("oldPassword");
+        String newPass = request.getParameter("newPassword");
+        String confirm = request.getParameter("confirmPassword");
+
+        // 3) Biến lỗi
+        String error_oldPass = null;
+        String error_newPass = null;
+        String error_comPass = null;
+        boolean hasError = false;
+
+        // 4) Validate mật khẩu cũ (KIỂM TRA TRÊN RAW, KHÔNG HASH LẠI)
+        if (oldPass == null || oldPass.trim().isEmpty()) {
+            error_oldPass = "Vui lòng nhập mật khẩu cũ!";
+            hasError = true;
+        } else if (!PasswordUtils.matches(oldPass, current.getUserPassword())) {
+            // matches(rawInput, hashedFromDB)
+            error_oldPass = "Mật khẩu cũ không đúng!";
+            hasError = true;
+        }
+
+        // 5) Validate mật khẩu mới
+        if (newPass == null || newPass.trim().isEmpty()) {
+            error_newPass = "Vui lòng nhập mật khẩu mới!";
+            hasError = true;
+        } else if (!newPass.matches(Validation.PASSWORD_REGEX)) {
+            error_newPass = "Mật khẩu ≥8 ký tự, có chữ hoa, số, ký tự đặc biệt.";
+            hasError = true;
+        }
+
+        // 6) Validate confirm
+        if (confirm == null || confirm.trim().isEmpty()) {
+            error_comPass = "Vui lòng nhập lại mật khẩu!";
+            hasError = true;
+        } else if ((error_newPass == null || error_newPass.isEmpty())
+                && !newPass.trim().equals(confirm.trim())) {
+            error_comPass = "Xác nhận mật khẩu không khớp!";
+            hasError = true;
+        }
+        
+
+        // 7) Nếu có lỗi → forward về form
+        if (hasError) {
+            request.setAttribute("error_oldPass", error_oldPass);
+            request.setAttribute("error_newPass", error_newPass);
+            request.setAttribute("error_comPass", error_comPass);
+            request.setAttribute("pass", newPass);
+            request.getRequestDispatcher("/auth/changePass.jsp").forward(request, response);
+            return;
+        }
+
+        // 8) Cập nhật mật khẩu mới (hash rồi lưu DB)
+        String hashedNew = PasswordUtils.hash(newPass);
+        boolean ok = new UserDAO().updatePasswordByUserName(current.getUserName(), hashedNew);
+
+        if (!ok) {
+            request.setAttribute("msg_error", "Đổi mật khẩu thất bại. Thử lại sau.");
+            request.getRequestDispatcher("/auth/changePass.jsp").forward(request, response);
+            return;
+        }
+
+        // 9) Đăng xuất và chuyển về trang login
+        session.invalidate();
+        response.sendRedirect(request.getContextPath() + "/auth/login.jsp?msg=changed");
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -458,6 +541,8 @@ public class UserController extends HttpServlet {
             processUpdateUser(request, response);
         } else if (action.equals("deleteUser")) {
             processDeleteUser(request, response);
+        } else if (action.equals("changePass")) {
+            processChangePassword(request, response);
         }
     }
 

@@ -14,6 +14,7 @@ import java.sql.Timestamp; //for LocalDateTime
 import model.Role;
 import model.User;
 import utils.DBUtils;
+import utils.PasswordUtils;
 
 /**
  *
@@ -100,14 +101,12 @@ public class UserDAO {
         return null;
     }
 
-    //function for login
-    public User loginByUsername(String username, String password) {
+    public User getUserByEmail(String email) {
         try {
             Connection conn = DBUtils.getConnection();
-            String sql = "SELECT * FROM tblUser WHERE UserName = ? AND UserPassword = ?";
+            String sql = "SELECT * FROM tblUser WHERE UserEmail = ?";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, username);
-            pst.setString(2, password);
+            pst.setString(1, email);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 User user = new User();
@@ -141,44 +140,29 @@ public class UserDAO {
         return null;
     }
 
-    public User loginByEmail(String email, String password) {
+    //function for login
+    public boolean loginByUsername(String userName, String password) {
         try {
-            Connection conn = DBUtils.getConnection();
-            String sql = "SELECT * FROM tblUser WHERE UserEmail = ? AND UserPassword = ?";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, email);
-            pst.setString(2, password);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                User user = new User();
-                user.setUserID(rs.getString("UserID"));
-                user.setUserName(rs.getString("UserName"));
-                user.setUserFullName(rs.getString("FullName"));
-                user.setUserEmail(rs.getString("UserEmail"));
-                user.setUserPassword(rs.getString("UserPassword"));
-                user.setUserPhone(rs.getString("UserPhone"));
-                user.setUserAddress(rs.getString("UserAddress"));
-                user.setAvatarURL(rs.getString("AvatarURL"));
-                Role role = new Role(rs.getString("RoleID"), null);
-                user.setRoleID(role);
-                Timestamp tsCreated = rs.getTimestamp("CreatedAt");
-                if (tsCreated != null) {
-                    user.setCreatedAt(tsCreated.toLocalDateTime());
-                }
-
-                Timestamp tsUpdated = rs.getTimestamp("UpdatedAt");
-                if (tsUpdated != null) {
-                    user.setUpdatedAt(tsUpdated.toLocalDateTime());
-                } else {
-                    user.setUpdatedAt(null);
-                }
-                user.setStatus(rs.getBoolean("Status"));
-                return user;
+            User user = getUserByUsername(userName);
+            if (user != null) {
+                return user.getUserPassword().equals(password);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
+    }
+
+    public boolean loginByEmail(String userName, String password) {
+        try {
+            User user = getUserByEmail(userName);
+            if (user != null) {
+                return user.getUserPassword().equals(password);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     //======================================================
@@ -366,6 +350,18 @@ public class UserDAO {
         } catch (Exception e) {
         }
         return false;
+    }
+
+    public boolean updatePasswordByUserName(String userName, String hashedPassword) {
+        String sql = "UPDATE tblUser SET UserPassword=?, UpdatedAt=GETDATE() WHERE UserName=?";
+        try ( Connection c = DBUtils.getConnection();  PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, hashedPassword);
+            ps.setString(2, userName);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean updateByUserName(User user) {
