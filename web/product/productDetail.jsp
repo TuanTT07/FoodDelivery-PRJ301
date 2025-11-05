@@ -48,14 +48,14 @@
 
 
                         <div class="product-detail__info">
-                            <h3 class="product-detail__title">${product.productName}</h3>
-                            <p class="product-detail__desc">${product.productDesc}</p>
-                            <p class="product-detail__price">Giá tiền: ${product.productPrice} VND</p>
+                            <h3 class="product-detail__title">${p.productName}</h3>
+                            <p class="product-detail__desc">${p.productDesc}</p>
+                            <p class="product-detail__price">Giá tiền: ${p.productPrice} VND</p>
 
 
-                            <form action="${pageContext.request.contextPath}/MainController" method="post" class="product-detail__form">
+                            <form action="${pageContext.request.contextPath}/MainController?uID=${u.userID}" method="post" class="product-detail__form">
                                 <input type="hidden" name="action" value="addToCart"/>
-                                <input type="hidden" name="productId" value="P001"/>
+                                <input type="hidden" name="productId" value="${p.productID}"/>
                                 <c:if test="${not empty listOfDetails}">
                                     <div class="product-detail__toppings">
                                         <h3 class="product-detail__subheading">Chọn thêm:</h3>

@@ -4,13 +4,22 @@
  */
 package controller;
 
+import dao.CartDAO;
+import dao.CartIteamDAO;
+import dao.ProductDAO;
+import dao.StoreDAO;
+import dao.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Cart;
+import model.CartItem;
+import model.Product;
+import model.Store;
+import model.User;
 
 /**
  *
@@ -19,28 +28,49 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "CartItemController", urlPatterns = {"/CartItemController"})
 public class CartItemController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private void processAddToCart(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String txtUserId = request.getParameter("uID");
+        String txtProductID = request.getParameter("productId");
+        String txtQuantity = request.getParameter("quantity");
+
+        CartDAO cartDAO = new CartDAO();
+        Cart cart = cartDAO.getCartByUserId(txtUserId);
+        System.out.println(cart.toString());
+        if (cart == null) {
+            UserDAO uDAO = new UserDAO();
+            User u = uDAO.getUserByID(txtUserId);
+            cart = new Cart(null, u, 0);
+            cartDAO.insertCart(cart);
+            cart = cartDAO.getCartByUserId(txtUserId);
+        }
+
+        ProductDAO pDAO = new ProductDAO();
+        Product p = pDAO.getProductByProductID(txtProductID);
+        System.out.println(p);
+        UserDAO uDAO = new UserDAO();
+        User u = uDAO.getUserByID(txtUserId);
+        CartItem cartItem = new CartItem(null, cart, p, Integer.parseInt(txtQuantity));
+
+        CartIteamDAO cartIDAO = new CartIteamDAO();
+        if (cartIDAO.insertCartItem(cartItem)) {
+            response.sendRedirect(request.getContextPath() + "/MainController?storeId=" + p.getStoreID().getStoreID() + "&action=goToStoreDetail");
+        } else {
+            request.setAttribute("error", "Không thể thêm sản phẩm vào giỏ hàng.");
+
+            request.getRequestDispatcher(request.getContextPath() + "/MainController?action=goToProductDetail&productID=" + txtProductID)
+                    .forward(request, response);
+        }
+
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CartItemController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CartItemController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String action = request.getParameter("action");
+
+        if (action.equals("addToCart")) {
+            processAddToCart(request, response);
         }
     }
 
