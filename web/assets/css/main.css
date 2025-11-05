@@ -52,6 +52,12 @@
 ========= */
 @import "./pagesCss/checkout.css";
 
+/*========= 
+  Orders
+========= */
+@import "./pagesCss/orders.css";
+@import "./pagesCss/orders.css";
+
 * {
     box-sizing: border-box;
 }
