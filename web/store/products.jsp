@@ -64,6 +64,7 @@
                                             Thêm thông tin chi tiết
                                         </a>
                                     </div>
+                                            
                                 </div>
                             </c:if>
                         </c:forEach>

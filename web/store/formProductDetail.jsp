@@ -3,251 +3,144 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>Add Product Details</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Cart Page</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive.css"/>
+        <!-- FONT -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     </head>
-    <body class="bg-light">
+    <body>
+        <jsp:include page="/includes/header.jsp"/>
+        <div class="page__container">
+            <h2 class="page__title">Add Product Information</h2>
 
-        <div class="container py-4">
-            <h2 class="mb-4 text-center text-primary">Add Product Information</h2>
-
-            <!-- FORM 1: PRODUCT DETAIL -->
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">Product Detail</div>
-                <div class="card-body">
-                    <form id="productDetailForm" action="${pageContext.request.contextPath}/MainController" method="post">
+            <!-- FORM 1 -->
+            <div class="product-detail">
+                <div class="product-detail__header">Product Detail</div>
+                <div class="product-detail__body">
+                    <form id="productDetailForm" class="product-detail__form" action="${pageContext.request.contextPath}/MainController" method="post">
                         <input type="hidden" name="action" value="addProductDetail">
                         <input type="hidden" name="productID" value="${param.productID}">
 
-                        <!-- Global error (e.g. product not found or insert failed) -->
                         <c:if test="${not empty error}">
-                            <div class="alert alert-danger">${error}</div>
+                            <div class="product-detail__alert product-detail__alert--error">${error}</div>
                         </c:if>
 
-                        <div class="mb-3">
-                            <label class="form-label">Size</label>
-                            <select name="size" class="form-select" required>
+                        <div class="product-detail__field">
+                            <label class="product-detail__label">Size</label>
+                            <select name="size" class="product-detail__select" required>
                                 <option value="" ${empty sizeSelected ? "selected" : ""} disabled>-- Select size --</option>
                                 <option value="Small" ${sizeSelected == 'Small' ? 'selected' : ''}>Small</option>
                                 <option value="Medium" ${sizeSelected == 'Medium' ? 'selected' : ''}>Medium</option>
                                 <option value="Large" ${sizeSelected == 'Large' ? 'selected' : ''}>Large</option>
                                 <option value="Extra Large" ${sizeSelected == 'Extra Large' ? 'selected' : ''}>Extra Large</option>
                             </select>
-                            <c:if test="${not empty error_Size}">
-                                <div class="form-text text-danger">${error_Size}</div>
-                            </c:if>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Combo</label>
-                            <input type="text" name="combo" class="form-control" placeholder="e.g. Combo 1, Combo 2"
+                        <div class="product-detail__field">
+                            <label class="product-detail__label">Combo</label>
+                            <input type="text" name="combo" class="product-detail__input" placeholder="e.g. Combo 1, Combo 2"
                                    value="${comboValue != null ? comboValue : ''}">
-                            <c:if test="${not empty error_Com}">
-                                <div class="form-text text-danger">${error_Com}</div>
-                            </c:if>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Extra Info</label>
-                            <textarea name="extraInfo" class="form-control" rows="3"
+                        <div class="product-detail__field">
+                            <label class="product-detail__label">Extra Info</label>
+                            <textarea name="extraInfo" class="product-detail__textarea" rows="3"
                                       placeholder="Any extra info...">${extraInfoValue != null ? extraInfoValue : ''}</textarea>
-                            <c:if test="${not empty error_ExtraInfo}">
-                                <div class="form-text text-danger">${error_ExtraInfo}</div>
-                            </c:if>
                         </div>
 
-                        <button type="submit" class="btn btn-success">Save Product Detail</button>
+                        <button type="submit" class="product-detail__btn product-detail__btn--save">Save Product Detail</button>
                     </form>
-
-                    <!-- Success alert + hide form -->
-                    <c:if test="${not empty errorDetail}">
-                        <div class="alert alert-danger">${errorDetail}</div>
-                    </c:if>
-                    <c:if test="${not empty successDetail}">
-                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="successAlertDetail">
-                            ${success}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-
-                        <script>
-                            document.addEventListener('DOMContentLoaded', () => {
-                                const form = document.getElementById('productDetailForm');
-                                if (form)
-                                    form.style.display = 'none';
-
-                                // auto-hide success after 3s (tùy chọn)
-                                setTimeout(() => {
-                                    const a = document.getElementById('successAlertDetail');
-                                    if (a)
-                                        a.style.display = 'none';
-                                }, 3000);
-                            });
-                        </script>
-                    </c:if>
                 </div>
             </div>
 
-            <!-- FORM 2: PRODUCT OPTION -->
-            <div class="card mb-4">
-                <div class="card-header bg-warning text-dark">Product Options</div>
-                <div class="card-body">
-                    <form action="${pageContext.request.contextPath}/MainController" method="post" id="optionForm">
+            <!-- FORM 2 -->
+            <div class="product-option">
+                <div class="product-option__header">Product Options</div>
+                <div class="product-option__body">
+                    <form action="${pageContext.request.contextPath}/MainController" method="post" id="optionForm" class="product-option__form">
                         <input type="hidden" name="action" value="addProductOption">
                         <input type="hidden" name="productID" value="${param.productID}">
 
-                        <!-- Global error (tránh trùng với errorOption) -->
-                        <c:if test="${not empty errorOption}">
-                            <div class="alert alert-danger">${errorOption}</div>
-                        </c:if>
+                        <div id="optionContainer" class="product-option__container"></div>
 
-                        <div id="optionContainer" class="mb-3"></div>
-
-                        <button type="button" id="addOption" class="btn btn-outline-primary mb-3">+ Add Option</button>
-                        <br>
-                        <button type="submit" class="btn btn-warning text-dark">Save All Options</button>
+                        <button type="button" id="addOption" class="product-option__btn product-option__btn--add">+ Add Option</button>
+                        <button type="submit" class="product-option__btn product-option__btn--save">Save All Options</button>
                     </form>
-
-                    <!-- Success alert + hide form -->
-                    <c:if test="${not empty successOption}">
-                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="optionSuccessAlert">
-                            ${successOption}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-
-                        <script>
-                            document.addEventListener('DOMContentLoaded', () => {
-                                const form = document.getElementById('optionForm');
-                                if (form)
-                                    form.style.display = 'none';
-
-                                setTimeout(() => {
-                                    const alert = document.getElementById('optionSuccessAlert');
-                                    if (alert)
-                                        alert.style.display = 'none';
-                                }, 3000);
-                            });
-                        </script>
-                    </c:if>
                 </div>
             </div>
 
-            <!-- FORM 3: PRODUCT PICTURES -->
-            <form action="${pageContext.request.contextPath}/MainController" method="post" id="pictureForm">
+            <!-- FORM 3 -->
+            <form action="${pageContext.request.contextPath}/MainController" method="post" id="pictureForm" class="product-picture__form">
                 <input type="hidden" name="action" value="addProductPicture">
                 <input type="hidden" name="productID" value="${param.productID}">
                 <input type="hidden" name="base64List" id="base64List">
 
-                <div class="mb-3">
-                    <label class="form-label">Upload Pictures</label>
-                    <input type="file" id="pictureInput" multiple accept="image/*" class="form-control" required>
-                    <div class="form-text">You can select multiple pictures.</div>
+                <div class="product-picture__field">
+                    <label class="product-picture__label">Upload Pictures</label>
+                    <input type="file" id="pictureInput" multiple accept="image/*" class="product-picture__input" required>
+                    <div class="product-picture__note">You can select multiple pictures.</div>
                 </div>
 
-                <div id="previewContainer" class="d-flex gap-2 flex-wrap"></div>
+                <div id="previewContainer" class="product-picture__preview"></div>
 
-                <button type="submit" class="btn btn-info text-white">Upload Pictures</button>
+                <button type="submit" class="product-picture__btn product-picture__btn--upload">Upload Pictures</button>
             </form>
-            <!-- Success or Error Alert -->
-            <c:if test="${not empty successPicture}">
-                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="pictureSuccessAlert">
-                    ${successPicture}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
 
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const form = document.getElementById('pictureForm');
-                        if (form)
-                            form.style.display = 'none'; // Ẩn form khi upload thành công
-
-                        // Tự ẩn alert sau 3 giây
-                        setTimeout(() => {
-                            const alert = document.getElementById('pictureSuccessAlert');
-                            if (alert)
-                                alert.style.display = 'none';
-                        }, 3000);
-                    });
-                </script>
-            </c:if>
-
-            <c:if test="${not empty errorPicture}">
-                <div class="alert alert-danger mt-3">${errorPicture}</div>
-            </c:if>
-            <!-- Back to Product Page -->
-            <div class="text-center">
-                <!-- Cần phải xử lí lại -->
-
-                <a href="${pageContext.request.contextPath}/MainController?action=viewProduct&storeID=${param.storeID}" class="btn btn-secondary">Back to Product Page</a>
+            <div class="product-picture__footer">
+                <a href="${pageContext.request.contextPath}/MainController?action=viewProduct&storeID=${param.storeID}" 
+                   class="product-picture__btn product-picture__btn--back">Back to Product Page</a>
             </div>
         </div>
+        <jsp:include page="/includes/footer.jsp"/>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                    const container = document.getElementById('optionContainer');
-                    const addBtn = document.getElementById('addOption');
+            const container = document.getElementById('optionContainer');
+            const addBtn = document.getElementById('addOption');
 
-                    // Hàm tạo 1 dòng option mới
-                    function createOptionRow() {
-                        const row = document.createElement('div');
-                        row.classList.add('row', 'mb-2', 'optionRow');
+            function createOptionRow() {
+                const row = document.createElement('div');
+                row.classList.add('product-option__row');
 
-                        const colType = document.createElement('div');
-                        colType.classList.add('col-md-4');
-                        const inputType = document.createElement('input');
-                        inputType.type = 'text';
-                        inputType.name = 'optionType';
-                        inputType.classList.add('form-control');
-                        inputType.placeholder = 'Option Type (e.g. Topping)';
-                        inputType.required = true;
-                        colType.appendChild(inputType);
+                const inputType = document.createElement('input');
+                inputType.type = 'text';
+                inputType.name = 'optionType';
+                inputType.classList.add('product-option__input');
+                inputType.placeholder = 'Option Type';
+                inputType.required = true;
 
-                        const colValue = document.createElement('div');
-                        colValue.classList.add('col-md-4');
-                        const inputValue = document.createElement('input');
-                        inputValue.type = 'text';
-                        inputValue.name = 'optionValue';
-                        inputValue.classList.add('form-control');
-                        inputValue.placeholder = 'Option Value (e.g. Cheese)';
-                        inputValue.required = true;
-                        colValue.appendChild(inputValue);
+                const inputValue = document.createElement('input');
+                inputValue.type = 'text';
+                inputValue.name = 'optionValue';
+                inputValue.classList.add('product-option__input');
+                inputValue.placeholder = 'Option Value';
+                inputValue.required = true;
 
-                        const colPrice = document.createElement('div');
-                        colPrice.classList.add('col-md-3');
-                        const inputPrice = document.createElement('input');
-                        inputPrice.type = 'number';
-                        inputPrice.step = '0.01';
-                        inputPrice.name = 'extraPrice';
-                        inputPrice.classList.add('form-control');
-                        inputPrice.placeholder = 'Extra Price';
-                        colPrice.appendChild(inputPrice);
+                const inputPrice = document.createElement('input');
+                inputPrice.type = 'number';
+                inputPrice.name = 'extraPrice';
+                inputPrice.classList.add('product-option__input');
+                inputPrice.placeholder = 'Extra Price';
 
-                        const colBtn = document.createElement('div');
-                        colBtn.classList.add('col-md-1', 'd-flex', 'align-items-center');
-                        const removeBtn = document.createElement('button');
-                        removeBtn.type = 'button';
-                        removeBtn.textContent = '−';
-                        removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
-                        removeBtn.addEventListener('click', () => row.remove());
-                        colBtn.appendChild(removeBtn);
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.textContent = '−';
+                removeBtn.classList.add('product-option__btn', 'product-option__btn--remove');
+                removeBtn.addEventListener('click', () => row.remove());
 
-                        // gắn tất cả vào row
-                        row.appendChild(colType);
-                        row.appendChild(colValue);
-                        row.appendChild(colPrice);
-                        row.appendChild(colBtn);
+                row.append(inputType, inputValue, inputPrice, removeBtn);
+                return row;
+            }
 
-                        return row;
-                    }
-
-                    // khi load trang, có 1 dòng mặc định
-                    container.appendChild(createOptionRow());
-
-                    // khi nhấn + Add Option
-                    addBtn.addEventListener('click', () => {
-                        container.appendChild(createOptionRow());
-                    });
+            container.appendChild(createOptionRow());
+            addBtn.addEventListener('click', () => container.appendChild(createOptionRow()));
         </script>
+
         <script src="${pageContext.request.contextPath}/assets/js/handlePictureProduct.js"></script>
     </body>
 </html>
