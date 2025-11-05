@@ -50,7 +50,8 @@
                     </c:if>
 
                     <!-- sản phẩm thuộc store hiện tại -->
-                    <div class="cart__item" data-store="${ci.productID.store.storeID}">
+                    <div class="cart__item" data-store="${ci.productID.store.storeID}" data-product-id="${ci.productID.productID}">
+
                         <input type="checkbox" class="item-check"/>
 
                         <img src="${ci.productID.pictureURL}" alt="Ảnh món ăn" />
@@ -93,7 +94,12 @@
                         </div>
                         <div class="cart__summary-right">
                             <p>Tổng cộng: <span class="cart__total">${grandTotal} VNĐ</span></p>
-                            <a href="checkout.jsp" class="btn-buy">Mua hàng</a>
+                            <form id="checkoutForm" action="MainController?action=goToCheckout" method="post">
+                                <input type="hidden" name="uID" value="${sessionScope.u.userID}">
+                                <input type="hidden" name="selectedItems" id="selectedItems">
+                                <button type="submit" class="btn-buy">Mua hàng</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -112,7 +118,6 @@
                 }
                 const totalDisplay = document.querySelector(".cart__total");
                 const selectAll = document.querySelector(".cart__summary-left input[type='checkbox']");
-
                 // Tính tổng các item đang được tick
                 function updateTotal() {
                     let total = 0;
@@ -206,7 +211,6 @@
                             updateTotal();
                         });
                     });
-
                     // Gắn sự kiện cho nút + / - nếu muốn (nếu nút có DOM như trong HTML)
                     document.querySelectorAll(".cart__quantity").forEach(qWrap => {
                         const btns = qWrap.querySelectorAll("button");
@@ -231,7 +235,6 @@
                 bindShopChecks();
                 bindItemChecks();
                 bindQuantityInputs();
-
                 // Khởi tạo trạng thái shop (nếu tất cả item trong shop checked thì check shop)
                 getShopChecks().forEach(shopCheck => {
                     const storeId = shopCheck.dataset.store;
@@ -240,11 +243,31 @@
                     const itemsInStore = document.querySelectorAll(`.cart__item[data-store='${storeId}'] .item-check`);
                     shopCheck.checked = itemsInStore.length > 0 && Array.from(itemsInStore).every(i => i.checked);
                 });
-
                 updateTotal();
                 updateSelectAllStatus();
+                document.querySelector("#checkoutForm").addEventListener("submit", function (e) {
+                    // Lấy các sản phẩm được chọn
+                    const selected = Array.from(document.querySelectorAll(".item-check:checked")).map(check => {
+                        const item = check.closest(".cart__item");
+                        return {
+                            productId: item.dataset.productId, // bạn cần thêm data-productId trong HTML
+                            quantity: item.querySelector(".cart__quantity input").value
+                        };
+                    });
 
+
+                    if (selected.length === 0) {
+                        e.preventDefault();
+                        alert("Vui lòng chọn ít nhất một sản phẩm trước khi mua hàng!");
+                        return;
+                    }
+                    // Chuyển thành JSON để gửi
+                    document.querySelector("#selectedItems").value = JSON.stringify(selected);
+                    console.log(">>> Selected items to send:", selected);
+
+                });
             });
+
         </script>
 
 
