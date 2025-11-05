@@ -29,7 +29,7 @@ public class MainController extends HttpServlet {
         String url = "index.jsp";
         //Group actions for each controller
         String[] roleActions = {};
-        String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser","callUpdateUser", "updateUser", "deleteUser", "signUpDelivery", "changePass"};
+        String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "callUpdateUser", "updateUser", "deleteUser", "signUpDelivery", "changePass"};
         String[] storeActions = {"signUpStore", "getStore", "updateStore", "searchStoreByCate", "searchStoreByLocation", "goToStoreDetail", "goToProductDetailForm"};
         String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct", "editProduct", "updateProduct", "goToProductDetail"};
         String[] productDetailActions = {"addProductDetail"};
@@ -39,6 +39,7 @@ public class MainController extends HttpServlet {
         String[] pictureActions = {"addProductPicture"};
         String[] cartActions = {"goToCart"};
         String[] cartItemActions = {"addToCart"};
+        String[] checkoutAction = {"goToCheckout"};
         String[] categoryActions = {"addCategory", "updateCate", "viewCate", "addCate", "deleteCate", "activeCate", "goToProductForm"};
         String[] orderActions = {};
         String[] orderDetailActions = {};
@@ -74,6 +75,8 @@ public class MainController extends HttpServlet {
             url = "CategoryController";
         } else if (Arrays.asList(orderActions).contains(action)) {
             url = "OrderController";
+        } else if (Arrays.asList(checkoutAction).contains(action)) {
+            url = "CheckoutController";
         } else if (Arrays.asList(orderDetailActions).contains(action)) {
             url = "OrderDetailController";
         } else if (Arrays.asList(paymentActions).contains(action)) {
