@@ -5,7 +5,7 @@
 package controller;
 
 import dao.CartDAO;
-import dao.CartIteamDAO;
+import dao.CartItemDAO;
 import dao.ProductDAO;
 import dao.StoreDAO;
 import dao.UserDAO;
@@ -52,7 +52,7 @@ public class CartItemController extends HttpServlet {
         User u = uDAO.getUserByID(txtUserId);
         CartItem cartItem = new CartItem(null, cart, p, Integer.parseInt(txtQuantity));
 
-        CartIteamDAO cartIDAO = new CartIteamDAO();
+        CartItemDAO cartIDAO = new CartItemDAO();
         if (cartIDAO.insertCartItem(cartItem)) {
             response.sendRedirect(request.getContextPath() + "/MainController?storeId=" + p.getStoreID().getStoreID() + "&action=goToStoreDetail");
         } else {

@@ -69,4 +69,26 @@ public class CartDAO {
         return null;
     }
 
+    public Cart getCartByCartId(String cId) {
+        String sql = "SELECT * FROM tblCart WHERE CartID=?";
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+
+            pst.setString(1, cId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                Cart c = new Cart();
+                c.setCartID(rs.getString("CartID"));
+                UserDAO uDAO = new UserDAO();
+                User u = uDAO.getUserByID(rs.getString("userID"));
+                c.setUserID(u);
+                c.setTotalPrice(rs.getDouble("TotalPrice"));
+                return c;
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
 }
