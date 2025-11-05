@@ -46,6 +46,12 @@
   Cart
 ========= */
 @import "./pagesCss/cart.css";
+
+/*========= 
+  Checkout
+========= */
+@import "./pagesCss/checkout.css";
+
 * {
     box-sizing: border-box;
 }

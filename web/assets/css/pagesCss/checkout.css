@@ -1,0 +1,151 @@
+body {
+    font-family: "Manrope", sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.checkout {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+.checkout__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ee4d2d;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.checkout__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.checkout__form--info,
+.checkout__form--address,
+.checkout__form--shipping,
+.checkout__form--payment,
+.checkout__form--summary,
+.checkout__form--confirm {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.checkout__heading {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 16px;
+    border-left: 4px solid #ee4d2d;
+    padding-left: 10px;
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.form__label {
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.form__input {
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form__input:focus {
+    outline: none;
+    border-color: #ee4d2d;
+}
+
+.form__radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form__radio {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.form__radio input[type="radio"] {
+    accent-color: #ee4d2d;
+}
+
+.form__checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    margin-bottom: 16px;
+}
+
+.form__checkbox input[type="checkbox"] {
+    accent-color: #ee4d2d;
+}
+
+
+.summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.summary__head th {
+    background-color: #fafafa;
+    text-align: left;
+    padding: 12px;
+    font-weight: 600;
+    border-bottom: 2px solid #eee;
+}
+
+.summary__body td,
+.summary__foot td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 1rem;
+}
+
+.summary__foot td {
+    text-align: right;
+}
+
+.summary__foot td strong {
+    color: #ee4d2d;
+    font-size: 1.1rem;
+}
+
+.checkout__btn {
+    width: 100%;
+    padding: 14px 0;
+    background-color: #ee4d2d;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+.checkout__btn:hover {
+    background-color: #d73211;
+}
+
