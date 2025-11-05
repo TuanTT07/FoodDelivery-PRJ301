@@ -1,18 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import dao.CartDAO;
+import dao.CartItemDAO;
+import dao.ProductDAO;
+import dao.ProductDetailDAO;
 import dao.UserDAO;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Cart;
+import model.CartItem;
+import model.Product;
 import model.User;
 
 /**
@@ -26,6 +28,7 @@ public class CartController extends HttpServlet {
             throws ServletException, IOException {
 
         String txtUserID = request.getParameter("userId");
+
         CartDAO cartDAO = new CartDAO();
         Cart c = cartDAO.getCartByUserId(txtUserID);
 
@@ -35,11 +38,15 @@ public class CartController extends HttpServlet {
             User u = uDAO.getUserByID(txtUserID);
             c = new Cart(null, u, 0);
             cartDAO.insertCart(c);
+            c = cartDAO.getCartByUserId(txtUserID); // lấy lại ID sau insert
         }
 
-        // Lấy lại cart sau khi tạo
-        c = cartDAO.getCartByUserId(txtUserID);
+        // lấy cart items
+        CartItemDAO ciDAO = new CartItemDAO();
+        ArrayList<CartItem> listOfItems = ciDAO.getCartItemsByCartId(c.getCartID());
         request.setAttribute("cart", c);
+        request.setAttribute("cartItems", listOfItems);
+
         request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 

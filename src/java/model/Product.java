@@ -16,6 +16,8 @@ public class Product implements Serializable {
     private Category categoryID;
     private Store storeID;
     private boolean isActive;
+    private String pictureURL;
+    private Store store;
 
     public Product() {
     }
@@ -94,4 +96,21 @@ public class Product implements Serializable {
         this.isActive = isActive;
     }
 
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    
 }
