@@ -26,8 +26,26 @@
 
                     <div class="product-detail__content">
                         <div class="product-detail__image-wrapper">
-                            <img class="product-detail__image" src="${pageContext.request.contextPath}/assets/img/bannerStore.png" alt="Ảnh minh hoạ sản phẩm"/>
+                            <c:forEach var="pic" items="${listOfPictures}">
+                                <c:if test="${pic.isMain}">
+                                    <img class="product-detail__image main-image"
+                                         src="${pic.pictureURL}"
+                                         alt="${product.productName}" />
+                                </c:if>
+                            </c:forEach>
+
+                            <div class="product-detail__thumbnails">
+                                <c:forEach var="pic" items="${listOfPictures}">
+                                    <c:if test="${not pic.isMain}">
+                                        <img src="${pic.pictureURL}"
+                                             alt="Thumbnail"
+                                             onclick="document.querySelector('.main-image').src = this.src">
+                                    </c:if>
+                                </c:forEach>
+                            </div>
                         </div>
+
+
 
                         <div class="product-detail__info">
                             <h3 class="product-detail__title">${product.productName}</h3>
@@ -38,6 +56,24 @@
                             <form action="${pageContext.request.contextPath}/MainController" method="post" class="product-detail__form">
                                 <input type="hidden" name="action" value="addToCart"/>
                                 <input type="hidden" name="productId" value="P001"/>
+                                <c:if test="${not empty listOfDetails}">
+                                    <div class="product-detail__toppings">
+                                        <h3 class="product-detail__subheading">Chọn thêm:</h3>
+
+                                        <ul class="product-detail__topping-list">
+                                            <c:forEach var="d" items="${listOfDetails}">
+                                                <li class="product-detail__topping-item">
+                                                    <label class="product-detail__topping-label">
+                                                        <input type="checkbox" name="detail" value="${d.detailID}" class="product-detail__topping-checkbox">
+                                                        <span class="product-detail__topping-name">${d.size} - ${d.combo}</span>
+                                                        <span class="product-detail__topping-price">${d.extraInfo}</span>
+                                                    </label>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+                                </c:if>
+
                                 <c:if test="${not empty listOfOptions}">
                                     <div class="product-detail__toppings">
                                         <h3 class="product-detail__subheading">Chọn topping:</h3>
@@ -78,5 +114,8 @@
 
         <jsp:include page="/includes/footer.jsp"/>
         <script src="${pageContext.request.contextPath}/assets/js/productDetail.js"></script>
+        <script>
+                                            document.querySelector('.main-image').src = this.src
+        </script>
     </body>
 </html>

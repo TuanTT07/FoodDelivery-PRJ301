@@ -24,6 +24,32 @@
     object-fit: cover;
 }
 
+.product-detail__thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.product-detail__thumbnails img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.product-detail__thumbnails img:hover {
+    opacity: 1;
+    transform: scale(1.05);
+    border-color: var(--orange);
+}
+
+
 .product-detail__title {
     color: var(--Dark);
 
