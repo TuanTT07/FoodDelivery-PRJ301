@@ -43,7 +43,7 @@ public class MainController extends HttpServlet {
         String[] categoryActions = {"addCategory", "updateCate", "viewCate", "addCate", "deleteCate", "activeCate", "goToProductForm"};
         String[] orderActions = {};
         String[] orderDetailActions = {};
-        String[] paymentActions = {};
+        String[] paymentActions = {"placeOrder"};
         String[] paymentGatewayActions = {};
         String[] reviewActions = {};
         String[] eventActions = {};

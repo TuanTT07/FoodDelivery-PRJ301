@@ -94,7 +94,7 @@
                             <input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận hàng (COD)
                         </label>
                         <label class="form__radio">
-                            <input type="radio" name="payment" value="bank"> Chuyển khoản ngân hàng
+                            <input type="radio" name="payment" value="VNpay"> VNPay
                         </label>
                         <label class="form__radio">
                             <input type="radio" name="payment" value="momo"> Ví Momo
@@ -156,7 +156,7 @@
                                         <td><strong><fmt:formatNumber value="${grandTotal}" pattern="#,##0"/> VNĐ</strong></td>
                                     </tr>
                                 </tfoot>
-                                <input type="hidden" name="grandTotal" value="${grandTotal}" />
+
                             </table>
                         </c:otherwise>
                     </c:choose>
@@ -167,10 +167,7 @@
                     <label class="form__checkbox">
                         <input type="checkbox" name="agree" required> Tôi đồng ý với điều khoản & chính sách
                     </label>
-
-                    <!-- Bạn có thể thêm token CSRF ở đây nếu áp dụng -->
-                    <!-- <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}" /> -->
-
+                    <input type="hidden" name="grandTotal" value="${grandTotal}" />
                     <button type="submit" class="checkout__btn">Đặt hàng</button>
                 </section>
             </form>
