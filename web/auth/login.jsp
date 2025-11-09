@@ -62,7 +62,7 @@
                             </div>
                         </form>
                         <div class="login-res">
-                            <p class="login-res__text">Nếu chưa có tài khoản?  <a href="${pageContext.request.contextPath}/auth/register_member.jsp">Đăng kí tài khoản</a></p>
+                            <p class="login-res__text">Nếu chưa có tài khoản?  <a href="${pageContext.request.contextPath}/auth/register.jsp?action=signUpUser">Đăng kí tài khoản</a></p>
                         </div>
                     </div>
                 </div>

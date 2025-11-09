@@ -8,9 +8,11 @@ import java.sql.Connection;
 import java.sql.JDBCType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Time;//for LocalTime
 import java.sql.Timestamp; //for LocalDateTime
+import java.time.LocalDateTime;
 import model.Role;
 import model.User;
 import utils.DBUtils;
@@ -53,6 +55,7 @@ public class UserDAO {
                     user1.setUpdatedAt(null);
                 }
                 user1.setStatus(rs.getBoolean("Status"));
+                user1.setIsVerified(rs.getBoolean("IsVerified"));
                 return user1;
             }
         } catch (Exception e) {
@@ -242,7 +245,84 @@ public class UserDAO {
             pst.setString(7, user.getUserAddress());
             pst.setString(8, user.getAvatarURL());
             pst.setString(9, user.getRoleID().getRoleID());
-            pst.setBoolean(10, true); // Status = 1
+            pst.setBoolean(10, false); // Status = 0
+            return pst.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // 1. Lưu verification code + expiry vào user
+    public boolean saveVerificationCode(String userID, String code, Timestamp expiry) {
+        String sql = "UPDATE tblUser SET VerificationCode = ?, VerificationExpiry = ?, IsVerified = 0 WHERE UserID = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, code);
+            pst.setTimestamp(2, expiry);
+            pst.setString(3, userID);
+            return pst.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+// 2. Lấy userID (hoặc User object) theo verification code
+    public User getUserByVerificationCode(String code) {
+        String sql = "SELECT * FROM tblUser WHERE VerificationCode = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, code);
+            try ( ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setUserID(rs.getString("UserID"));
+                    user.setUserName(rs.getString("UserName"));
+                    user.setUserFullName(rs.getString("FullName"));
+                    user.setUserEmail(rs.getString("UserEmail"));
+                    user.setUserPassword(rs.getString("UserPassword"));
+                    user.setUserPhone(rs.getString("UserPhone"));
+                    user.setUserAddress(rs.getString("UserAddress"));
+                    user.setAvatarURL(rs.getString("AvatarURL"));
+                    Role role = new Role(rs.getString("RoleID"), null);
+                    user.setRoleID(role);
+                    Timestamp tsCreated = rs.getTimestamp("CreatedAt");
+                    if (tsCreated != null) {
+                        user.setCreatedAt(tsCreated.toLocalDateTime());
+                    }
+
+                    Timestamp tsUpdated = rs.getTimestamp("UpdatedAt");
+                    if (tsUpdated != null) {
+                        user.setUpdatedAt(tsUpdated.toLocalDateTime());
+                    } else {
+                        user.setUpdatedAt(null);
+                    }
+                    user.setStatus(rs.getBoolean("Status"));
+                    return user;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+// 3. Xác thực user (set IsVerified = 1, clear code)
+    public boolean verifyUserByCode(String code) {
+        String sql = "UPDATE tblUser SET IsVerified = 1, Status = 1, VerificationCode = NULL, VerificationExpiry = NULL WHERE VerificationCode = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, code);
+            return pst.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+// 4. Optional: clear code (xoá mã sau khi xác thực hoặc hết hạn)
+    public boolean clearVerificationForUser(String userID) {
+        String sql = "UPDATE tblUser SET VerificationCode = NULL, VerificationExpiry = NULL WHERE UserID = ?";
+        try ( Connection conn = DBUtils.getConnection();  PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, userID);
             return pst.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
