@@ -5,9 +5,12 @@
 package controller;
 
 import dao.RoleDAO;
-import dao.StoreDAO;
 import dao.UserDAO;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
@@ -17,9 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Role;
-import model.Store;
 import model.User;
+import utils.EmailUtils;
 import utils.PasswordUtils;
+import utils.TokenUtils;
 import utils.Validation;
 
 /**
@@ -418,7 +422,7 @@ public class UserController extends HttpServlet {
             }
         }
 
-         boolean ok = userDAO.updateByUserName(current);
+        boolean ok = userDAO.updateByUserName(current);
         if (ok) {
             // Lấy người đăng nhập hiện tại
             HttpSession session = request.getSession(false);
@@ -502,7 +506,6 @@ public class UserController extends HttpServlet {
             error_comPass = "Xác nhận mật khẩu không khớp!";
             hasError = true;
         }
-        
 
         // 7) Nếu có lỗi → forward về form
         if (hasError) {
@@ -528,7 +531,7 @@ public class UserController extends HttpServlet {
         session.invalidate();
         response.sendRedirect(request.getContextPath() + "/auth/login.jsp?msg=changed");
     }
-    
+
     private void processResetPassword(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -575,7 +578,7 @@ public class UserController extends HttpServlet {
             request.getRequestDispatcher("/auth/resetPass.jsp").forward(request, response);
             return;
         }
-        
+
         //  Cập nhật mật khẩu mới (hash rồi lưu DB)
         String hashedNew = PasswordUtils.hash(newPass);
         boolean ok = new UserDAO().updatePasswordByUserName(user.getUserName(), hashedNew);
@@ -590,7 +593,7 @@ public class UserController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
 
     }
-    
+
     private void processCallInfoUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         UserDAO userDao = new UserDAO();
@@ -600,6 +603,104 @@ public class UserController extends HttpServlet {
             request.setAttribute("u", user);
         }
         request.getRequestDispatcher("/user/userInfo.jsp").forward(request, response);
+    }
+
+    private void processSendVerifyEmail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("u");
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
+            return;
+        }
+
+        // 1. Generate token + expiry
+        String code = TokenUtils.generateToken();
+        Timestamp expiry = TokenUtils.expiryAfterHours(24);
+
+        UserDAO userDAO = new UserDAO();
+        boolean saved = userDAO.saveVerificationCode(user.getUserID(), code, expiry);
+
+        if (!saved) {
+            request.setAttribute("error", "Không thể tạo mã xác thực, thử lại sau.");
+            request.getRequestDispatcher("user/userInfo.jsp").forward(request, response);
+            return;
+        }
+
+        // 2. Tạo link verify đầy đủ
+        String verifyLink = request.getScheme() + "://"
+                + request.getServerName() + ":"
+                + request.getServerPort()
+                + request.getContextPath()
+                + "/MainController?action=verify&code=" + code;
+
+        // 3. Gửi email
+        boolean emailSent = EmailUtils.sendVerificationEmail(user.getUserEmail(), user.getUserFullName(), verifyLink);
+        if (!emailSent) {
+            request.setAttribute("error", "Gửi email thất bại, thử lại sau.");
+            request.getRequestDispatcher("user/userInfo.jsp").forward(request, response);
+            return;
+        }
+
+        // 4. Cập nhật session user
+        user.setVerificationCode(code);
+        user.setVerificationExpiry(expiry.toLocalDateTime());
+        session.setAttribute("u", user);
+
+        request.setAttribute("message", "Email xác thực đã được gửi. Vui lòng kiểm tra hộp thư.");
+        request.getRequestDispatcher("user/userInfo.jsp").forward(request, response);
+    }
+
+    private void processVerifyEmail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String code = request.getParameter("code");
+        if (code == null || code.trim().isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/error.jsp?msg=Mã xác thực không hợp lệ");
+            return;
+        }
+
+        UserDAO userDAO = new UserDAO();
+        User u = userDAO.getUserByVerificationCode(code);
+        if (u == null) {
+            response.sendRedirect(request.getContextPath() + "/error.jsp?msg=Mã xác thực không hợp lệ hoặc đã bị xóa");
+            return;
+        }
+
+        LocalDateTime expiry = u.getVerificationExpiry();
+        if (expiry != null && expiry.isBefore(LocalDateTime.now())) {
+            response.sendRedirect(request.getContextPath() + "/MainController?action=viewInfoUser&userID=" + u.getUserID()
+                    + "&msg=Liên kết đã hết hạn");
+            return;
+        }
+
+        boolean ok = userDAO.verifyUserByCode(code);
+        if (!ok) {
+            response.sendRedirect(request.getContextPath() + "/error.jsp?msg=Xác thực thất bại. Vui lòng thử lại.");
+            return;
+        }
+
+        // Cập nhật session nếu đang login
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            User sessionUser = (User) session.getAttribute("u");
+            if (sessionUser != null && sessionUser.getUserID().equals(u.getUserID())) {
+                sessionUser.setIsVerified(true);
+                sessionUser.setVerificationCode(null);
+                sessionUser.setVerificationExpiry(null);
+                sessionUser.setStatus(true);
+                session.setAttribute("u", sessionUser);
+            }
+        }
+
+        // Redirect về user info page với thông báo thành công
+        String msg = "Xác thực email thành công!";
+        msg = URLEncoder.encode(msg, StandardCharsets.UTF_8.toString());
+
+        response.sendRedirect(request.getContextPath() + "/MainController?action=viewInfoUser&userID="
+                + u.getUserID() + "&msg=" + msg);
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -633,6 +734,10 @@ public class UserController extends HttpServlet {
             processResetPassword(request, response);
         } else if (action.equals("viewInfoUser")) {
             processCallInfoUser(request, response);
+        } else if (action.equals("sendVerifyEmail")) {
+            processSendVerifyEmail(request, response);
+        } else if (action.equals("verify")) {
+            processVerifyEmail(request, response);
         }
     }
 
