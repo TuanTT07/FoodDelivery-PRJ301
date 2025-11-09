@@ -52,7 +52,7 @@
                                         <label for="RememberMe">Lưu thông tin đăng nhập</label>
                                     </div>
                                     <div class="float-right">
-                                        <a class="float-right__forgotPass" href="#">Quên mật khẩu?</a>
+                                        <a class="float-right__forgotPass" href="${pageContext.request.contextPath}/auth/resetPass.jsp">Quên mật khẩu?</a>
                                     </div>
                                 </div>
                                 <div>
