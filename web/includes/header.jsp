@@ -48,7 +48,7 @@
                 <div class="header__user">
                     <h3 class="header__name">${sessionScope.u.userFullName}</h3>
                     <ul class="user-dropDown">
-                        <li><a href="">Thông tin tài khoản</a></li>
+                        <li><a href="${pageContext.request.contextPath}/MainController?action=viewInfoUser&userID=${u.userID}">Thông tin tài khoản</a></li>
                         <li><a href="${pageContext.request.contextPath}/auth/changePass.jsp">Đổi mật khẩu</a></li>
                         <li><a href="${pageContext.request.contextPath}/MainController?action=logout">Đăng xuất</a></li>
                     </ul>
