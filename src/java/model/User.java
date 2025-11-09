@@ -5,6 +5,7 @@
 
 package model;
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 public class User implements Serializable {
@@ -21,7 +22,9 @@ public class User implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean status;
-
+    private String verificationCode;     // Mã xác thực
+    private LocalDateTime verificationExpiry;     // Hạn hiệu lực mã
+    private boolean isVerified;          // Trạng thái xác thực
     public User() {
     }
 
@@ -62,6 +65,27 @@ public class User implements Serializable {
         this.status = status;
     }
 
+    public User(String userID, String userName, String userFullName, String userEmail, String userPassword, String userPhone, String userAddress, String avatarURL, Role roleID, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status, String verificationCode, LocalDateTime verificationExpiry, boolean isVerified) {
+        this.userID = userID;
+        this.userName = userName;
+        this.userFullName = userFullName;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.userPhone = userPhone;
+        this.userAddress = userAddress;
+        this.avatarURL = avatarURL;
+        this.roleID = roleID;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.status = status;
+        this.verificationCode = verificationCode;
+        this.verificationExpiry = verificationExpiry;
+        this.isVerified = isVerified;
+    }
+
+   
+
+    
     public String getUserID() {
         return userID;
     }
@@ -156,6 +180,31 @@ public class User implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public LocalDateTime getVerificationExpiry() {
+        return verificationExpiry;
+    }
+
+    public void setVerificationExpiry(LocalDateTime verificationExpiry) {
+        this.verificationExpiry = verificationExpiry;
+    }
+
+
+    public boolean isIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(boolean isVerified) {
+        this.isVerified = isVerified;
     }
     
 }

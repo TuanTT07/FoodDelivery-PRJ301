@@ -79,26 +79,30 @@
                                     <input type="hidden" name="txtAvatarUser" id="avatarBase64" value="">
                                     <img id="avatarPreview" style="display:none; max-width:150px; margin-top:5px;" />
                                 </div>
-                                <!-- Role -->
-                                <div>
-                                    <label>Vai trò</label>
-                                    <select class="inputRole" name="roleId">
-                                        <option value="">Chọn vai trò</option>
-                                        <option value="S001" ${u.roleID.roleID=='S001'?'selected':''}>Admin</option>
-                                        <option value="S002" ${u.roleID.roleID=='S002'?'selected':''}>Store Owner</option>
-                                        <option value="S003" ${u.roleID.roleID=='S003'?'selected':''}>Driver</option>
-                                        <option value="S004" ${u.roleID.roleID=='S004'?'selected':''}>Member</option>
-                                    </select>
-                                </div>
+                                <c:if test="${not empty sessionScope.u 
+                                              and sessionScope.u.roleID != null
+                                              and sessionScope.u.roleID.roleID eq 'S001'}">
+                                      <!-- Role -->
+                                      <div>
+                                          <label>Vai trò</label>
+                                          <select class="inputRole" name="roleId">
+                                              <option value="">Chọn vai trò</option>
+                                              <option value="S001" ${u.roleID.roleID=='S001'?'selected':''}>Admin</option>
+                                              <option value="S002" ${u.roleID.roleID=='S002'?'selected':''}>Store Owner</option>
+                                              <option value="S003" ${u.roleID.roleID=='S003'?'selected':''}>Driver</option>
+                                              <option value="S004" ${u.roleID.roleID=='S004'?'selected':''}>Member</option>
+                                          </select>
+                                      </div>
 
-                                <!-- Status -->
-                                <div>
-                                    <label>
-                                        <input type="checkbox" name="status" value="1"
-                                               ${u.status ? 'checked' : ''}>
-                                        Kích hoạt tài khoản (Active)
-                                    </label>
-                                </div>
+                                      <!-- Status -->
+                                      <div>
+                                          <label>
+                                              <input type="checkbox" name="status" value="1"
+                                                     ${u.status ? 'checked' : ''}>
+                                              Kích hoạt tài khoản (Active)
+                                          </label>
+                                      </div>
+                                </c:if> 
                                 <div>
                                     <button type="submit" class="btn btn-login">Save</button>
                                 </div>

@@ -418,11 +418,24 @@ public class UserController extends HttpServlet {
             }
         }
 
-        boolean ok = userDAO.updateByUserName(current);
+         boolean ok = userDAO.updateByUserName(current);
         if (ok) {
-            request.setAttribute("msg_success", "Cập nhật thành công!");
-            User refreshed = userDAO.getUserByUsername(userName);
-            request.getRequestDispatcher("/admin/customer.jsp").forward(request, response);
+            // Lấy người đăng nhập hiện tại
+            HttpSession session = request.getSession(false);
+            User loginUser = (session != null) ? (User) session.getAttribute("u") : null;
+
+            // Nếu là admin => chuyển về trang quản trị
+            if (loginUser != null
+                    && loginUser.getRoleID() != null
+                    && "S001".equalsIgnoreCase(loginUser.getRoleID().getRoleID())) {
+                request.setAttribute("msg_success", "Cập nhật thành công!");
+                request.getRequestDispatcher("/admin/customer.jsp").forward(request, response);
+            } else {
+                // Các vai trò khác => về trang userInfo
+                request.setAttribute("msg_success", "Cập nhật thành công!");
+                request.setAttribute("u", current);
+                request.getRequestDispatcher("/user/userInfo.jsp").forward(request, response);
+            }
         } else {
             request.setAttribute("error_message", "Update thất bại (không có dòng nào bị ảnh hưởng).");
             request.setAttribute("u", current);
@@ -577,6 +590,17 @@ public class UserController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/auth/login.jsp");
 
     }
+    
+    private void processCallInfoUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        UserDAO userDao = new UserDAO();
+        String uid = request.getParameter("userID");
+        User user = userDao.getUserByID(uid);
+        if (user != null) {
+            request.setAttribute("u", user);
+        }
+        request.getRequestDispatcher("/user/userInfo.jsp").forward(request, response);
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -607,6 +631,8 @@ public class UserController extends HttpServlet {
             processChangePassword(request, response);
         } else if (action.equals("resetPass")) {
             processResetPassword(request, response);
+        } else if (action.equals("viewInfoUser")) {
+            processCallInfoUser(request, response);
         }
     }
 
