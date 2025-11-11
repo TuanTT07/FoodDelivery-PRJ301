@@ -2,7 +2,7 @@
 
 <nav class="sidebar store__sidebar">
     <!-- Logo -->
-    <a href="${pageContext.request.contextPath}/store/dashboard.jsp" class="sidebar__logo-link">
+    <a href="${pageContext.request.contextPath}/index.jsp" class="sidebar__logo-link">
         <img src="${pageContext.request.contextPath}/assets/img/Logo.svg" alt="Logo" class="sidebar__logo">
     </a>
 
@@ -16,7 +16,7 @@
                 <span class="sidebar__text">Dashboard</span>
             </a>
         </li>
-        
+
         <!-- Order List -->
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/orderList.jsp') ? 'sidebar__item--active' : ''}">
             <a href="${pageContext.request.contextPath}/store/orderList.jsp" class="sidebar__link">
@@ -33,7 +33,7 @@
             </a>
         </li>
 
-        
+
         <!-- Category -->
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/category.jsp') ? 'sidebar__item--active' : ''}">
             <a href="${pageContext.request.contextPath}/MainController?action=viewCate&storeID=${sessionScope.store.storeID}" class="sidebar__link">
@@ -41,7 +41,7 @@
                 <span class="sidebar__text">Menu</span>
             </a>
         </li>
-        
+
         <!-- Review -->
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/review.jsp') ? 'sidebar__item--active' : ''}">
             <a href="${pageContext.request.contextPath}/store/review.jsp" class="sidebar__link">
@@ -49,7 +49,7 @@
                 <span class="sidebar__text">Review</span>
             </a>
         </li>
-        
+
         <!-- Review -->
         <li class="sidebar__item ${pageContext.request.requestURI.endsWith('/wallet.jsp') ? 'sidebar__item--active' : ''}">
             <a href="${pageContext.request.contextPath}/store/wallet.jsp" class="sidebar__link">

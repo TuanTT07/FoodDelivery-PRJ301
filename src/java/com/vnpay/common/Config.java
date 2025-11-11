@@ -1,4 +1,5 @@
-package common;
+
+package com.vnpay.common;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +24,7 @@ public class Config {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_ReturnUrl = "http://localhost:8080/vnpay_jsp/vnpay_return.jsp";
     public static String vnp_TmnCode = "0XM0AMJ3";
-    public static String vnp_HashSecret = "NJHMPV4J99QHA3B3PDVNNJS189AUIV66";
+    public static String vnp_HashSecret = "CG8YCQC4PPBWAOFG5DMN2U81P1DO60YP";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
     public static String md5(String message) {
@@ -63,24 +64,26 @@ public class Config {
     }
 
     //Util for VNPAY
-    public static String hashAllFields(Map<String, String> fields) {
-        List<String> fieldNames = new ArrayList<>(fields.keySet());
+    public static String hashAllFields(Map fields) {
+        List fieldNames = new ArrayList(fields.keySet());
         Collections.sort(fieldNames);
         StringBuilder sb = new StringBuilder();
-        boolean first = true; // để tránh & đầu tiên
-        for (String fieldName : fieldNames) {
-            String fieldValue = fields.get(fieldName);
-            if (fieldValue != null && !fieldValue.isEmpty()) {
-                if (!first) {
-                    sb.append("&");
-                }
-                sb.append(fieldName).append("=").append(fieldValue);
-                first = false;
+        Iterator itr = fieldNames.iterator();
+        while (itr.hasNext()) {
+            String fieldName = (String) itr.next();
+            String fieldValue = (String) fields.get(fieldName);
+            if ((fieldValue != null) && (fieldValue.length() > 0)) {
+                sb.append(fieldName);
+                sb.append("=");
+                sb.append(fieldValue);
+            }
+            if (itr.hasNext()) {
+                sb.append("&");
             }
         }
-        return hmacSHA512(vnp_HashSecret, sb.toString());
+        return hmacSHA512(vnp_HashSecret,sb.toString());
     }
-
+    
     public static String hmacSHA512(final String key, final String data) {
         try {
 
@@ -88,7 +91,7 @@ public class Config {
                 throw new NullPointerException();
             }
             final Mac hmac512 = Mac.getInstance("HmacSHA512");
-            byte[] hmacKeyBytes = key.getBytes(StandardCharsets.UTF_8);
+            byte[] hmacKeyBytes = key.getBytes();
             final SecretKeySpec secretKey = new SecretKeySpec(hmacKeyBytes, "HmacSHA512");
             hmac512.init(secretKey);
             byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
@@ -103,7 +106,7 @@ public class Config {
             return "";
         }
     }
-
+    
     public static String getIpAddress(HttpServletRequest request) {
         String ipAdress;
         try {
