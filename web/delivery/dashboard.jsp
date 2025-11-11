@@ -36,8 +36,8 @@
                     </form>
 
                     <div class="store__user-info">
-                        <p class="store__user-greeting">Hello, <span class="store__user-name">Delivery person</span></p>
-                        <img src="${pageContext.request.contextPath}/assets/img/avatar.svg" alt="Avatar" class="store__avatar"/>
+                        <p class="store__user-greeting">Hello, <span class="store__user-name">${u.userFullName}</span></p>
+                        <img src="${u.avatarURL}" alt="avatar" class="store__avatar"/>
                     </div>
                 </div>
                 <!-- Dashboard Content -->

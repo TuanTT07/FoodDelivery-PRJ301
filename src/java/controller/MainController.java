@@ -30,7 +30,7 @@ public class MainController extends HttpServlet {
         //Group actions for each controller
         String[] roleActions = {};
         String[] userActions = {"loginUser", "logout", "searchUser", "signUpUser", "callUpdateUser", "updateUser", "deleteUser", "signUpDelivery", "changePass", "resetPass", "viewInfoUser", "sendVerifyEmail", "verify"};
-        String[] storeActions = {"signUpStore", "getStore", "updateStore", "searchStoreByCate", "searchStoreByLocation", "goToStoreDetail", "goToProductDetailForm"};
+        String[] storeActions = {"signUpStore", "getStore", "updateStore", "searchStoreByCate", "searchStoreByLocation", "goToStoreDetail", "goToProductDetailForm", "searchStoreByName"};
         String[] productActions = {"addProduct", "deleteProduct", "searchProduct", "viewProduct", "editProduct", "updateProduct", "goToProductDetail"};
         String[] productDetailActions = {"addProductDetail"};
         String[] productOptionActions = {"addProductOption"};
@@ -47,7 +47,7 @@ public class MainController extends HttpServlet {
         String[] paymentGatewayActions = {};
         String[] reviewActions = {};
         String[] eventActions = {};
-        String[] voucherActions = {};
+        String[] voucherActions = {"callAddVoucher", "addVoucher", "searchVoucher", "callUpdateVoucher", "updateVoucher"};
 
         if (Arrays.asList(userActions).contains(action)) {
             url = "UserController";

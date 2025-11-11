@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,7 +30,7 @@
             <div class="admin-content">
                 <!-- Header -->
                 <div class="admin-header">
-                    
+
 
                     <div class="admin-info">
                         <p>Hello, <span>Admin</span></p>
@@ -41,18 +40,20 @@
 
                 <!-- Content Section -->
                 <div class="admin-wrap">
-                    <h2>Customer</h2>  
+                    <h2>Vouchers</h2>
+                    <form action="${pageContext.request.contextPath}/MainController" method="post" class="search-form">
+                        <input type="hidden" name="action" value="searchVoucher">
+                        <input type="text" name="name" placeholder="Tìm kiếm...">
+                        <button type="submit">
+                            <img src="${pageContext.request.contextPath}/assets/img/search.svg" alt="search"/>
+                        </button>
+                    </form>
+                    <a href="${pageContext.request.contextPath}/MainController?action=callAddVoucher" class="btn-add">
+                        Add Voucher
+                    </a> 
+                    <jsp:include page="/admin/vouchers.jsp"/>
                 </div>
-                <form action="${pageContext.request.contextPath}/MainController" method="post" class="search-form" >
-                    <input type="hidden" name="action" value="searchUser">
-                    <input type="text" name="name" placeholder="Tìm kiếm..." value="${name}">
-                    <button type="submit">
-                        <img src="${pageContext.request.contextPath}/assets/img/search.svg" alt="search"/> 
-                    </button>
-                    <jsp:include page="/admin/users.jsp"/>
-                </form>
-            </div>        
+            </div>
         </div>
-        
     </body>
 </html>

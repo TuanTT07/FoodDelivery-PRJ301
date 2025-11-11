@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -125,8 +126,11 @@ public class StoreDAO {
         ArrayList<Store> listStore = new ArrayList<>();
         String sql = "SELECT * FROM tblStore";
 
-        try ( Connection conn = DBUtils.getConnection();  PreparedStatement pst = conn.prepareStatement(sql);  ResultSet rs = pst.executeQuery()) {
-
+        try  {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            
+            ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Store store = new Store();
 
@@ -162,7 +166,68 @@ public class StoreDAO {
                 // Category and timestamps
                 StoreCategoryDAO storeCateDAO = new StoreCategoryDAO();
                 store.setStoreCategoryId(storeCateDAO.setCategoryStore(rs.getString("StoreCategoryID")));
+                
+                Timestamp c = rs.getTimestamp("CreatedAt");
+                store.setCreatedAt(c != null ? c.toLocalDateTime() : null);
+                // Get owner info from UserDAO
+                UserDAO uDAO = new UserDAO();
+                store.setOwnerUserID(uDAO.getUserByID(rs.getString("OwnerUserID")));
 
+                listStore.add(store);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listStore;
+    }
+
+    public ArrayList<Store> getAllStoreByName(String name) {
+        ArrayList<Store> listStore = new ArrayList<>();
+        String sql = "SELECT * FROM tblStore WHERE StoreName LIKE ?";
+
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "%" + name + "%");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Store store = new Store();
+                store.setStoreID(rs.getString("StoreID"));
+                store.setStoreName(rs.getString("StoreName"));
+                store.setStoreAddress(rs.getString("StoreAddress"));
+                store.setCity(rs.getString("City"));
+                store.setDistrict(rs.getString("District"));
+                store.setDescription(rs.getString("Description"));
+                store.setStoreRating(rs.getDouble("StoreRating"));
+                store.setOpenTime(rs.getString("OpenTime"));
+                store.setCloseTime(rs.getString("CloseTime"));
+
+                // Boolean fields
+                store.setIs24Hours(rs.getBoolean("Is24Hours"));
+                store.setStatus(rs.getBoolean("Status"));
+
+                // Bank info
+                store.setBankAccountName(rs.getString("BankAccountName"));
+                store.setBankAccountNumber(rs.getString("BankAccountNumber"));
+                store.setBankName(rs.getString("BankName"));
+
+                // URLs
+                System.out.println(rs.getString("LogoURL"));
+
+                store.setLogoURL(rs.getString("LogoURL"));
+                store.setBannerURL(rs.getString("BannerURL"));
+
+                // Contact info
+                store.setStorePhone(rs.getString("StorePhone"));
+                store.setStoreEmail(rs.getString("StoreEmail"));
+
+                // Category and timestamps
+                StoreCategoryDAO storeCateDAO = new StoreCategoryDAO();
+                store.setStoreCategoryId(storeCateDAO.setCategoryStore(rs.getString("StoreCategoryID")));
+                Timestamp c = rs.getTimestamp("CreatedAt");
+                store.setCreatedAt(c != null ? c.toLocalDateTime() : null);
                 // Get owner info from UserDAO
                 UserDAO uDAO = new UserDAO();
                 store.setOwnerUserID(uDAO.getUserByID(rs.getString("OwnerUserID")));
@@ -299,7 +364,7 @@ public class StoreDAO {
                 StoreCategoryDAO storeCateDAO = new StoreCategoryDAO();
                 CategoryStore cate = storeCateDAO.getStoreCateByID(rs.getString("StoreCategoryID"));
                 store.setStoreCategoryId(cate);
-                
+
                 // Get owner info from UserDAO
                 UserDAO uDAO = new UserDAO();
                 store.setOwnerUserID(uDAO.getUserByID(rs.getString("OwnerUserID")));

@@ -22,17 +22,17 @@
             </a>
         </li>
 
-        <li class="${pageContext.request.requestURI.endsWith('/orderDetail.jsp') ? 'active' : ''}">
-            <a href="${pageContext.request.contextPath}/admin/orderDetail.jsp">
-                <img src="${pageContext.request.contextPath}/assets/img/oder_detail.svg" alt="Order detail"/>
-                Order Detail
-            </a>
-        </li>
-
         <li class="${pageContext.request.requestURI.endsWith('/customer.jsp') ? 'active' : ''}">
             <a href="${pageContext.request.contextPath}/admin/customer.jsp">
                 <img src="${pageContext.request.contextPath}/assets/img/customer.svg" alt="Customer"/>
                 Customer
+            </a>
+        </li>
+        
+        <li class="${pageContext.request.requestURI.endsWith('/storeList.jsp') ? 'active' : ''}">
+            <a href="${pageContext.request.contextPath}/admin/storeList.jsp">
+                <img src="${pageContext.request.contextPath}/assets/img/Home_icon.svg" alt="Order list"/>
+                Store List
             </a>
         </li>
 
@@ -43,15 +43,8 @@
             </a>
         </li>
 
-        <li class="${pageContext.request.requestURI.endsWith('/foods.jsp') ? 'active' : ''}">
-            <a href="${pageContext.request.contextPath}/admin/foods.jsp">
-                <img src="${pageContext.request.contextPath}/assets/img/food_icon.svg" alt="Foods"/>
-                Foods
-            </a>
-        </li>
-
-        <li class="${pageContext.request.requestURI.endsWith('/vouchers.jsp') ? 'active' : ''}">
-            <a href="${pageContext.request.contextPath}/admin/vouchers.jsp">
+        <li class="${pageContext.request.requestURI.endsWith('/voucher.jsp') ? 'active' : ''}">
+            <a href="${pageContext.request.contextPath}/admin/voucher.jsp">
                 <img src="${pageContext.request.contextPath}/assets/img/voucher_icon.svg" alt="Vouchers"/>
                 Vouchers
             </a>
