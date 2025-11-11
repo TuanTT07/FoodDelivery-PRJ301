@@ -39,14 +39,14 @@
 
                     <div class="admin-info">
                         <p>Hello, <span> ${user.userFullName}</span></p>
-                        <img src="${pageContext.request.contextPath}/assets/img/avatar.svg" alt="Avatar" class="admin-avatar"/>
+                        <img src="${u.avatarURL}" alt="avatar" class="admin-avatar"/>
                     </div>
                 </div>
 
                 <!-- Content Section -->
                 <div class="admin-wrap">
                     <h2>Dashboard Overview</h2>
-                    <p>Welcome back, ${user.userFullName}!</p>
+                    <p>Welcome back, ${u.userFullName}!</p>
 
                     <div class="dashboard-cards">
                         <div class="card">

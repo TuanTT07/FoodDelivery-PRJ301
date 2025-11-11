@@ -214,7 +214,25 @@ public class StoreController extends HttpServlet {
             request.getRequestDispatcher("auth/register.jsp?action=signUpStore").forward(request, response);
         }
     }
+    
+    private void processSearchStoreByName(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String name = request.getParameter("name");
+        StoreDAO storeDao = new StoreDAO();
+        ArrayList<Store> listOfStore = new ArrayList<>();
+        if (name == null || name.trim().isEmpty()) {
+            listOfStore = storeDao.getAllStore();
+        } else {
+            listOfStore = storeDao.getAllStoreByName(name);
+        }
 
+        request.setAttribute("listOfStore", listOfStore);
+        request.setAttribute("name", name);
+
+        
+        request.getRequestDispatcher("/admin/storeList.jsp").forward(request, response);
+    }
+    
     private void processSearchStoreByLoaction(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String location = request.getParameter("location");
@@ -354,6 +372,8 @@ public class StoreController extends HttpServlet {
             processGoToStoreDetail(request, response);
         } else if (action.equals("goToProductDetailForm")) {
             processGoToProductDetailForm(request, response);
+        } else if (action.equals("searchStoreByName")) {
+            processSearchStoreByName(request, response);
         }
 
     }

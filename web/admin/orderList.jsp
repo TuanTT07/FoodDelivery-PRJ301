@@ -39,18 +39,85 @@
 
                     <div class="admin-info">
                         <p>Hello, <span>Admin</span></p>
-                        <img src="${pageContext.request.contextPath}/assets/img/avatar.svg" alt="Avatar" class="admin-avatar"/>
+                        <img src="${u.avatarURL}" alt="avatar" class="admin-avatar"/>
                     </div>
                 </div>
 
                 <!-- Content Section -->
-                <div class="admin-wrap">
-                    <h2>Order List</h2>
+                <div class="orders">
+                    <h2 class="orders__title">Danh sách Các Món Được Đặt</h2>
+                    <div class="orders__grid">
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/spaghetti.png" alt="Spaghetti" class="products__img">
+                            <h3 class="products__name">Spaghetti</h3>
+                            <p class="products__price">$12.50</p>
+                            <p class="orders__status done">Đã hoàn thành</p>
+                        </div>
 
-                    <table>
-                        <th>header</th>
-                        <td>hi</td>
-                    </table>
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/beef-burger.jpg" alt="Beef Burger" class="products__img">
+                            <h3 class="products__name">Beef Burger</h3>
+                            <p class="products__price">$8.90</p>
+                            <p class="orders__status shipping">Đang giao</p>
+                        </div>
+
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/pizza.jpg" alt="Pizza" class="products__img">
+                            <h3 class="products__name">Pizza</h3>
+                            <p class="products__price">$15.00</p>
+                            <p class="orders__status pending">Đang xử lý</p>
+                        </div>
+
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/salad.jpg" alt="Salad" class="products__img">
+                            <h3 class="products__name">Fresh Salad</h3>
+                            <p class="products__price">$6.50</p>
+                            <p class="orders__status done">Đã hoàn thành</p>
+                        </div>
+
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/sushi.jpg" alt="Sushi" class="products__img">
+                            <h3 class="products__name">Sushi Set</h3>
+                            <p class="products__price">$22.00</p>
+                            <p class="orders__status shipping">Đang giao</p>
+                        </div>
+
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/steak.jpg" alt="Steak" class="products__img">
+                            <h3 class="products__name">Grilled Steak</h3>
+                            <p class="products__price">$18.40</p>
+                            <p class="orders__status cancelled">Đã hủy</p>
+                        </div>
+
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/fried-chicken.jpg" alt="Fried Chicken" class="products__img">
+                            <h3 class="products__name">Fried Chicken</h3>
+                            <p class="products__price">$9.20</p>
+                            <p class="orders__status done">Đã hoàn thành</p>
+                        </div>
+
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/ramen.jpg" alt="Ramen" class="products__img">
+                            <h3 class="products__name">Japanese Ramen</h3>
+                            <p class="products__price">$11.80</p>
+                            <p class="orders__status pending">Đang xử lý</p>
+                        </div>
+
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/taco.jpg" alt="Taco" class="products__img">
+                            <h3 class="products__name">Taco</h3>
+                            <p class="products__price">$7.30</p>
+                            <p class="orders__status done">Đã hoàn thành</p>
+                        </div>
+
+                        <div class="orders__card">
+                            <img src="${pageContext.request.contextPath}/assets/img/icecream.jpg" alt="Ice Cream" class="products__img">
+                            <h3 class="products__name">Ice Cream</h3>
+                            <p class="products__price">$4.90</p>
+                            <p class="orders__status shipping">Đang giao</p>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

@@ -488,4 +488,20 @@ public class UserDAO {
         }
         return false;
     }
+
+    public int getTotalUsers() {
+        int total = 0;
+        try {
+            Connection conn = DBUtils.getConnection();
+            String sql = "SELECT COUNT(*) AS total FROM tblUser";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
 }

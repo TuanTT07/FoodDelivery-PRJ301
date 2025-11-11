@@ -41,15 +41,15 @@
 
                 <!-- Content Section -->
                 <div class="admin-wrap">
-                    <h2>Customer</h2>  
+                    <h2>Store</h2>  
                 </div>
                 <form action="${pageContext.request.contextPath}/MainController" method="post" class="search-form" >
-                    <input type="hidden" name="action" value="searchUser">
+                    <input type="hidden" name="action" value="searchStoreByName">
                     <input type="text" name="name" placeholder="Tìm kiếm..." value="${name}">
                     <button type="submit">
                         <img src="${pageContext.request.contextPath}/assets/img/search.svg" alt="search"/> 
                     </button>
-                    <jsp:include page="/admin/users.jsp"/>
+                    <jsp:include page="/admin/stores.jsp"/>
                 </form>
             </div>        
         </div>
